@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: 'Public Sans', sans-serif;
+
+  /* 1. Define your brand colors */
+  --color-kevalgreen-500: #00A69C;
+  --color-kevalgray-500: #7F7F7F;
+  --color-kevalorange-500: #F6921E;
+
+  /* 2. Map Keval Green to the "Primary" alias */
+  /* Now <UButton color="primary" /> will be #00A69C */
+  --color-primary-500: var(--color-kevalgreen-500);
+  
+  /* Optional: Map others if you want specific UI states */
+  --color-neutral-500: var(--color-kevalgray-500);
+}

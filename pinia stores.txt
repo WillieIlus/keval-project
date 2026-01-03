@@ -1,0 +1,954 @@
+
+// ~/plugins/api.ts
+
+/**
+ * API Plugin
+ * Configures global API client with authentication and error handling
+ */
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
+  const authStore = useAuthStore()
+
+  // Create a custom $fetch instance with interceptors
+  const api = $fetch.create({
+    baseURL: config.public.apiBase,
+    
+    // Request interceptor
+    onRequest({ options }) {
+      // Add auth token to all requests if available
+      if (authStore.token) {
+        const headers = options.headers || {}
+        
+        if (Array.isArray(headers)) {
+          headers.push(['Authorization', `Token ${authStore.token}`])
+        } else if (headers instanceof Headers) {
+          headers.set('Authorization', `Token ${authStore.token}`)
+        } else {
+          (headers as Record<string, string>)['Authorization'] = `Token ${authStore.token}`
+        }
+        
+        options.headers = headers
+      }
+    },
+
+    // Response interceptor
+    onResponse({ response }) {
+      // You can log successful responses here if needed
+      if (process.dev) {
+        console.log('API Response:', response.status, response._data)
+      }
+    },
+
+    // Error interceptor
+    onResponseError({ response }) {
+      // Handle 401 Unauthorized - logout user
+      if (response.status === 401) {
+        console.warn('Unauthorized request - logging out')
+        authStore.logout()
+      }
+
+      // Handle 403 Forbidden
+      if (response.status === 403) {
+        console.warn('Forbidden request')
+        // You could redirect to an error page here
+      }
+
+      // Handle 404 Not Found
+      if (response.status === 404) {
+        console.warn('Resource not found')
+      }
+
+      // Handle 500 Server Error
+      if (response.status >= 500) {
+        console.error('Server error occurred')
+      }
+
+      // Log error details in development
+      if (process.dev) {
+        console.error('API Error:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: response._data
+        })
+      }
+    }
+  })
+
+  return {
+    provide: {
+      api
+    }
+  }
+})
+
+
+
+// ~/types/api.ts
+
+// ============================================
+// AUTH TYPES
+// ============================================
+export interface User {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_staff: boolean;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
+export interface RegisterCredentials {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+// ============================================
+// CORE / MARKETING TYPES
+// ============================================
+export interface Banner {
+  id: number;
+  title: string;
+  subtitle: string;
+  image: string;
+  cta_text: string;
+  cta_link: string;
+  order: number;
+}
+
+export interface CoreValue {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  order: number;
+}
+
+export interface WhyChooseUs {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  order: number;
+}
+
+export interface ContactSubmission {
+  name: string;
+  email: string;
+  phone: string;
+  service_interest: string;
+  message: string;
+}
+
+// ============================================
+// CLIENT TYPES
+// ============================================
+export interface Client {
+  id: number;
+  name: string;
+  logo: string;
+  website: string;
+  is_featured: boolean;
+  order: number;
+}
+
+// ============================================
+// TESTIMONIAL TYPES
+// ============================================
+export interface Testimonial {
+  id: number;
+  client_name: string;
+  company: string;
+  position: string;
+  avatar: string;
+  content: string;
+  rating: number;
+  created_at: string;
+  formatted_date?: string;
+}
+
+// ============================================
+// GALLERY / PROJECT TYPES
+// ============================================
+export interface ProjectImage {
+  id: number;
+  image: string;
+  caption: string;
+  is_cover: boolean;
+  order: number;
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  slug: string;
+  client: string;
+  description: string;
+  print_method: string;
+  material_used: string;
+  finishing: string;
+  date_completed: string;
+  is_featured: boolean;
+  category: number;
+  category_name?: string;
+  images: ProjectImage[];
+  created_at: string;
+}
+
+export interface ServiceCategory {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string;
+  cover_image: string;
+  description: string;
+  parent: number | null;
+  subcategories: ServiceCategory[];
+  projects: Project[];
+}
+
+// ~/stores/auth.ts
+import { defineStore } from 'pinia'
+import type { User, RegisterCredentials, LoginCredentials, AuthResponse } from '~/types/api'
+
+export const useAuthStore = defineStore('auth', () => {
+  // --- State ---
+  const user = ref<User | null>(null)
+  const token = ref<string | null>(null)
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  // --- Getters ---
+  const isAuthenticated = computed(() => !!token.value && !!user.value)
+  const isAdmin = computed(() => user.value?.is_staff || false)
+  const fullName = computed(() => {
+    if (!user.value) return ''
+    return `${user.value.first_name} ${user.value.last_name}`.trim()
+  })
+
+  // --- Actions ---
+  
+  /**
+   * Register a new user account
+   */
+  async function register(credentials: RegisterCredentials) {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const response = await $fetch<AuthResponse>('/api/auth/register/', {
+        method: 'POST',
+        body: credentials
+      })
+      
+      token.value = response.token
+      user.value = response.user
+      
+      // Navigate to dashboard after successful registration
+      await navigateTo('/dashboard')
+      
+      return response
+    } catch (e: any) {
+      // Handle different error formats from Django
+      if (e.data) {
+        if (e.data.email) {
+          error.value = Array.isArray(e.data.email) ? e.data.email[0] : e.data.email
+        } else if (e.data.password) {
+          error.value = Array.isArray(e.data.password) ? e.data.password[0] : e.data.password
+        } else if (e.data.detail) {
+          error.value = e.data.detail
+        } else if (e.data.message) {
+          error.value = e.data.message
+        } else {
+          error.value = 'Registration failed. Please try again.'
+        }
+      } else {
+        error.value = 'Network error. Please check your connection.'
+      }
+      
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Login with email and password
+   */
+  async function login(credentials: LoginCredentials) {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const response = await $fetch<AuthResponse>('/api/auth/login/', {
+        method: 'POST',
+        body: credentials
+      })
+      
+      token.value = response.token
+      user.value = response.user
+      
+      return response
+    } catch (e: any) {
+      // Handle different error formats from Django
+      if (e.data) {
+        if (e.data.non_field_errors) {
+          error.value = Array.isArray(e.data.non_field_errors) 
+            ? e.data.non_field_errors[0] 
+            : e.data.non_field_errors
+        } else if (e.data.detail) {
+          error.value = e.data.detail
+        } else if (e.data.message) {
+          error.value = e.data.message
+        } else {
+          error.value = 'Incorrect Credentials'
+        }
+      } else {
+        error.value = 'Network error. Please check your connection.'
+      }
+      
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Logout and clear all auth data
+   */
+  function logout() {
+    user.value = null
+    token.value = null
+    error.value = null
+    
+    // Navigate to login page
+    navigateTo('/login')
+  }
+
+  /**
+   * Clear any error messages
+   */
+  function clearError() {
+    error.value = null
+  }
+
+  /**
+   * Update user profile data
+   */
+  function updateUser(userData: Partial<User>) {
+    if (user.value) {
+      user.value = { ...user.value, ...userData }
+    }
+  }
+
+  /**
+   * Check if token is still valid (optional verification)
+   */
+  async function verifyToken() {
+    if (!token.value) {
+      return false
+    }
+    
+    try {
+      // If you have a verify endpoint in Django, use it here
+      // const response = await $fetch('/api/auth/verify/', {
+      //   headers: { Authorization: `Token ${token.value}` }
+      // })
+      return true
+    } catch {
+      logout()
+      return false
+    }
+  }
+
+  return {
+    // State
+    user,
+    token,
+    loading,
+    error,
+    
+    // Getters
+    isAuthenticated,
+    isAdmin,
+    fullName,
+    
+    // Actions
+    register,
+    login,
+    logout,
+    clearError,
+    updateUser,
+    verifyToken
+  }
+}, {
+  persist: {
+    storage: persistedState.localStorage,
+    paths: ['token', 'user']
+  }
+})
+
+
+
+// ~/stores/contact.ts
+import { defineStore } from 'pinia'
+import type { ContactSubmission } from '~/types/api'
+
+export const useContactStore = defineStore('contact', () => {
+  // --- State ---
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+  const success = ref(false)
+
+  // --- Actions ---
+  
+  /**
+   * Submit contact form
+   */
+  async function submitContact(form: ContactSubmission) {
+    loading.value = true
+    error.value = null
+    success.value = false
+
+    try {
+      await $fetch('/api/core/contact/', {
+        method: 'POST',
+        body: form
+      })
+      success.value = true
+      return true
+    } catch (e: any) {
+      error.value = e.data?.message || 'Failed to submit contact form'
+      console.error('Failed to submit contact:', e)
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Reset form state
+   */
+  function resetState() {
+    loading.value = false
+    error.value = null
+    success.value = false
+  }
+
+  return {
+    // State
+    loading,
+    error,
+    success,
+
+    // Actions
+    submitContact,
+    resetState
+  }
+})
+
+
+// ~/stores/content.ts
+import { defineStore } from 'pinia';
+import type { Banner, Client, Testimonial, ContactSubmission } from '~/types/api';
+
+export const useContentStore = defineStore('content', () => {
+  // --- State ---
+  const config = useRuntimeConfig();
+  const banners = ref<Banner[]>([]);
+  const clients = ref<Client[]>([]);
+  const testimonials = ref<Testimonial[]>([]);
+  const loading = ref(false);
+
+  // --- Getters ---
+  const featuredClients = computed(() => clients.value.filter(c => c.is_featured)); 
+  const sortedBanners = computed(() => [...banners.value].sort((a, b) => a.order - b.order)); 
+
+  // --- Actions ---
+
+  // Fetches initial data for the landing page
+  async function initLandingPage() {
+    loading.value = true;
+    try {
+      // Use Promise.all for concurrent fetching
+      const [bannersData, clientsData, testimonialsData] = await Promise.all([
+        $fetch<Banner[]>('/api/core/banners/'),
+        $fetch<Client[]>('/api/clients/'),        
+        $fetch<Testimonial[]>('/api/testimonials/') 
+      ]);
+
+      banners.value = bannersData;
+      clients.value = clientsData;
+      testimonials.value = testimonialsData;
+    } catch (e) {
+      console.error('Error loading landing page content', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  // Handle Contact Form
+  async function submitContact(form: ContactSubmission) {
+    try {
+      
+      await $fetch('/api/core/contact/', {
+        method: 'POST',
+        body: form
+      });
+      return true; // Success
+    } catch (e) {
+      throw e; // Let component handle UI error
+    }
+  }
+
+  return {
+    banners,
+    clients,
+    testimonials,
+    featuredClients,
+    sortedBanners,
+    loading,
+    initLandingPage,
+    submitContact
+  };
+});
+
+
+// ~/stores/core.ts
+import { defineStore } from 'pinia'
+import type { Banner, CoreValue, WhyChooseUs } from '~/types/api'
+
+export const useCoreStore = defineStore('core', () => {
+  // --- State ---
+  const banners = ref<Banner[]>([])
+  const values = ref<CoreValue[]>([])
+  const whyChooseUs = ref<WhyChooseUs[]>([])
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  // --- Getters ---
+  const sortedBanners = computed(() => 
+    [...banners.value].sort((a, b) => a.order - b.order)
+  )
+
+  const activeBanners = computed(() => 
+    sortedBanners.value.filter(b => b.is_active)
+  )
+
+  // --- Actions ---
+  
+  /**
+   * Fetch all banners
+   */
+  async function fetchBanners() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await $fetch<Banner[]>('/api/core/banners/')
+      banners.value = data
+    } catch (e: any) {
+      error.value = 'Failed to fetch banners'
+      console.error('Failed to fetch banners:', e)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Fetch core values
+   */
+  async function fetchValues() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await $fetch<CoreValue[]>('/api/core/values/')
+      values.value = data
+    } catch (e: any) {
+      error.value = 'Failed to fetch core values'
+      console.error('Failed to fetch core values:', e)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Fetch why choose us items
+   */
+  async function fetchWhyChooseUs() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await $fetch<WhyChooseUs[]>('/api/core/why-choose-us/')
+      whyChooseUs.value = data
+    } catch (e: any) {
+      error.value = 'Failed to fetch why choose us'
+      console.error('Failed to fetch why choose us:', e)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Fetch all core content at once
+   */
+  async function fetchAllCoreContent() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const [bannersData, valuesData, whyChooseUsData] = await Promise.all([
+        $fetch<Banner[]>('/api/core/banners/'),
+        $fetch<CoreValue[]>('/api/core/values/'),
+        $fetch<WhyChooseUs[]>('/api/core/why-choose-us/')
+      ])
+
+      banners.value = bannersData
+      values.value = valuesData
+      whyChooseUs.value = whyChooseUsData
+    } catch (e: any) {
+      error.value = 'Failed to fetch core content'
+      console.error('Failed to fetch core content:', e)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return {
+    // State
+    banners,
+    values,
+    whyChooseUs,
+    loading,
+    error,
+
+    // Getters
+    sortedBanners,
+    activeBanners,
+
+    // Actions
+    fetchBanners,
+    fetchValues,
+    fetchWhyChooseUs,
+    fetchAllCoreContent
+  }
+})
+
+
+// ~/stores/gallery.ts
+import { defineStore } from 'pinia'
+import type { ServiceCategory, Project } from '~/types/api'
+
+export const useGalleryStore = defineStore('gallery', () => {
+  // --- State ---
+  const categories = ref<ServiceCategory[]>([])
+  const currentProject = ref<Project | null>(null)
+  const currentCategory = ref<ServiceCategory | null>(null)
+
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  const loaded = reactive({
+    categories: false
+  })
+
+  // --- Getters ---
+
+  /**
+   * Flatten all projects from all categories and subcategories
+   */
+  const allProjects = computed(() => {
+    const projects: Project[] = []
+
+    const traverse = (cats: ServiceCategory[]) => {
+      cats.forEach(cat => {
+        if (cat.projects && cat.projects.length > 0) {
+          projects.push(...cat.projects)
+        }
+        if (cat.subcategories && cat.subcategories.length > 0) {
+          traverse(cat.subcategories)
+        }
+      })
+    }
+
+    traverse(categories.value)
+    return projects
+  })
+
+  /**
+   * Get only featured projects
+   */
+  const featuredProjects = computed(() =>
+    allProjects.value.filter(p => p.is_featured)
+  )
+
+  /**
+   * Get projects sorted by date (newest first)
+   */
+  const recentProjects = computed(() =>
+    [...allProjects.value].sort((a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    )
+  )
+
+  /**
+   * Get only top-level categories (no parent)
+   */
+  const topLevelCategories = computed(() =>
+    categories.value.filter(cat => !cat.parent)
+  )
+
+  /**
+   * Count total number of projects
+   */
+  const totalProjects = computed(() => allProjects.value.length)
+
+  /**
+   * Get category by slug
+   */
+  const getCategoryBySlug = computed(() => {
+    return (slug: string): ServiceCategory | null => {
+      const findCategory = (cats: ServiceCategory[]): ServiceCategory | null => {
+        for (const cat of cats) {
+          if (cat.slug === slug) return cat
+
+          if (cat.subcategories && cat.subcategories.length > 0) {
+            const found = findCategory(cat.subcategories)
+            if (found) return found
+          }
+        }
+        return null
+      }
+
+      return findCategory(categories.value)
+    }
+  })
+
+  /**
+   * Get project by slug from all projects
+   */
+  const getProjectBySlug = computed(() => {
+    return (slug: string): Project | null => {
+      return allProjects.value.find(p => p.slug === slug) || null
+    }
+  })
+
+  /**
+   * Get projects for a specific category
+   */
+  const getProjectsByCategory = computed(() => {
+    return (categoryId: number): Project[] => {
+      const findProjects = (cats: ServiceCategory[]): Project[] => {
+        let projects: Project[] = []
+
+        cats.forEach(cat => {
+          if (cat.id === categoryId && cat.projects) {
+            projects.push(...cat.projects)
+          }
+          if (cat.subcategories && cat.subcategories.length > 0) {
+            projects.push(...findProjects(cat.subcategories))
+          }
+        })
+
+        return projects
+      }
+
+      return findProjects(categories.value)
+    }
+  })
+
+  // --- Actions ---
+
+  async function fetchCategories() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await $fetch<ServiceCategory[]>('/api/portfolio/categories/')
+      categories.value = data
+      console.log('Fetched categories:', data) // Debug log
+    } catch (e: any) {
+      error.value = 'Failed to fetch gallery categories'
+      console.error('Failed to fetch gallery:', e)
+      console.error('Error details:', e.data) // More detailed error
+      console.error('Status code:', e.statusCode) // HTTP status
+    } finally {
+      loading.value = false
+    }
+  }
+
+
+  /**
+   * Fetch a specific project by slug
+   */
+  async function fetchProjectBySlug(slug: string) {
+    loading.value = true
+    error.value = null
+
+    try {
+      const data = await $fetch<Project>(`/api/portfolio/project/${slug}/`)
+      currentProject.value = data
+
+      return data
+    } catch (e: any) {
+      error.value = 'Failed to fetch project'
+      console.error('Failed to fetch project:', e)
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Set current category by slug
+   */
+  function setCurrentCategoryBySlug(slug: string) {
+    currentCategory.value = getCategoryBySlug.value(slug)
+    return currentCategory.value
+  }
+
+  /**
+   * Clear current project
+   */
+  function clearCurrentProject() {
+    currentProject.value = null
+  }
+
+  /**
+   * Clear current category
+   */
+  function clearCurrentCategory() {
+    currentCategory.value = null
+  }
+
+  /**
+   * Search projects by title or description
+   */
+  function searchProjects(query: string): Project[] {
+    const lowerQuery = query.toLowerCase()
+
+    return allProjects.value.filter(project =>
+      project.title.toLowerCase().includes(lowerQuery) ||
+      project.description.toLowerCase().includes(lowerQuery) ||
+      project.client.toLowerCase().includes(lowerQuery)
+    )
+  }
+
+  /**
+   * Filter projects by criteria
+   */
+  function filterProjects(filters: {
+    categoryId?: number
+    printMethod?: string
+    material?: string
+    isFeatured?: boolean
+  }): Project[] {
+    let filtered = [...allProjects.value]
+
+    if (filters.categoryId !== undefined) {
+      filtered = getProjectsByCategory.value(filters.categoryId)
+    }
+
+    if (filters.printMethod) {
+      filtered = filtered.filter(p =>
+        p.print_method.toLowerCase().includes(filters.printMethod!.toLowerCase())
+      )
+    }
+
+    if (filters.material) {
+      filtered = filtered.filter(p =>
+        p.material_used.toLowerCase().includes(filters.material!.toLowerCase())
+      )
+    }
+
+    if (filters.isFeatured !== undefined) {
+      filtered = filtered.filter(p => p.is_featured === filters.isFeatured)
+    }
+
+    return filtered
+  }
+
+  /**
+   * Clear error message
+   */
+  function clearError() {
+    error.value = null
+  }
+
+  /**
+   * Reset all data
+   */
+  function resetAll() {
+    categories.value = []
+    currentProject.value = null
+    currentCategory.value = null
+    loaded.categories = false
+    error.value = null
+  }
+
+  return {
+    // State
+    categories,
+    currentProject,
+    currentCategory,
+    loading,
+    error,
+    loaded,
+
+    // Getters
+    allProjects,
+    featuredProjects,
+    recentProjects,
+    topLevelCategories,
+    totalProjects,
+    getCategoryBySlug,
+    getProjectBySlug,
+    getProjectsByCategory,
+
+    // Actions
+    fetchCategories,
+    fetchProjectBySlug,
+    setCurrentCategoryBySlug,
+    clearCurrentProject,
+    clearCurrentCategory,
+    searchProjects,
+    filterProjects,
+    clearError,
+    resetAll
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

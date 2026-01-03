@@ -1,0 +1,995 @@
+GET http://localhost:3000/login 500 (Server Error)Understand this error
+client:733 [vite] connecting...
+client:827 [vite] connected.
+login:191 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+updatePreview @ login:191
+setTimeout
+(anonymous) @ login:248
+(anonymous) @ login:253Understand this warning
+nuxt.js?v=d002a1d5:123 [nuxt] error caught during app initialization H3Error: Unknown route middleware: 'guest'. Valid middleware: .Caused by: Error: Unknown route middleware: 'guest'. Valid middleware: .
+    at router.js?t=1767032584398&v=d002a1d5:163:21
+(anonymous) @ nuxt.js?v=d002a1d5:123
+(anonymous) @ index.mjs?v=d002a1d5:48
+(anonymous) @ index.mjs?v=d002a1d5:48
+app:error
+serialTaskCaller @ index.mjs?v=d002a1d5:46
+callHookWith @ index.mjs?v=d002a1d5:198
+callHook @ index.mjs?v=d002a1d5:187
+showError @ error.js?v=d002a1d5:13
+(anonymous) @ router.js?t=1767032584398&v=d002a1d5:231
+fn @ nuxt.js?v=d002a1d5:220
+runWithContext @ runtime-core.esm-bundler.js?v=d002a1d5:4254
+callWithNuxt @ nuxt.js?v=d002a1d5:226
+(anonymous) @ nuxt.js?v=d002a1d5:37
+run @ reactivity.esm-bundler.js?v=d002a1d5:67
+runWithContext @ nuxt.js?v=d002a1d5:37
+(anonymous) @ router.js?t=1767032584398&v=d002a1d5:231
+await in (anonymous)
+_function @ index.mjs?v=d002a1d5:133
+(anonymous) @ index.mjs?v=d002a1d5:48
+(anonymous) @ index.mjs?v=d002a1d5:48
+app:created
+serialTaskCaller @ index.mjs?v=d002a1d5:46
+callHookWith @ index.mjs?v=d002a1d5:198
+callHook @ index.mjs?v=d002a1d5:187
+initApp @ entry.js?v=d002a1d5:64
+await in initApp
+(anonymous) @ entry.js?v=d002a1d5:74Understand this error
+runtime-core.esm-bundler.js?v=d002a1d5:7156 <Suspense> is an experimental feature and its API will likely change.
+devtools.client.mjs?v=d002a1d5:52 ✨ Nuxt DevTools  Press Shift + Alt + D to open DevTools 
+login:1 The resource http://localhost:3000/_nuxt/builds/meta/dev.json was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+
+
+
+// ~/middleware/guest.ts
+/**
+ * Guest Middleware
+ * Redirects authenticated users away from auth pages (login, register)
+ */
+export default defineNuxtRouteMiddleware((to, from) => {
+  const authStore = useAuthStore()
+
+  // If user is already authenticated, redirect to dashboard
+  if (authStore.isAuthenticated) {
+    return navigateTo('/dashboard')
+  }
+})
+
+
+<script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
+
+const authStore = useAuthStore()
+const galleryStore = useGalleryStore()
+
+// Fetch data on mount
+onMounted(async () => {
+  try {
+    await galleryStore.fetchCategories()
+  } catch (e) {
+    console.error('Failed to load data:', e)
+  }
+})
+</script>
+
+<template>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">
+              Dashboard
+            </h1>
+            <p class="text-sm text-gray-600">
+              Welcome back, {{ authStore.fullName || authStore.user?.email }}!
+            </p>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <span 
+              v-if="authStore.isAdmin" 
+              class="px-3 py-1 text-xs font-medium bg-indigo-100 text-indigo-800 rounded-full"
+            >
+              Admin
+            </span>
+
+            <button
+              @click="authStore.logout"
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Total Projects -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div class="ml-5">
+              <p class="text-sm font-medium text-gray-500">Total Projects</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                {{ galleryStore.totalProjects }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Projects -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <div class="ml-5">
+              <p class="text-sm font-medium text-gray-500">Featured</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                {{ galleryStore.featuredProjects.length }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <div class="ml-5">
+              <p class="text-sm font-medium text-gray-500">Categories</p>
+              <p class="text-2xl font-semibold text-gray-900">
+                {{ galleryStore.categories.length }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Projects -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">Recent Projects</h2>
+        </div>
+
+        <div v-if="galleryStore.loading" class="p-6">
+          <div class="flex items-center justify-center py-12">
+            <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div v-else-if="galleryStore.recentProjects.length === 0" class="p-6">
+          <p class="text-center text-gray-500 py-12">No projects found</p>
+        </div>
+
+        <div v-else class="divide-y divide-gray-200">
+          <div 
+            v-for="project in galleryStore.recentProjects.slice(0, 5)" 
+            :key="project.id"
+            class="px-6 py-4 hover:bg-gray-50 transition-colors"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-sm font-medium text-gray-900">
+                  {{ project.title }}
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">
+                  {{ project.client }} • {{ project.category_name }}
+                </p>
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <span 
+                  v-if="project.is_featured"
+                  class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded"
+                >
+                  Featured
+                </span>
+
+                <NuxtLink
+                  :to="`/portfolio/${project.slug}`"
+                  class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  View
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <NuxtLink
+            to="/portfolio"
+            class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            View all projects →
+          </NuxtLink>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
+
+
+
+<template>
+  <div>
+    <h1>Gallery</h1>
+
+    <div v-if="loading">
+      Loading...
+    </div>
+
+    <div v-else-if="error">
+      {{ error }}
+    </div>
+
+    <div v-else>
+      <div v-for="project in projects" :key="project.id">
+        <p>{{ project.title }}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, computed } from 'vue'
+import { useGalleryStore } from '@/stores/gallery'
+
+const store = useGalleryStore()
+
+const loading = computed(() => store.loading)
+const error = computed(() => store.error)
+const projects = computed(() => store.allProjects)
+
+onMounted(() => {
+  store.fetchCategories()
+})
+</script>
+
+
+
+
+<template>
+  <UContainer>
+    <!-- Loading State -->
+    <div v-if="isLoading" class="flex justify-center items-center min-h-screen">
+      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-4xl" />
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="hasError" class="mt-10">
+      <UAlert
+        color="red"
+        variant="soft"
+        title="Error Loading Content"
+        :description="errorMessage"
+      />
+    </div>
+
+    <!-- Main Content -->
+    <div v-else>
+      <!-- Hero Banners Section -->
+      <section v-if="coreStore.activeBanners.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Featured Banners</h2>
+        <div class="grid gap-4">
+          <UCard v-for="banner in coreStore.activeBanners" :key="banner.id">
+            <template #header>
+              <h3 class="text-xl font-semibold">{{ banner.title }}</h3>
+            </template>
+            <p>{{ banner.subtitle }}</p>
+            <img 
+              v-if="banner.image" 
+              :src="banner.image" 
+              :alt="banner.title"
+              class="mt-4 rounded-lg w-full object-cover"
+            />
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Core Values Section -->
+      <section v-if="coreStore.values.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Our Core Values</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <UCard v-for="value in coreStore.values" :key="value.id">
+            <template #header>
+              <h3 class="text-lg font-semibold">{{ value.title }}</h3>
+            </template>
+            <p class="text-gray-600">{{ value.description }}</p>
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Why Choose Us Section -->
+      <section v-if="coreStore.whyChooseUs.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Why Choose Us</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <UCard v-for="item in coreStore.whyChooseUs" :key="item.id">
+            <template #header>
+              <h3 class="text-lg font-semibold">{{ item.title }}</h3>
+            </template>
+            <p class="text-gray-600">{{ item.description }}</p>
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Featured Clients Section -->
+      <section v-if="clientsStore.featuredClients.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Our Featured Clients</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <UCard v-for="client in clientsStore.featuredClients" :key="client.id">
+            <img 
+              v-if="client.logo" 
+              :src="client.logo" 
+              :alt="client.name"
+              class="w-full h-20 object-contain"
+            />
+            <p class="text-center text-sm mt-2">{{ client.name }}</p>
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Featured Projects Section -->
+      <section v-if="galleryStore.featuredProjects.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">Featured Projects</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <UCard v-for="project in galleryStore.featuredProjects" :key="project.id">
+            <template #header>
+              <h3 class="text-lg font-semibold">{{ project.title }}</h3>
+            </template>
+            <p class="text-gray-600 text-sm mb-2">{{ project.client }}</p>
+            <p class="text-gray-500 text-sm">{{ project.description }}</p>
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section v-if="testimonialsStore.featuredTestimonials.length > 0" class="mt-10">
+        <h2 class="text-2xl font-bold mb-4">What Our Clients Say</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <UCard v-for="testimonial in testimonialsStore.featuredTestimonials" :key="testimonial.id">
+            <template #header>
+              <div class="flex items-center gap-3">
+                <div>
+                  <h3 class="font-semibold">{{ testimonial.client_name }}</h3>
+                  <p class="text-sm text-gray-500">{{ testimonial.client_position }}</p>
+                </div>
+              </div>
+            </template>
+            <p class="text-gray-600 italic">"{{ testimonial.content }}"</p>
+            <div class="flex mt-2">
+              <UIcon 
+                v-for="star in testimonial.rating" 
+                :key="star"
+                name="i-heroicons-star-solid" 
+                class="text-yellow-400"
+              />
+            </div>
+          </UCard>
+        </div>
+      </section>
+
+      <!-- Stats Overview -->
+      <section class="mt-10 mb-10">
+        <UCard>
+          <template #header>
+            <h2 class="text-2xl font-bold">Quick Stats</h2>
+          </template>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <p class="text-3xl font-bold text-primary">{{ coreStore.banners.length }}</p>
+              <p class="text-gray-600">Banners</p>
+            </div>
+            <div>
+              <p class="text-3xl font-bold text-primary">{{ clientsStore.clients.length }}</p>
+              <p class="text-gray-600">Clients</p>
+            </div>
+            <div>
+              <p class="text-3xl font-bold text-primary">{{ galleryStore.totalProjects }}</p>
+              <p class="text-gray-600">Projects</p>
+            </div>
+            <div>
+              <p class="text-3xl font-bold text-primary">{{ testimonialsStore.testimonials.length }}</p>
+              <p class="text-gray-600">Testimonials</p>
+            </div>
+          </div>
+        </UCard>
+      </section>
+    </div>
+  </UContainer>
+</template>
+
+<script setup lang="ts">
+import { onMounted, computed } from 'vue'
+import { useCoreStore } from '@/stores/core'
+// import { useClientsStore } from '@/stores/clients'
+// import { useTestimonialsStore } from '@/stores/testimonials'
+import { useGalleryStore } from '@/stores/gallery'
+
+// Initialize stores
+const coreStore = useCoreStore()
+const clientsStore = useClientsStore()
+const testimonialsStore = useTestimonialsStore()
+const galleryStore = useGalleryStore()
+
+// Computed properties for loading and error states
+const isLoading = computed(() => 
+  coreStore.loading || 
+  clientsStore.loading || 
+  testimonialsStore.loading || 
+  galleryStore.loading
+)
+
+const hasError = computed(() => 
+  coreStore.error || 
+  clientsStore.error || 
+  testimonialsStore.error || 
+  galleryStore.error
+)
+
+const errorMessage = computed(() => {
+  const errors = [
+    coreStore.error,
+    clientsStore.error,
+    testimonialsStore.error,
+    galleryStore.error
+  ].filter(Boolean)
+  
+  return errors.join(', ')
+})
+
+// Fetch all data on mount
+onMounted(async () => {
+  await Promise.all([
+    coreStore.fetchAllCoreContent(),
+    clientsStore.fetchClients(),
+    testimonialsStore.fetchTestimonials(),
+    galleryStore.fetchCategories()
+  ])
+})
+</script>
+
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'auth',
+  middleware: 'guest' // Create this middleware to redirect if already logged in
+})
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+// Form state
+const form = reactive({
+  email: '',
+  password: ''
+})
+
+const localError = ref('')
+const isSubmitting = ref(false)
+
+// Handle login
+const handleLogin = async () => {
+  if (isSubmitting.value) return
+  
+  // Clear previous errors
+  localError.value = ''
+  authStore.clearError()
+  
+  // Basic validation
+  if (!form.email || !form.password) {
+    localError.value = 'Please fill in all fields'
+    return
+  }
+  
+  isSubmitting.value = true
+  
+  try {
+    await authStore.login({
+      email: form.email.trim(),
+      password: form.password
+    })
+    
+    // Redirect to dashboard on success
+    await router.push('/dashboard')
+  } catch (e) {
+    localError.value = authStore.error || 'Login failed. Please try again.'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+// Handle Enter key
+const handleKeyPress = (e: KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    handleLogin()
+  }
+}
+</script>
+
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <!-- Header -->
+      <div>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Sign in to your account
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Welcome back! Please enter your details.
+        </p>
+      </div>
+      
+      <!-- Error Alert -->
+      <div 
+        v-if="localError || authStore.error" 
+        class="rounded-md bg-red-50 p-4"
+      >
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-red-800">
+              {{ localError || authStore.error }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
+        <div class="space-y-4">
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">
+              Email address
+            </label>
+            <input
+              id="email"
+              v-model="form.email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              :disabled="isSubmitting"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+              placeholder="you@example.com"
+              @keypress="handleKeyPress"
+            >
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              v-model="form.password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              :disabled="isSubmitting"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+              placeholder="••••••••"
+              @keypress="handleKeyPress"
+            >
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            >
+            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+              Remember me
+            </label>
+          </div>
+
+          <div class="text-sm">
+            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+              Forgot password?
+            </a>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            :disabled="isSubmitting || authStore.loading"
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <span v-if="isSubmitting || authStore.loading" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Signing in...
+            </span>
+            <span v-else>Sign in</span>
+          </button>
+        </div>
+
+        <!-- Register Link -->
+        <div class="text-center">
+          <p class="text-sm text-gray-600">
+            Don't have an account?
+            <NuxtLink 
+              to="/register" 
+              class="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Create one now
+            </NuxtLink>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'auth',
+  middleware: 'guest'
+})
+
+const authStore = useAuthStore()
+
+// Form state
+const form = reactive({
+  email: '',
+  password: '',
+  confirmPassword: '',
+  first_name: '',
+  last_name: ''
+})
+
+const localError = ref('')
+const validationErrors = ref<Record<string, string>>({})
+const isSubmitting = ref(false)
+
+// Validate form
+const validateForm = () => {
+  validationErrors.value = {}
+  
+  if (!form.first_name.trim()) {
+    validationErrors.value.first_name = 'First name is required'
+  }
+  
+  if (!form.last_name.trim()) {
+    validationErrors.value.last_name = 'Last name is required'
+  }
+  
+  if (!form.email.trim()) {
+    validationErrors.value.email = 'Email is required'
+  } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+    validationErrors.value.email = 'Email is invalid'
+  }
+  
+  if (!form.password) {
+    validationErrors.value.password = 'Password is required'
+  } else if (form.password.length < 8) {
+    validationErrors.value.password = 'Password must be at least 8 characters'
+  }
+  
+  if (form.password !== form.confirmPassword) {
+    validationErrors.value.confirmPassword = 'Passwords do not match'
+  }
+  
+  return Object.keys(validationErrors.value).length === 0
+}
+
+// Handle registration
+const handleRegister = async () => {
+  if (isSubmitting.value) return
+  
+  // Clear previous errors
+  localError.value = ''
+  authStore.clearError()
+  
+  // Validate form
+  if (!validateForm()) {
+    localError.value = 'Please fix the errors below'
+    return
+  }
+  
+  isSubmitting.value = true
+  
+  try {
+    await authStore.register({
+      email: form.email.trim().toLowerCase(),
+      password: form.password,
+      first_name: form.first_name.trim(),
+      last_name: form.last_name.trim()
+    })
+    
+    // Navigation is handled in the store
+  } catch (e) {
+    localError.value = authStore.error || 'Registration failed. Please try again.'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+// Password strength indicator
+const passwordStrength = computed(() => {
+  const password = form.password
+  if (!password) return { label: '', strength: 0, color: '' }
+  
+  let strength = 0
+  if (password.length >= 8) strength++
+  if (password.length >= 12) strength++
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++
+  if (/\d/.test(password)) strength++
+  if (/[^a-zA-Z\d]/.test(password)) strength++
+  
+  if (strength <= 2) return { label: 'Weak', strength, color: 'bg-red-500' }
+  if (strength <= 3) return { label: 'Medium', strength, color: 'bg-yellow-500' }
+  return { label: 'Strong', strength, color: 'bg-green-500' }
+})
+</script>
+
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <!-- Header -->
+      <div>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Create your account
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Join us today and get started
+        </p>
+      </div>
+      
+      <!-- Error Alert -->
+      <div 
+        v-if="localError || authStore.error" 
+        class="rounded-md bg-red-50 p-4"
+      >
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-red-800">
+              {{ localError || authStore.error }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form class="mt-8 space-y-6" @submit.prevent="handleRegister">
+        <div class="space-y-4">
+          <!-- Name Fields -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="first_name" class="block text-sm font-medium text-gray-700">
+                First Name *
+              </label>
+              <input
+                id="first_name"
+                v-model="form.first_name"
+                name="first_name"
+                type="text"
+                autocomplete="given-name"
+                required
+                :disabled="isSubmitting"
+                :class="[
+                  'mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed',
+                  validationErrors.first_name ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'
+                ]"
+                placeholder="John"
+              >
+              <p v-if="validationErrors.first_name" class="mt-1 text-xs text-red-600">
+                {{ validationErrors.first_name }}
+              </p>
+            </div>
+
+            <div>
+              <label for="last_name" class="block text-sm font-medium text-gray-700">
+                Last Name *
+              </label>
+              <input
+                id="last_name"
+                v-model="form.last_name"
+                name="last_name"
+                type="text"
+                autocomplete="family-name"
+                required
+                :disabled="isSubmitting"
+                :class="[
+                  'mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed',
+                  validationErrors.last_name ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'
+                ]"
+                placeholder="Doe"
+              >
+              <p v-if="validationErrors.last_name" class="mt-1 text-xs text-red-600">
+                {{ validationErrors.last_name }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">
+              Email address *
+            </label>
+            <input
+              id="email"
+              v-model="form.email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              :disabled="isSubmitting"
+              :class="[
+                'mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed',
+                validationErrors.email ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'
+              ]"
+              placeholder="you@example.com"
+            >
+            <p v-if="validationErrors.email" class="mt-1 text-xs text-red-600">
+              {{ validationErrors.email }}
+            </p>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">
+              Password *
+            </label>
+            <input
+              id="password"
+              v-model="form.password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              required
+              :disabled="isSubmitting"
+              :class="[
+                'mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed',
+                validationErrors.password ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'
+              ]"
+              placeholder="••••••••"
+            >
+            
+            <!-- Password Strength Indicator -->
+            <div v-if="form.password" class="mt-2">
+              <div class="flex items-center gap-2">
+                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    :class="[passwordStrength.color, 'h-full transition-all duration-300']"
+                    :style="{ width: `${(passwordStrength.strength / 5) * 100}%` }"
+                  ></div>
+                </div>
+                <span class="text-xs font-medium text-gray-600">
+                  {{ passwordStrength.label }}
+                </span>
+              </div>
+            </div>
+            
+            <p v-if="validationErrors.password" class="mt-1 text-xs text-red-600">
+              {{ validationErrors.password }}
+            </p>
+            <p v-else class="mt-1 text-xs text-gray-500">
+              Must be at least 8 characters
+            </p>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
+              Confirm Password *
+            </label>
+            <input
+              id="confirmPassword"
+              v-model="form.confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              required
+              :disabled="isSubmitting"
+              :class="[
+                'mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed',
+                validationErrors.confirmPassword ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-indigo-500'
+              ]"
+              placeholder="••••••••"
+            >
+            <p v-if="validationErrors.confirmPassword" class="mt-1 text-xs text-red-600">
+              {{ validationErrors.confirmPassword }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            >
+          </div>
+          <div class="ml-3 text-sm">
+            <label for="terms" class="font-medium text-gray-700">
+              I agree to the 
+              <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms</a>
+              and
+              <a href="#" class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            :disabled="isSubmitting || authStore.loading"
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <span v-if="isSubmitting || authStore.loading" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Creating account...
+            </span>
+            <span v-else>Create account</span>
+          </button>
+        </div>
+
+        <!-- Login Link -->
+        <div class="text-center">
+          <p class="text-sm text-gray-600">
+            Already have an account?
+            <NuxtLink 
+              to="/login" 
+              class="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Sign in
+            </NuxtLink>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

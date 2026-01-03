@@ -1,0 +1,28 @@
+# --- PYTHON / DJANGO ---
+venv/
+.env
+db.sqlite3
+__pycache__/
+*.py[cod]
+*$py.class
+media/
+static_root/
+# We keep migrations, but ignore the compiled cache
+core/migrations/__pycache__/
+marketing/migrations/__pycache__/
+
+# --- NUXT / NODE ---
+node_modules/
+.nuxt/
+.output/
+dist/
+.env
+.vercel
+.netlify
+
+# --- SYSTEM / IDE ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.bak

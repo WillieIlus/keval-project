@@ -1,0 +1,96 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+    {{ title }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ site_header|default:_('Django administration') }}
+        </a>
+    </h1>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+    /* --- KEVAL BRAND COLORS --- */
+    :root {
+        --keval-green: #00A69C;
+        --keval-gray: #7F7F7F;
+        --keval-orange: #F6921E;
+        --bg-gray-light: #f8f9fa;
+    }
+
+    /* 1. MAIN HEADER */
+    #header {
+        background: var(--keval-green);
+        color: #fff;
+        border-bottom: 4px solid var(--keval-orange);
+    }
+    
+    /* Header Links (Welcome, View Site, etc.) */
+    #header a:link, #header a:visited {
+        color: #ffffff;
+        opacity: 0.9;
+    }
+    #header a:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+
+    /* 2. MODULE HEADERS (The bars above 'Clients', 'Core', etc.) */
+    .module h2, .module caption, .inline-group h2 {
+        background-color: var(--keval-gray);
+        color: #fff; /* White text on gray background */
+    }
+    
+    /* Links inside the dashboard list */
+    .module a.section:link, .module a.section:visited {
+        color: var(--keval-gray);
+    }
+
+    /* 3. BUTTONS (Save, Add, etc.) */
+    /* Primary Action Buttons */
+    .button.default, input[type=submit].default, .submit-row input.default {
+        background: var(--keval-green);
+        border: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background 0.2s;
+    }
+    .button.default:hover, input[type=submit].default:hover {
+        background: var(--keval-orange); /* Turns orange on hover */
+    }
+    
+    /* Secondary Buttons */
+    .button, .submit-row input {
+        background: #fff;
+        color: var(--keval-gray);
+        border: 1px solid var(--keval-gray);
+    }
+
+    /* 4. LINKS & BREADCRUMBS */
+    a:link, a:visited {
+        color: var(--keval-green); /* Links in the content area */
+    }
+    a:hover {
+        color: var(--keval-orange);
+    }
+    
+    div.breadcrumbs {
+        background: var(--bg-gray-light);
+        color: var(--keval-gray);
+        border-bottom: 1px solid #eee;
+    }
+    div.breadcrumbs a {
+        color: var(--keval-green);
+    }
+
+    /* 5. SIDEBAR / FILTERS (On list pages) */
+    #changelist-filter h2 {
+        background-color: var(--keval-green);
+        color: white;
+    }
+</style>
+{% endblock %}

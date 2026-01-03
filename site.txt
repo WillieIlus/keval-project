@@ -1,0 +1,302 @@
+// ~/stores/auth.ts
+import { defineStore } from 'pinia';
+import type { User } from '~/types/api';
+
+export const useAuthStore = defineStore('auth', () => {
+  // --- State ---
+  const user = ref<User | null>(null);
+  const token = ref<string | null>(null);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+
+  // --- Getters ---
+  // standard user serializer for retrieving profile info [cite: 1]
+  const isAuthenticated = computed(() => !!token.value && !!user.value);
+  const isAdmin = computed(() => user.value?.is_staff || false);
+
+  // --- Actions ---
+  
+  // Handles user registration with email/password [cite: 1]
+  async function register(credentials: { email: string; password: string; first_name: string; last_name: string }) {
+    loading.value = true;
+    error.value = null;
+    try {
+      // Maps to RegisterSerializer create method [cite: 2]
+      const response = await $fetch<{ token: string; user: User }>('/api/auth/register/', {
+        method: 'POST',
+        body: credentials
+      });
+      token.value = response.token;
+      user.value = response.user;
+      navigateTo('/dashboard');
+    } catch (e: any) {
+      error.value = e.data?.message || 'Registration failed';
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  // Validates credentials against the CustomUser model [cite: 3]
+  async function login(credentials: { email: string; password: string }) {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await $fetch<{ token: string; user: User }>('/api/auth/login/', {
+        method: 'POST',
+        body: credentials
+      });
+      token.value = response.token;
+      user.value = response.user;
+    } catch (e: any) {
+      error.value = 'Incorrect Credentials'; // Matches validation error [cite: 3]
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  function logout() {
+    user.value = null;
+    token.value = null;
+    navigateTo('/login');
+  }
+
+  // --- Persistence Configuration ---
+  // Using the plugin from your nuxt.config: @pinia-plugin-persistedstate/nuxt
+  return {
+    user,
+    token,
+    loading,
+    error,
+    isAuthenticated,
+    isAdmin,
+    register,
+    login,
+    logout
+  };
+}, {
+  persist: {
+    storage: persistedState.localStorage,
+    pick: ['token', 'user'] // Only persist these fields
+  }
+});
+
+
+// ~/stores/content.ts
+import { defineStore } from 'pinia';
+import type { Banner, Client, Testimonial, ContactSubmission } from '~/types/api';
+
+export const useContentStore = defineStore('content', () => {
+  // --- State ---
+  const config = useRuntimeConfig();
+  const banners = ref<Banner[]>([]);
+  const clients = ref<Client[]>([]);
+  const testimonials = ref<Testimonial[]>([]);
+  const loading = ref(false);
+
+  // --- Getters ---
+  const featuredClients = computed(() => clients.value.filter(c => c.is_featured)); // [cite: 4]
+  const sortedBanners = computed(() => [...banners.value].sort((a, b) => a.order - b.order)); // [cite: 5]
+
+  // --- Actions ---
+
+  // Fetches initial data for the landing page
+  async function initLandingPage() {
+    loading.value = true;
+    try {
+      // Use Promise.all for concurrent fetching
+      const [bannersData, clientsData, testimonialsData] = await Promise.all([
+        $fetch<Banner[]>('/api/core/banners/'),
+        $fetch<Client[]>('/api/clients/'),         // [cite: 4]
+        $fetch<Testimonial[]>('/api/testimonials/') // [cite: 16]
+      ]);
+
+      banners.value = bannersData;
+      clients.value = clientsData;
+      testimonials.value = testimonialsData;
+    } catch (e) {
+      console.error('Error loading landing page content', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  // Handle Contact Form
+  async function submitContact(form: ContactSubmission) {
+    try {
+      // Validates email format (business logic) [cite: 8, 9]
+      await $fetch('/api/core/contact/', {
+        method: 'POST',
+        body: form
+      });
+      return true; // Success
+    } catch (e) {
+      throw e; // Let component handle UI error
+    }
+  }
+
+  return {
+    banners,
+    clients,
+    testimonials,
+    featuredClients,
+    sortedBanners,
+    loading,
+    initLandingPage,
+    submitContact
+  };
+});
+
+
+
+// ~/stores/gallery.ts
+import { defineStore } from 'pinia';
+import type { ServiceCategory, Project } from '~/types/api';
+
+export const useGalleryStore = defineStore('gallery', () => {
+  // --- State ---
+  const config = useRuntimeConfig();
+  const categories = ref<ServiceCategory[]>([]);
+  const currentProject = ref<Project | null>(null);
+  const loading = ref(false);
+
+  // --- Getters ---
+  
+  // Flatten recursive categories to find specific projects easily
+  const allProjects = computed(() => {
+    const projects: Project[] = [];
+    
+    // Helper to traverse recursive structure [cite: 15]
+    const traverse = (cats: ServiceCategory[]) => {
+      cats.forEach(cat => {
+        if (cat.projects) projects.push(...cat.projects);
+        if (cat.subcategories) traverse(cat.subcategories);
+      });
+    };
+    
+    traverse(categories.value);
+    return projects;
+  });
+
+  const featuredProjects = computed(() => {
+    return allProjects.value.filter(p => p.is_featured); // [cite: 12]
+  });
+
+  // --- Actions ---
+
+  async function fetchCategories() {
+    // Return early if data exists to save bandwidth (advanced optimization)
+    if (categories.value.length > 0) return; 
+
+    loading.value = true;
+    try {
+      // Serializes Categories with nested projects and subcategories [cite: 13]
+      const data = await $fetch<ServiceCategory[]>('/api/gallery/categories/');
+      categories.value = data;
+    } catch (e) {
+      console.error('Failed to fetch gallery', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function fetchProjectBySlug(slug: string) {
+    loading.value = true;
+    try {
+      // Serializes the Project and nests its images [cite: 11]
+      const data = await $fetch<Project>(`/api/gallery/projects/${slug}/`);
+      currentProject.value = data;
+    } catch (e) {
+      console.error('Failed to fetch project', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return {
+    categories,
+    currentProject,
+    allProjects,
+    featuredProjects,
+    loading,
+    fetchCategories,
+    fetchProjectBySlug
+  };
+});
+
+
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # Must be at the top
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True  
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+ROOT_URLCONF = 'keval_site.urls'
+
+
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+from core.views import (
+    BannerListView, CoreValueListView, 
+    WhyChooseUsListView, ContactSubmissionCreateView
+)
+from clients.views import ClientListView
+from testimonials.views import TestimonialListView
+from gallery.views import CategoryListView, ProjectDetailView
+from accounts.views import CustomLoginView, RegisterView
+
+# API URL patterns
+api_patterns = [
+    # Core / Marketing
+    path('banners/', BannerListView.as_view(), name='banner-list'),
+    path('values/', CoreValueListView.as_view(), name='values-list'),
+    path('why-choose-us/', WhyChooseUsListView.as_view(), name='why-choose-us'),
+    path('contact/', ContactSubmissionCreateView.as_view(), name='contact-submit'),
+    
+    # Social Proof
+    path('clients/', ClientListView.as_view(), name='client-list'),
+    path('testimonials/', TestimonialListView.as_view(), name='testimonial-list'),
+
+    # Portfolio / Gallery
+    path('portfolio/categories/', CategoryListView.as_view(), name='category-tree'),
+    path('portfolio/project/<slug:slug>/', ProjectDetailView.as_view(), name='project-detail'),
+
+    # Auth
+    path('auth/register/', RegisterView.as_view(), name='api-register'), # NEW
+    path('auth/login/', CustomLoginView.as_view(), name='api-login'),
+]
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('_nested_admin/', include('nested_admin.urls')), # Required for your nested admin
+    path('api/', include(api_patterns)), # All endpoints prefixed with /api/
+]
+
+# Serve media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# --- ADMIN PANEL CUSTOMIZATION ---
+admin.site.site_header = "Keval Print Admin"     # Top of the login page & dashboard
+admin.site.site_title = "Keval Portal"           # Browser tab title
+admin.site.index_title = "Welcome to Keval CMS"  # Subtitle on the dashboard
