@@ -46,6 +46,7 @@ routeRules: {
 
   runtimeConfig: {
     public: {
+      // This looks for the variable first; if missing, it defaults to localhost
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
     }
   },

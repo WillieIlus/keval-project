@@ -79,12 +79,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  
+CORS_ALLOW_ALL_ORIGINS = False  
 
 CORS_ALLOWED_ORIGINS = [
+    "https://keval-web.netlify.app",
+    "https://keval.co.ke",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://keval-web.netlify.app", 
+    "https://keval.co.ke"
+]
+
+# 4. Required for our useCookie and Session Auth
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'keval_site.urls'
 
