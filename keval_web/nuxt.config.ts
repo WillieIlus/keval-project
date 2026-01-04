@@ -37,8 +37,11 @@ export default defineNuxtConfig({
   
   css: ['~/assets/css/main.css'],
 
-  routeRules: {
-    '/': { prerender: true }
+routeRules: {
+    // Don't pre-render the dashboard, render it on the client side only
+    '/dashboard/**': { ssr: false },
+    '/login': { prerender: true },
+    '/register': { prerender: true }
   },
 
   runtimeConfig: {
@@ -59,6 +62,12 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    // THIS IS THE DROP-IN FIX: 
+    // It tells the crawler "Do not try to pre-render these pages"
+    prerender: {
+      ignore: ['/login', '/register', '/dashboard', '/middleware/guests']
+    },
+    // Keep your existing devProxy below...
     devProxy: {
       '/api': {
         target: 'http://localhost:8000/api',
