@@ -12,29 +12,18 @@ interface FlatOption {
 }
 
 // The Helper Function
-export function flattenCategories(
-  categories: Category[], 
-  level = 0
-): FlatOption[] {
-  
-  let result: FlatOption[] = [];
-
+export function flattenCategories(categories: any[], level = 0): any[] {
+  let result: any[] = [];
   categories.forEach(cat => {
-    // 1. Add the current category
-    // We add dashes based on the 'level' of depth
     const prefix = level > 0 ? '— '.repeat(level) : '';
-    
     result.push({
       id: cat.id,
-      label: `${prefix}${cat.name}`, // "— — Subcategory"
+      label: `${prefix}${cat.name}`,
       originalName: cat.name
     });
-
-    // 2. If it has children, recursively add them (level + 1)
     if (cat.subcategories && cat.subcategories.length > 0) {
       result = result.concat(flattenCategories(cat.subcategories, level + 1));
     }
   });
-
   return result;
 }

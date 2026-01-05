@@ -1,79 +1,80 @@
 <script setup lang="ts">
+// Make sure this file exists in utils/categoryHelpers.ts
 import { flattenCategories } from '~/utils/categoryHelpers'
 
 const { $api } = useNuxtApp()
 const toast = useToast()
 
-// 1. Data Fetching for Dropdowns
-const { data: rawCategories } = await useAsyncData('gallery-cats', () =>
+// --- 1. Data Fetching ---
+// We fetch the raw nested tree once
+const { data: rawCategories } = await useAsyncData('gallery-cats', () => 
   $api('/api/gallery/categories/')
 )
-
-const categories = flattenCategories(rawCategories)
-const { data: categories } = await useAsyncData('cats', () => $api('/api/gallery/categories/'))
 const { data: clients } = await useAsyncData('clients', () => $api('/api/clients/'))
 
-// 2. State
-const categoryOptions = computed(() =>{
+// --- 2. Computed Logic ---
+// We convert the nested tree into a flat list for the dropdown automatically
+const categoryOptions = computed(() => {
   if (!rawCategories.value) return []
   return flattenCategories(rawCategories.value)
 })
 
+// --- 3. State Management ---
 const step = ref(1) // Step 1: Details, Step 2: Images
-const projectId = ref<number | null>(null) // We store ID after step 1
+const projectId = ref<number | null>(null) // Stores the ID after creation
 const loading = ref(false)
 
-// Step 1 Form: Project Details
+// Main Project Form
 const projectForm = reactive({
   title: '',
-  category: '',
-  client: '',
+  category: undefined, // Stores the ID
+  client: undefined,   // Stores the ID
   description: '',
   print_method: '',
   date_completed: ''
 })
 
-// Step 2 Form: Images
+// Image Upload State
 const newImage = ref<File | null>(null)
 const newImageCaption = ref('')
-const projectImages = ref([]) // List of uploaded images to show user
+const projectImages = ref<any[]>([]) 
 
-const form = reactive({
-  title: ''
-  category: undefined
-})
-// --- Actions ---
+// --- 4. Actions ---
 
-// Step 1: Create the Project Shell
+// Step 1: Create the Project Shell (Parent)
 async function createProject() {
   loading.value = true
   try {
     const res = await $api('/api/gallery/projects/', {
       method: 'POST',
-      body: projectForm // Just JSON is fine here since there's no main image in Project model
+      body: projectForm 
     })
+    
+    // Save the ID so we can attach images to it
     projectId.value = res.id
-    step.value = 2 // Move to "Inline" mode
+    
+    // Move to next step
+    step.value = 2 
     toast.add({ title: 'Project Created', description: 'Now add images', color: 'green' })
   } catch (err) {
-    toast.add({ title: 'Error', color: 'red' })
+    toast.add({ title: 'Error creating project', color: 'red' })
   } finally {
     loading.value = false
   }
 }
 
-// Step 2: Upload an Image (The "Inline" part)
+// Step 2: Upload Images (Children)
 async function uploadImage() {
   if (!projectId.value || !newImage.value) return
 
   const formData = new FormData()
-  formData.append('project', String(projectId.value)) // Link to parent
+  formData.append('project', String(projectId.value))
   formData.append('image', newImage.value)
   formData.append('caption', newImageCaption.value)
-  formData.append('is_cover', 'false') // Default
+  formData.append('is_cover', 'false')
 
   try {
-    const res = await $api('/api/gallery/images/', { // Assuming this endpoint exists
+    const res = await $api('/api/gallery/images/', { 
       method: 'POST',
       body: formData
     })
@@ -93,13 +94,20 @@ async function uploadImage() {
 
 <template>
   <div class="max-w-4xl mx-auto p-6">
+    
     <div v-if="step === 1" class="bg-white p-6 rounded shadow">
       <h2 class="text-xl font-bold mb-4">Step 1: Project Details</h2>
+      
       <form @submit.prevent="createProject" class="grid grid-cols-2 gap-4">
+        
+        <UFormGroup label="Title" class="col-span-2">
+          <UInput v-model="projectForm.title" />
+        </UFormGroup>
+
         <UFormGroup label="Category">
-          <USelectMenu
-            v-model="form.category"
-            :options="categoryOptions"
+          <USelectMenu 
+            v-model="projectForm.category" 
+            :options="categoryOptions" 
             option-attribute="label"
             value-attribute="id"
             placeholder="Select a Category..."
@@ -107,35 +115,21 @@ async function uploadImage() {
             searchable-placeholder="Search categories..."
           >
             <template #label>
-              <span v-if="form.category">
-                {{ categoryOptions.find((c) => c.id === form.category)?.originalName }}
-              </span>
-              <span v-else class="text-gray-400">Select...</span>
+               <span v-if="projectForm.category">
+                 {{ categoryOptions.find(c => c.id === projectForm.category)?.originalName }}
+               </span>
+               <span v-else class="text-gray-400">Select...</span>
             </template>
           </USelectMenu>
         </UFormGroup>
 
-        <UFormGroup label="Title" class="col-span-2">
-          <UInput v-model="projectForm.title" />
-        </UFormGroup>
-
-        <UFormGroup label="Category">
-          <USelectMenu
-            v-model="projectForm.category"
-            :options="categories"
-            value-attribute="id"
-            option-attribute="name"
-            searchable
-          />
-        </UFormGroup>
-
         <UFormGroup label="Client">
-          <USelectMenu
-            v-model="projectForm.client"
-            :options="clients"
-            value-attribute="id"
+          <USelectMenu 
+            v-model="projectForm.client" 
+            :options="clients" 
+            value-attribute="id" 
             option-attribute="name"
-            searchable
+            searchable 
           />
         </UFormGroup>
 
@@ -155,24 +149,20 @@ async function uploadImage() {
 
     <div v-else class="space-y-6">
       <div class="bg-green-50 p-4 border border-green-200 rounded">
-        <p class="text-green-800 font-medium">
-          Project "{{ projectForm.title }}" Created!
-        </p>
-        <p class="text-sm text-green-600">
-          Now uploading images linked to ID: #{{ projectId }}
-        </p>
+        <p class="text-green-800 font-medium">Project "{{ projectForm.title }}" Created!</p>
+        <p class="text-sm text-green-600">Now uploading images linked to ID: #{{ projectId }}</p>
       </div>
 
       <div class="bg-white p-6 rounded shadow border-2 border-dashed border-gray-300">
         <h3 class="font-bold mb-4">Add Project Image</h3>
         <div class="flex gap-4 items-end">
           <div class="flex-1">
-            <FormImageUpload label="Image" v-model="newImage" />
+             <FormImageUpload label="Image" v-model="newImage" />
           </div>
           <div class="flex-1">
-            <UFormGroup label="Caption">
-              <UInput v-model="newImageCaption" placeholder="e.g. Front view" />
-            </UFormGroup>
+             <UFormGroup label="Caption">
+               <UInput v-model="newImageCaption" placeholder="e.g. Front view" />
+             </UFormGroup>
           </div>
           <UButton @click="uploadImage" :disabled="!newImage">Upload</UButton>
         </div>
@@ -181,9 +171,7 @@ async function uploadImage() {
       <div class="grid grid-cols-4 gap-4">
         <div v-for="img in projectImages" :key="img.id" class="relative group">
           <img :src="img.image" class="w-full h-32 object-cover rounded shadow" />
-          <div
-            class="absolute bottom-0 bg-black/50 text-white text-xs w-full p-1 truncate"
-          >
+          <div class="absolute bottom-0 bg-black/50 text-white text-xs w-full p-1 truncate">
             {{ img.caption }}
           </div>
         </div>
