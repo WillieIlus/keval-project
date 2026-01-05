@@ -170,6 +170,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "core" / "static", # Adjust if your static files are elsewhere
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 # keval_site/settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mx4125.usc1.mymailhosting.com'
