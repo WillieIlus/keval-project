@@ -33,7 +33,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is missing! Check your .env file.")
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+DEBUG = True
 
 # Convert "localhost,127.0.0.1" string into a Python List
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
