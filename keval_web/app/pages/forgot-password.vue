@@ -2,7 +2,7 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
     <div class="w-full max-w-md">
-      <!-- Logo -->
+      <!-- Logo - FIXED -->
       <NuxtLink to="/" class="flex items-center justify-center mb-8">
         <img src="/logo-white.png" alt="Keval Logo" class="h-12">
       </NuxtLink>

@@ -4,12 +4,12 @@
     <!-- Left Side - Form -->
     <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
       <div class="w-full max-w-md">
-        <!-- Logo -->
+        <!-- Logo - FIXED -->
         <NuxtLink to="/" class="flex items-center justify-center mb-8">
           <img src="/logo-white.png" alt="Keval Logo" class="h-12">
         </NuxtLink>
 
-        <!-- Login Form Component - USE PATH PREFIX -->
+        <!-- Login Form Component -->
         <FormsLoginForm />
 
         <!-- Back to Home -->
@@ -44,6 +44,21 @@
             <span>Direct communication with our team</span>
           </li>
         </ul>
+
+        <div class="mt-12 p-6 bg-white/10 rounded-xl backdrop-blur-sm">
+          <p class="italic text-kevalgreen-100">
+            "Keval has been our go-to for all branding needs. Exceptional quality!"
+          </p>
+          <div class="flex items-center mt-4">
+            <div class="w-10 h-10 bg-kevalorange-400 rounded-full flex items-center justify-center font-bold">
+              JM
+            </div>
+            <div class="ml-3">
+              <p class="font-semibold">John Mwangi</p>
+              <p class="text-sm text-kevalgreen-200">CEO, TechCorp Ltd</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

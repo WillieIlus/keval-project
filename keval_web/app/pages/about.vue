@@ -1,5 +1,7 @@
 <!-- ~/pages/about.vue -->
 <template>
+      <BreadcrumbBanner />
+
   <div>
     <!-- Hero Section -->
     <section class="relative bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 text-white py-24 overflow-hidden">

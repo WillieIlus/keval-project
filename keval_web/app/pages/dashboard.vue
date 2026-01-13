@@ -5,22 +5,21 @@
     <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
+          <!-- Logo - FIXED -->
           <NuxtLink to="/" class="flex items-center">
-            <img src="/logo.png" alt="Keval Print" class="h-8">
+            <img src="/logo-white.png" alt="Keval" class="h-8">
           </NuxtLink>
 
-          <!-- User Menu -->
           <div class="flex items-center gap-4">
             <UButton to="/" variant="ghost" color="gray">
-              <Icon name="heroicons:home" class="w-5 h-5" />
+              <UIcon name="i-heroicons-home" class="w-5 h-5" />
             </UButton>
             
             <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
               <UButton color="gray" variant="ghost" class="gap-2">
                 <UAvatar :text="auth.userInitials" size="sm" class="bg-kevalgreen-500 text-white" />
                 <span class="hidden sm:inline">{{ auth.fullName }}</span>
-                <Icon name="heroicons:chevron-down" class="w-4 h-4" />
+                <UIcon name="i-heroicons-chevron-down" class="w-4 h-4" />
               </UButton>
             </UDropdown>
           </div>
@@ -30,7 +29,7 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Welcome Section -->
+      <!-- Welcome -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900">
           Welcome back, {{ auth.user?.first_name || 'there' }}!
@@ -38,7 +37,7 @@
         <p class="text-gray-600 mt-1">Here's what's happening with your account.</p>
       </div>
 
-      <!-- Quick Stats -->
+      <!-- Stats -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-xl p-6 shadow-sm">
           <div class="flex items-center justify-between">
@@ -47,7 +46,7 @@
               <p class="text-2xl font-bold text-gray-900">3</p>
             </div>
             <div class="w-12 h-12 bg-kevalgreen-100 rounded-xl flex items-center justify-center">
-              <Icon name="heroicons:folder-open" class="w-6 h-6 text-kevalgreen-600" />
+              <UIcon name="i-heroicons-folder-open" class="w-6 h-6 text-kevalgreen-600" />
             </div>
           </div>
         </div>
@@ -59,7 +58,7 @@
               <p class="text-2xl font-bold text-gray-900">2</p>
             </div>
             <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-              <Icon name="heroicons:clock" class="w-6 h-6 text-orange-600" />
+              <UIcon name="i-heroicons-clock" class="w-6 h-6 text-orange-600" />
             </div>
           </div>
         </div>
@@ -71,7 +70,7 @@
               <p class="text-2xl font-bold text-gray-900">12</p>
             </div>
             <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Icon name="heroicons:check-circle" class="w-6 h-6 text-green-600" />
+              <UIcon name="i-heroicons-check-circle" class="w-6 h-6 text-green-600" />
             </div>
           </div>
         </div>
@@ -80,10 +79,10 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-gray-500">Total Spent</p>
-              <p class="text-2xl font-bold text-gray-900">TZS 2.4M</p>
+              <p class="text-2xl font-bold text-gray-900">KES 240K</p>
             </div>
             <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-              <Icon name="heroicons:currency-dollar" class="w-6 h-6 text-blue-600" />
+              <UIcon name="i-heroicons-currency-dollar" class="w-6 h-6 text-blue-600" />
             </div>
           </div>
         </div>
@@ -98,7 +97,7 @@
           </div>
           <div class="p-6">
             <div class="text-center py-12 text-gray-500">
-              <Icon name="heroicons:inbox" class="w-12 h-12 mx-auto mb-4 text-gray-300" />
+              <UIcon name="i-heroicons-inbox" class="w-12 h-12 mx-auto mb-4 text-gray-300" />
               <p>No orders yet</p>
               <UButton to="/contact" class="mt-4" variant="outline">
                 Start a Project
@@ -114,19 +113,19 @@
           </div>
           <div class="p-6 space-y-4">
             <UButton to="/contact" block variant="soft" class="justify-start">
-              <Icon name="heroicons:plus-circle" class="w-5 h-5 mr-3" />
+              <UIcon name="i-heroicons-plus-circle" class="w-5 h-5 mr-3" />
               New Quote Request
             </UButton>
             <UButton to="/portfolio" block variant="soft" color="gray" class="justify-start">
-              <Icon name="heroicons:photo" class="w-5 h-5 mr-3" />
+              <UIcon name="i-heroicons-photo" class="w-5 h-5 mr-3" />
               Browse Portfolio
             </UButton>
             <UButton block variant="soft" color="gray" class="justify-start" disabled>
-              <Icon name="heroicons:document-text" class="w-5 h-5 mr-3" />
+              <UIcon name="i-heroicons-document-text" class="w-5 h-5 mr-3" />
               View Invoices
             </UButton>
             <UButton block variant="soft" color="gray" class="justify-start" disabled>
-              <Icon name="heroicons:cog-6-tooth" class="w-5 h-5 mr-3" />
+              <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5 mr-3" />
               Account Settings
             </UButton>
           </div>
@@ -145,36 +144,30 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Dashboard | Keval Print'
+  title: 'Dashboard | Keval'
 })
 
 const auth = useAuthStore()
 
-// User menu items
 const userMenuItems = computed(() => [
   [{
     label: auth.user?.email || 'User',
-    slot: 'account',
-    disabled: true
+    disabled: true,
+    class: 'text-gray-500 text-sm'
   }],
   [{
-    label: 'Profile Settings',
-    icon: 'i-heroicons-user-circle',
-    disabled: true
-  },
-  {
-    label: 'Order History',
-    icon: 'i-heroicons-document-text',
-    disabled: true
+    label: 'Dashboard',
+    icon: 'i-heroicons-squares-2x2',
+    to: '/dashboard'
   }],
   [{
     label: 'Sign Out',
     icon: 'i-heroicons-arrow-right-on-rectangle',
+    class: 'text-red-500',
     click: () => auth.logout('/')
   }]
 ])
 
-// Initialize auth on mount
 onMounted(() => {
   auth.initializeAuth()
 })
