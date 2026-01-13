@@ -38,11 +38,10 @@
         <UInput
           v-model="formData.password"
           :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          placeholder="Enter your password"
           icon="i-heroicons-lock-closed"
           size="lg"
           :disabled="auth.loading"
-          :ui="{ icon: { trailing: { pointer: '' } } }"
         >
           <template #trailing>
             <UButton
@@ -84,28 +83,6 @@
         Create one
       </NuxtLink>
     </p>
-
-    <!-- Divider -->
-    <div class="relative my-8">
-      <div class="absolute inset-0 flex items-center">
-        <div class="w-full border-t border-gray-200"></div>
-      </div>
-      <div class="relative flex justify-center text-sm">
-        <span class="px-4 bg-white text-gray-500">Or continue with</span>
-      </div>
-    </div>
-
-    <!-- Social Login (Optional - placeholder) -->
-    <div class="grid grid-cols-2 gap-4">
-      <UButton color="gray" variant="outline" size="lg" disabled>
-        <Icon name="logos:google-icon" class="w-5 h-5 mr-2" />
-        Google
-      </UButton>
-      <UButton color="gray" variant="outline" size="lg" disabled>
-        <Icon name="logos:microsoft-icon" class="w-5 h-5 mr-2" />
-        Microsoft
-      </UButton>
-    </div>
   </div>
 </template>
 
@@ -149,14 +126,12 @@ async function handleSubmit() {
   try {
     await auth.login(formData)
     
-    // Redirect based on user role
     if (auth.isAdmin) {
       router.push('/admin/dashboard')
     } else {
       router.push('/dashboard')
     }
   } catch (e) {
-    // Error is already handled in the store
     console.error('Login failed:', e)
   }
 }

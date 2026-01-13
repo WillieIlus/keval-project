@@ -60,7 +60,7 @@
         <UInput
           v-model="formData.password"
           :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          placeholder="Create a password"
           icon="i-heroicons-lock-closed"
           size="lg"
           :disabled="auth.loading"
@@ -82,11 +82,11 @@
               v-for="i in 4"
               :key="i"
               class="h-1 flex-1 rounded-full transition-colors"
-              :class="i <= passwordStrength ? strengthColors[passwordStrength] : 'bg-gray-200'"
-            />
+              :class="getStrengthBarColor(i)"
+            ></div>
           </div>
-          <p class="text-xs mt-1" :class="strengthTextColors[passwordStrength]">
-            {{ strengthLabels[passwordStrength] }}
+          <p class="text-xs mt-1" :class="strengthTextColor">
+            {{ strengthLabel }}
           </p>
         </div>
       </UFormGroup>
@@ -96,7 +96,7 @@
         <UInput
           v-model="formData.password_confirm"
           :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
+          placeholder="Confirm your password"
           icon="i-heroicons-lock-closed"
           size="lg"
           :disabled="auth.loading"
@@ -173,29 +173,39 @@ const passwordStrength = computed(() => {
   return strength
 })
 
-const strengthColors: Record<number, string> = {
-  0: 'bg-gray-200',
-  1: 'bg-red-500',
-  2: 'bg-orange-500',
-  3: 'bg-yellow-500',
-  4: 'bg-green-500'
+function getStrengthBarColor(index: number): string {
+  if (index > passwordStrength.value) return 'bg-gray-200'
+  
+  const colors: Record<number, string> = {
+    1: 'bg-red-500',
+    2: 'bg-orange-500',
+    3: 'bg-yellow-500',
+    4: 'bg-green-500'
+  }
+  return colors[passwordStrength.value] || 'bg-gray-200'
 }
 
-const strengthTextColors: Record<number, string> = {
-  0: 'text-gray-400',
-  1: 'text-red-500',
-  2: 'text-orange-500',
-  3: 'text-yellow-600',
-  4: 'text-green-600'
-}
+const strengthTextColor = computed(() => {
+  const colors: Record<number, string> = {
+    0: 'text-gray-400',
+    1: 'text-red-500',
+    2: 'text-orange-500',
+    3: 'text-yellow-600',
+    4: 'text-green-600'
+  }
+  return colors[passwordStrength.value]
+})
 
-const strengthLabels: Record<number, string> = {
-  0: 'Enter a password',
-  1: 'Weak',
-  2: 'Fair',
-  3: 'Good',
-  4: 'Strong'
-}
+const strengthLabel = computed(() => {
+  const labels: Record<number, string> = {
+    0: 'Enter a password',
+    1: 'Weak',
+    2: 'Fair',
+    3: 'Good',
+    4: 'Strong'
+  }
+  return labels[passwordStrength.value]
+})
 
 // Validation
 const validate = (state: RegisterFormData) => {
@@ -227,15 +237,13 @@ const validate = (state: RegisterFormData) => {
     errors.push({ path: 'password_confirm', message: 'Passwords do not match' })
   }
   
-  if (!acceptTerms.value) {
-    errors.push({ path: 'terms', message: 'You must accept the terms' })
-  }
-  
   return errors
 }
 
 // Submit handler
 async function handleSubmit() {
+  if (!acceptTerms.value) return
+  
   try {
     await auth.register(formData)
     router.push('/dashboard')

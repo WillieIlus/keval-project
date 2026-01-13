@@ -27,7 +27,7 @@
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Visit Us</h3>
               <p class="text-gray-600">
-                123 Industrial Area<br />
+                123 Industrial Area<br>
                 Dar es Salaam, Tanzania
               </p>
               <a 
@@ -47,7 +47,7 @@
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Call Us</h3>
               <p class="text-gray-600">
-                <a href="tel:+255123456789" class="hover:text-kevalgreen-600">+255 123 456 789</a><br />
+                <a href="tel:+255123456789" class="hover:text-kevalgreen-600">+255 123 456 789</a><br>
                 <a href="tel:+255987654321" class="hover:text-kevalgreen-600">+255 987 654 321</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">Mon - Fri: 8:00 AM - 6:00 PM</p>
@@ -60,7 +60,7 @@
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Email Us</h3>
               <p class="text-gray-600">
-                <a href="mailto:info@kevalprint.com" class="hover:text-kevalgreen-600">info@kevalprint.com</a><br />
+                <a href="mailto:info@kevalprint.com" class="hover:text-kevalgreen-600">info@kevalprint.com</a><br>
                 <a href="mailto:sales@kevalprint.com" class="hover:text-kevalgreen-600">sales@kevalprint.com</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">We respond within 24 hours</p>
@@ -73,26 +73,30 @@
                 <a 
                   href="#" 
                   class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="Facebook"
                 >
-                  <Icon name="logos:facebook" class="w-5 h-5" />
+                  <Icon name="heroicons:globe-alt" class="w-5 h-5 text-blue-600" />
                 </a>
                 <a 
                   href="#" 
                   class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="Instagram"
                 >
-                  <Icon name="logos:instagram-icon" class="w-5 h-5" />
+                  <Icon name="heroicons:camera" class="w-5 h-5 text-pink-600" />
                 </a>
                 <a 
                   href="#" 
                   class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="LinkedIn"
                 >
-                  <Icon name="logos:linkedin-icon" class="w-5 h-5" />
+                  <Icon name="heroicons:briefcase" class="w-5 h-5 text-blue-700" />
                 </a>
                 <a 
                   href="#" 
                   class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="WhatsApp"
                 >
-                  <Icon name="logos:whatsapp-icon" class="w-5 h-5" />
+                  <Icon name="heroicons:chat-bubble-left-ellipsis" class="w-5 h-5 text-green-600" />
                 </a>
               </div>
             </div>
@@ -115,11 +119,12 @@
         width="100%"
         height="100%"
         style="border:0;"
-        allowfullscreen=""
+        allowfullscreen
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         class="absolute inset-0"
-      />
+        title="Map"
+      ></iframe>
     </section>
 
     <!-- FAQ Section -->
@@ -127,25 +132,23 @@
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
         
-        <UAccordion :items="faqItems" class="space-y-4">
-          <template #default="{ item, open }">
-            <UButton
-              color="gray"
-              variant="ghost"
-              class="w-full"
-              :ui="{ padding: { sm: 'p-4' } }"
+        <div class="space-y-4">
+          <div v-for="(item, index) in faqItems" :key="index" class="border border-gray-200 rounded-xl">
+            <button 
+              @click="toggleFaq(index)"
+              class="w-full p-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
             >
-              <span class="font-semibold text-left flex-1">{{ item.label }}</span>
+              <span class="font-semibold text-gray-900">{{ item.question }}</span>
               <Icon 
-                :name="open ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" 
-                class="w-5 h-5 transition-transform"
+                :name="openFaq === index ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" 
+                class="w-5 h-5 text-gray-500"
               />
-            </UButton>
-          </template>
-          <template #item="{ item }">
-            <p class="text-gray-600 px-4 pb-4">{{ item.content }}</p>
-          </template>
-        </UAccordion>
+            </button>
+            <div v-show="openFaq === index" class="px-5 pb-5">
+              <p class="text-gray-600">{{ item.answer }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -181,27 +184,34 @@ useSeoMeta({
   ogDescription: 'Have a project in mind? Contact us today for a free quote.'
 })
 
+// FAQ State
+const openFaq = ref<number | null>(null)
+
+function toggleFaq(index: number) {
+  openFaq.value = openFaq.value === index ? null : index
+}
+
 // FAQ Items
 const faqItems = [
   {
-    label: 'What are your turnaround times?',
-    content: 'Standard turnaround is 3-5 business days. Rush orders can be completed in 24-48 hours for an additional fee. Large format projects may require additional time depending on complexity.'
+    question: 'What are your turnaround times?',
+    answer: 'Standard turnaround is 3-5 business days. Rush orders can be completed in 24-48 hours for an additional fee. Large format projects may require additional time depending on complexity.'
   },
   {
-    label: 'Do you offer design services?',
-    content: 'Yes! Our in-house design team can help bring your vision to life. We offer logo design, brand identity, and print-ready artwork preparation. Design consultations are free.'
+    question: 'Do you offer design services?',
+    answer: 'Yes! Our in-house design team can help bring your vision to life. We offer logo design, brand identity, and print-ready artwork preparation. Design consultations are free.'
   },
   {
-    label: 'What file formats do you accept?',
-    content: 'We accept PDF, AI, EPS, PSD, and high-resolution JPEG/PNG files. For best results, please provide vector files (AI, EPS, PDF) with fonts outlined and images at 300 DPI or higher.'
+    question: 'What file formats do you accept?',
+    answer: 'We accept PDF, AI, EPS, PSD, and high-resolution JPEG/PNG files. For best results, please provide vector files (AI, EPS, PDF) with fonts outlined and images at 300 DPI or higher.'
   },
   {
-    label: 'Do you offer installation services?',
-    content: 'Yes, we provide professional installation for vehicle wraps, signage, wall graphics, and window films. Our certified installers ensure perfect application every time.'
+    question: 'Do you offer installation services?',
+    answer: 'Yes, we provide professional installation for vehicle wraps, signage, wall graphics, and window films. Our certified installers ensure perfect application every time.'
   },
   {
-    label: 'What is your minimum order quantity?',
-    content: 'There is no minimum order for most products. However, bulk orders receive significant discounts. Contact us for a custom quote based on your specific needs.'
+    question: 'What is your minimum order quantity?',
+    answer: 'There is no minimum order for most products. However, bulk orders receive significant discounts. Contact us for a custom quote based on your specific needs.'
   }
 ]
 
@@ -209,7 +219,7 @@ const faqItems = [
 function handleSuccess() {
   toast.add({
     title: 'Message Sent!',
-    description: 'We\'ll get back to you within 24 hours.',
+    description: 'We will get back to you within 24 hours.',
     icon: 'i-heroicons-check-circle',
     color: 'green'
   })
