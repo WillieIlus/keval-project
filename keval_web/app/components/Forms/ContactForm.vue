@@ -1,10 +1,10 @@
 <!-- ~/components/forms/ContactForm.vue -->
 <template>
-  <div class="w-full max-w-2xl mx-auto">
+  <div class="w-full">
     <!-- Success State -->
     <div v-if="core.contactForm.success" class="text-center py-12">
       <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <Icon name="heroicons:check" class="w-10 h-10 text-green-600" />
+        <UIcon name="i-heroicons-check" class="w-10 h-10 text-green-600" />
       </div>
       <h3 class="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
       <p class="text-gray-600 mb-6">
@@ -20,7 +20,7 @@
       <!-- Header -->
       <div class="text-center mb-8" v-if="showHeader">
         <h2 class="text-3xl font-bold text-gray-900">Get In Touch</h2>
-        <p class="text-gray-500 mt-2">We'd love to hear from you. Send us a message!</p>
+        <p class="text-gray-500 mt-2">We'd love to hear from you!</p>
       </div>
 
       <!-- Error Alert -->
@@ -67,7 +67,7 @@
             <UInput
               v-model="formData.phone"
               type="tel"
-              placeholder="+255 123 456 789"
+              placeholder="0711 635 104"
               icon="i-heroicons-phone"
               size="lg"
               :disabled="core.contactForm.loading"
@@ -102,7 +102,7 @@
         <!-- Submit Button -->
         <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
           <p class="text-sm text-gray-500">
-            <Icon name="heroicons:shield-check" class="w-4 h-4 inline mr-1" />
+            <UIcon name="i-heroicons-shield-check" class="w-4 h-4 inline mr-1" />
             Your information is secure and will never be shared.
           </p>
           
@@ -113,7 +113,7 @@
             :disabled="core.contactForm.loading"
             class="bg-kevalgreen-500 hover:bg-kevalgreen-600 px-8"
           >
-            <Icon name="heroicons:paper-airplane" class="w-5 h-5 mr-2" />
+            <UIcon name="i-heroicons-paper-airplane" class="w-5 h-5 mr-2" />
             {{ core.contactForm.loading ? 'Sending...' : 'Send Message' }}
           </UButton>
         </div>
@@ -126,7 +126,6 @@
 import { useCoreStore } from '~/stores/core'
 import type { ContactFormData } from '~/types/api'
 
-// Props
 const props = withDefaults(defineProps<{
   showHeader?: boolean
   preselectedService?: string
@@ -135,7 +134,6 @@ const props = withDefaults(defineProps<{
   preselectedService: ''
 })
 
-// Emit for parent components
 const emit = defineEmits<{
   (e: 'success'): void
   (e: 'error', message: string): void
@@ -143,14 +141,16 @@ const emit = defineEmits<{
 
 const core = useCoreStore()
 
-// Service options (match your Django model choices)
+// Service options matching your business
 const serviceOptions = [
+  { label: 'Garment Printing (T-shirts, Uniforms)', value: 'garment_printing' },
+  { label: 'Corporate Branding', value: 'corporate_branding' },
+  { label: 'Graphic Design', value: 'graphic_design' },
+  { label: 'Embroidery', value: 'embroidery' },
   { label: 'Large Format Printing', value: 'large_format' },
-  { label: 'Vehicle Wraps & Branding', value: 'vehicle_wraps' },
+  { label: 'Vehicle Branding', value: 'vehicle_branding' },
   { label: 'Signage & Displays', value: 'signage' },
-  { label: 'Corporate Branding', value: 'corporate' },
-  { label: 'Event Materials', value: 'events' },
-  { label: 'Custom Packaging', value: 'packaging' },
+  { label: 'Promotional Items', value: 'promotional' },
   { label: 'Other / General Inquiry', value: 'other' }
 ]
 

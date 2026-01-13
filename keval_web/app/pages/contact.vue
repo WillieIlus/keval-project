@@ -7,7 +7,7 @@
         <div class="text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h1>
           <p class="text-xl text-kevalgreen-100 max-w-2xl mx-auto">
-            Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Have a project in mind? We'd love to hear from you. Let's create something amazing together.
           </p>
         </div>
       </div>
@@ -23,47 +23,67 @@
             <!-- Address -->
             <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
               <div class="w-12 h-12 bg-kevalgreen-100 rounded-xl flex items-center justify-center mb-4">
-                <Icon name="heroicons:map-pin" class="w-6 h-6 text-kevalgreen-600" />
+                <UIcon name="i-heroicons-map-pin" class="w-6 h-6 text-kevalgreen-600" />
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Visit Us</h3>
               <p class="text-gray-600">
-                123 Industrial Area<br>
-                Dar es Salaam, Tanzania
+                Print Hub Building, Ground Floor<br>
+                Room B06, Kweria Road<br>
+                Nairobi, Kenya
               </p>
               <a 
-                href="https://maps.google.com" 
+                href="https://maps.app.goo.gl/w5WqA2cfVrFRKBve6" 
                 target="_blank"
+                rel="noopener noreferrer"
                 class="inline-flex items-center text-kevalgreen-600 hover:underline mt-3 text-sm font-medium"
               >
                 Get Directions
-                <Icon name="heroicons:arrow-top-right-on-square" class="w-4 h-4 ml-1" />
+                <UIcon name="i-heroicons-arrow-top-right-on-square" class="w-4 h-4 ml-1" />
               </a>
             </div>
 
             <!-- Phone -->
             <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
               <div class="w-12 h-12 bg-kevalorange-100 rounded-xl flex items-center justify-center mb-4">
-                <Icon name="heroicons:phone" class="w-6 h-6 text-kevalorange-600" />
+                <UIcon name="i-heroicons-phone" class="w-6 h-6 text-kevalorange-600" />
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Call Us</h3>
               <p class="text-gray-600">
-                <a href="tel:+255123456789" class="hover:text-kevalgreen-600">+255 123 456 789</a><br>
-                <a href="tel:+255987654321" class="hover:text-kevalgreen-600">+255 987 654 321</a>
+                <a href="tel:+254711635104" class="hover:text-kevalgreen-600 block">0711 635 104</a>
+                <a href="tel:+254720335863" class="hover:text-kevalgreen-600 block">0720 335 863</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">Mon - Fri: 8:00 AM - 6:00 PM</p>
+              <p class="text-sm text-gray-500">Sat: 9:00 AM - 2:00 PM</p>
             </div>
 
             <!-- Email -->
             <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
               <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <Icon name="heroicons:envelope" class="w-6 h-6 text-blue-600" />
+                <UIcon name="i-heroicons-envelope" class="w-6 h-6 text-blue-600" />
               </div>
               <h3 class="font-bold text-gray-900 mb-2">Email Us</h3>
               <p class="text-gray-600">
-                <a href="mailto:info@kevalprint.com" class="hover:text-kevalgreen-600">info@kevalprint.com</a><br>
-                <a href="mailto:sales@kevalprint.com" class="hover:text-kevalgreen-600">sales@kevalprint.com</a>
+                <a href="mailto:info@keval.co.ke" class="hover:text-kevalgreen-600">info@keval.co.ke</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">We respond within 24 hours</p>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-6 h-6 text-green-600" />
+              </div>
+              <h3 class="font-bold text-gray-900 mb-2">WhatsApp</h3>
+              <p class="text-gray-600 mb-3">Quick responses via WhatsApp</p>
+              <a 
+                href="https://wa.me/254711635104?text=Hello%20Keval,%20I'm%20interested%20in%20your%20services"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors"
+              >
+                <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5" />
+                Chat Now
+              </a>
             </div>
 
             <!-- Social Media -->
@@ -72,31 +92,31 @@
               <div class="flex gap-3">
                 <a 
                   href="#" 
-                  class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  class="w-10 h-10 bg-gray-100 hover:bg-blue-100 rounded-lg flex items-center justify-center transition-colors"
                   aria-label="Facebook"
                 >
-                  <Icon name="heroicons:globe-alt" class="w-5 h-5 text-blue-600" />
+                  <UIcon name="i-simple-icons-facebook" class="w-5 h-5 text-blue-600" />
                 </a>
                 <a 
                   href="#" 
-                  class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  class="w-10 h-10 bg-gray-100 hover:bg-pink-100 rounded-lg flex items-center justify-center transition-colors"
                   aria-label="Instagram"
                 >
-                  <Icon name="heroicons:camera" class="w-5 h-5 text-pink-600" />
+                  <UIcon name="i-simple-icons-instagram" class="w-5 h-5 text-pink-600" />
                 </a>
                 <a 
                   href="#" 
-                  class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
+                  class="w-10 h-10 bg-gray-100 hover:bg-blue-100 rounded-lg flex items-center justify-center transition-colors"
                   aria-label="LinkedIn"
                 >
-                  <Icon name="heroicons:briefcase" class="w-5 h-5 text-blue-700" />
+                  <UIcon name="i-simple-icons-linkedin" class="w-5 h-5 text-blue-700" />
                 </a>
                 <a 
                   href="#" 
-                  class="w-10 h-10 bg-gray-100 hover:bg-kevalgreen-100 rounded-lg flex items-center justify-center transition-colors"
-                  aria-label="WhatsApp"
+                  class="w-10 h-10 bg-gray-100 hover:bg-red-100 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="TikTok"
                 >
-                  <Icon name="heroicons:chat-bubble-left-ellipsis" class="w-5 h-5 text-green-600" />
+                  <UIcon name="i-simple-icons-tiktok" class="w-5 h-5 text-gray-900" />
                 </a>
               </div>
             </div>
@@ -105,7 +125,9 @@
           <!-- Contact Form -->
           <div class="lg:col-span-2">
             <div class="bg-white rounded-2xl shadow-sm p-8">
-              <ContactForm :show-header="false" @success="handleSuccess" />
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Send Us a Message</h2>
+              <p class="text-gray-600 mb-8">Fill out the form below and we'll get back to you within 24 hours.</p>
+              <FormsContactForm :show-header="false" @success="handleSuccess" />
             </div>
           </div>
         </div>
@@ -114,8 +136,9 @@
 
     <!-- Map Section -->
     <section class="h-96 bg-gray-200 relative">
+      <!-- Google Maps Embed -->
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253682.45932537!2d39.1037!3d-6.7924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4bae169bd6f1%3A0x940f6b26a086a1dd!2sDar%20es%20Salaam%2C%20Tanzania!5e0!3m2!1sen!2sus!4v1234567890"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.819081049286!2d36.82194!3d-1.28333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d22ba71e5b%3A0x5a5a5a5a5a5a5a5a!2sPrint%20Hub%20Building!5e0!3m2!1sen!2ske!4v1234567890"
         width="100%"
         height="100%"
         style="border:0;"
@@ -123,8 +146,30 @@
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         class="absolute inset-0"
-        title="Map"
+        title="Keval Location Map"
       ></iframe>
+      
+      <!-- Map Overlay Card -->
+      <div class="absolute bottom-6 left-6 bg-white rounded-xl shadow-lg p-4 max-w-xs">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-kevalgreen-500 rounded-lg flex items-center justify-center flex-shrink-0">
+            <UIcon name="i-heroicons-map-pin" class="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900">Keval Investments</h3>
+            <p class="text-sm text-gray-600">Print Hub Building, Kweria Road</p>
+            <a 
+              href="https://maps.app.goo.gl/w5WqA2cfVrFRKBve6"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-kevalgreen-600 hover:underline font-medium inline-flex items-center mt-1"
+            >
+              Open in Google Maps
+              <UIcon name="i-heroicons-arrow-top-right-on-square" class="w-3 h-3 ml-1" />
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- FAQ Section -->
@@ -133,19 +178,19 @@
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
         
         <div class="space-y-4">
-          <div v-for="(item, index) in faqItems" :key="index" class="border border-gray-200 rounded-xl">
+          <div v-for="(item, index) in faqItems" :key="index" class="border border-gray-200 rounded-xl overflow-hidden">
             <button 
               @click="toggleFaq(index)"
-              class="w-full p-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors rounded-xl"
+              class="w-full p-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
             >
               <span class="font-semibold text-gray-900">{{ item.question }}</span>
-              <Icon 
-                :name="openFaq === index ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" 
-                class="w-5 h-5 text-gray-500"
+              <UIcon 
+                :name="openFaq === index ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'" 
+                class="w-5 h-5 text-gray-500 flex-shrink-0"
               />
             </button>
-            <div v-show="openFaq === index" class="px-5 pb-5">
-              <p class="text-gray-600">{{ item.answer }}</p>
+            <div v-show="openFaq === index" class="px-5 pb-5 border-t border-gray-100">
+              <p class="text-gray-600 pt-4">{{ item.answer }}</p>
             </div>
           </div>
         </div>
@@ -160,14 +205,22 @@
           Get a free quote today and let's bring your vision to life.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <UButton size="xl" class="bg-white text-kevalgreen-600 hover:bg-gray-100">
-            <Icon name="heroicons:phone" class="w-5 h-5 mr-2" />
-            Call Now
-          </UButton>
-          <UButton size="xl" variant="outline" class="border-white text-white hover:bg-white/10">
-            <Icon name="heroicons:calendar" class="w-5 h-5 mr-2" />
-            Schedule a Visit
-          </UButton>
+          <a 
+            href="tel:+254711635104" 
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-kevalgreen-600 rounded-xl font-bold hover:bg-gray-100 transition-colors"
+          >
+            <UIcon name="i-heroicons-phone" class="w-5 h-5" />
+            Call: 0711 635 104
+          </a>
+          <a 
+            href="https://wa.me/254711635104?text=Hello%20Keval,%20I'm%20interested%20in%20your%20services"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold transition-colors"
+          >
+            <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5" />
+            WhatsApp Us
+          </a>
         </div>
       </div>
     </section>
@@ -178,50 +231,4 @@
 const toast = useToast()
 
 useSeoMeta({
-  title: 'Contact Us | Keval Print',
-  description: 'Get in touch with Keval Print for all your printing and branding needs. We respond within 24 hours.',
-  ogTitle: 'Contact Keval Print',
-  ogDescription: 'Have a project in mind? Contact us today for a free quote.'
-})
-
-// FAQ State
-const openFaq = ref<number | null>(null)
-
-function toggleFaq(index: number) {
-  openFaq.value = openFaq.value === index ? null : index
-}
-
-// FAQ Items
-const faqItems = [
-  {
-    question: 'What are your turnaround times?',
-    answer: 'Standard turnaround is 3-5 business days. Rush orders can be completed in 24-48 hours for an additional fee. Large format projects may require additional time depending on complexity.'
-  },
-  {
-    question: 'Do you offer design services?',
-    answer: 'Yes! Our in-house design team can help bring your vision to life. We offer logo design, brand identity, and print-ready artwork preparation. Design consultations are free.'
-  },
-  {
-    question: 'What file formats do you accept?',
-    answer: 'We accept PDF, AI, EPS, PSD, and high-resolution JPEG/PNG files. For best results, please provide vector files (AI, EPS, PDF) with fonts outlined and images at 300 DPI or higher.'
-  },
-  {
-    question: 'Do you offer installation services?',
-    answer: 'Yes, we provide professional installation for vehicle wraps, signage, wall graphics, and window films. Our certified installers ensure perfect application every time.'
-  },
-  {
-    question: 'What is your minimum order quantity?',
-    answer: 'There is no minimum order for most products. However, bulk orders receive significant discounts. Contact us for a custom quote based on your specific needs.'
-  }
-]
-
-// Handle form success
-function handleSuccess() {
-  toast.add({
-    title: 'Message Sent!',
-    description: 'We will get back to you within 24 hours.',
-    icon: 'i-heroicons-check-circle',
-    color: 'green'
-  })
-}
-</script>
+  title: 'Contact Us | Keval - 

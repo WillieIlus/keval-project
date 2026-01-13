@@ -3,14 +3,14 @@
   <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
     <!-- Success -->
     <div v-if="core.contactForm.success" class="text-center py-8">
-      <Icon name="heroicons:check-circle" class="w-16 h-16 text-green-500 mx-auto mb-4" />
+      <UIcon name="i-heroicons-check-circle" class="w-16 h-16 text-green-500 mx-auto mb-4" />
       <h3 class="text-xl font-bold text-gray-900">Thank You!</h3>
       <p class="text-gray-600 mt-2">We'll contact you soon.</p>
     </div>
 
     <!-- Form -->
     <UForm v-else :state="formData" @submit="handleSubmit" class="space-y-4">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">Quick Quote</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4">Get a Free Quote</h3>
       
       <UFormGroup>
         <UInput
@@ -37,7 +37,7 @@
         <UInput
           v-model="formData.phone"
           type="tel"
-          placeholder="Phone Number"
+          placeholder="Phone (e.g., 0711 635 104)"
           icon="i-heroicons-phone"
           :disabled="core.contactForm.loading"
         />
@@ -54,7 +54,7 @@
       </UFormGroup>
 
       <!-- Hidden field -->
-      <input type="hidden" v-model="formData.service_interest" />
+      <input type="hidden" v-model="formData.service_interest">
 
       <UButton
         type="submit"
@@ -69,6 +69,19 @@
       <p v-if="core.contactForm.error" class="text-red-500 text-sm text-center">
         {{ core.contactForm.error }}
       </p>
+
+      <!-- Alternative Contact -->
+      <div class="pt-4 border-t border-gray-100 text-center">
+        <p class="text-sm text-gray-500 mb-2">Or reach us directly:</p>
+        <a 
+          href="https://wa.me/254711635104?text=Hello%20Keval,%20I'm%20interested%20in%20a%20quote"
+          target="_blank"
+          class="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium text-sm"
+        >
+          <UIcon name="i-simple-icons-whatsapp" class="w-4 h-4" />
+          WhatsApp: 0711 635 104
+        </a>
+      </div>
     </UForm>
   </div>
 </template>
