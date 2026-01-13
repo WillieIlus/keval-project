@@ -1,3 +1,4 @@
+<!-- ~/pages/index.vue -->
 <template>
   <main>
     <HeroBanner />
@@ -8,12 +9,15 @@
 
     <Gallery :limit="5" />
 
-    <!-- <TeamSection /> -->
+    <WhyChooseUsSection />
+    
+    <TestimonialsSection />
+    
+    <CTASection />
   </main>
 </template>
 
 <script setup lang="ts">
-// Nuxt auto-imports these, so no extra script needed unless you're adding SEO tags
 useSeoMeta({
   title: "Keval | Premium Printing & Branding Solutions",
   description:

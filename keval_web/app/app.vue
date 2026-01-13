@@ -1,5 +1,21 @@
+<!-- ~/app.vue -->
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <UNotifications />
+</template>
+
 <script setup lang="ts">
-// This uses the code you found in that file!
+import { useAuthStore } from '~/stores/auth'
+
+const auth = useAuthStore()
+
+// Initialize auth state from localStorage on app start
+onMounted(() => {
+  auth.initializeAuth()
+})
+
 useSeoMeta({
   title: 'Keval',
   description: "Nairobi's leading provider of corporate branding, garment printing, and design.",
@@ -8,13 +24,3 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 </script>
-
-<template>
-
-
-
-    <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-  
-</template>

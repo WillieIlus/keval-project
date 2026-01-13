@@ -1,3 +1,4 @@
+<!-- ~/components/AppFooter.vue -->
 <template>
   <footer class="bg-gray-100 text-gray-700 pt-16">
     <div class="max-w-7xl mx-auto px-6 pb-12">
@@ -6,7 +7,7 @@
         <!-- Brand Section -->
         <div class="space-y-6">
           <NuxtLink to="/">
-            <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto" />
+            <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
           </NuxtLink>
           <p class="text-gray-600 text-sm leading-relaxed">
             Premium printing and branding solutions for businesses across Kenya.
@@ -39,8 +40,8 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/team" class="text-gray-600 hover:text-kevalgreen-500 transition-colors">
-                Meet Team
+              <NuxtLink to="/about" class="text-gray-600 hover:text-kevalgreen-500 transition-colors">
+                About Us
               </NuxtLink>
             </li>
             <li>
@@ -69,8 +70,8 @@
             <div class="flex items-start gap-3">
               <UIcon name="i-heroicons-map-pin" class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
               <p class="text-gray-600">
-                Print Hub Building, Ground Floor<br />
-                Room B06, Kweria Road<br />
+                Print Hub Building, Ground Floor<br>
+                Room B06, Kweria Road<br>
                 Nairobi, Kenya
               </p>
             </div>
@@ -88,7 +89,7 @@
             <div class="flex items-start gap-3">
               <UIcon name="i-heroicons-envelope" class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
               <div class="text-gray-600">
-                <a href="mailto:admin@keval.co.ke" class="hover:text-kevalgreen-500 transition-colors block">
+                <a href="mailto:info@keval.co.ke" class="hover:text-kevalgreen-500 transition-colors block">
                   info@keval.co.ke
                 </a>
               </div>
@@ -105,19 +106,30 @@
           &copy; {{ new Date().getFullYear() }} Keval Investments Ltd. All rights reserved.
         </p>
         
-        <button 
-          @click="scrollToTop" 
-          class="flex items-center gap-2 text-xs text-gray-500 hover:text-kevalgreen-500 transition-colors group"
-        >
-          Back to Top
-          <UIcon name="i-heroicons-arrow-up" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
-        </button>
+        <div class="flex items-center gap-6">
+          <!-- Auth Status -->
+          <span v-if="auth.isAuthenticated" class="text-xs text-gray-500">
+            Logged in as {{ auth.fullName }}
+          </span>
+          
+          <button 
+            @click="scrollToTop" 
+            class="flex items-center gap-2 text-xs text-gray-500 hover:text-kevalgreen-500 transition-colors group"
+          >
+            Back to Top
+            <UIcon name="i-heroicons-arrow-up" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </div>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '~/stores/auth'
+
+const auth = useAuthStore()
+
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
