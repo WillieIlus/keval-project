@@ -78,10 +78,10 @@
               <UIcon name="i-heroicons-phone" class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
               <div class="text-gray-600">
                 <a href="tel:+254720335863" class="hover:text-kevalgreen-500 transition-colors block">
-                  0720 335 863
+                  0711 635 104
                 </a>
                 <a href="tel:+254711635104" class="hover:text-kevalgreen-500 transition-colors block">
-                  0711 635 104
+                  0720 335 863
                 </a>
               </div>
             </div>
@@ -89,7 +89,7 @@
               <UIcon name="i-heroicons-envelope" class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
               <div class="text-gray-600">
                 <a href="mailto:admin@keval.co.ke" class="hover:text-kevalgreen-500 transition-colors block">
-                  admin@keval.co.ke
+                  info@keval.co.ke
                 </a>
               </div>
             </div>

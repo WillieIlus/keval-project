@@ -8,7 +8,7 @@
 
     <Gallery :limit="5" />
 
-    <TeamSection />
+    <!-- <TeamSection /> -->
   </main>
 </template>
 
