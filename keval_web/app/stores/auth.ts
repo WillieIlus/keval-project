@@ -1,115 +1,196 @@
 // ~/stores/auth.ts
 import { defineStore } from 'pinia'
-import type { User, LoginCredentials, RegisterCredentials, AuthResponse } from '~/types/api'
+import type { 
+  User, 
+  AuthResponse, 
+  LoginFormData, 
+  RegisterFormData 
+} from '~/types/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const { $api } = useNuxtApp()
+  const router = useRouter()
 
-  // --- State ---
+  // ============================================
+  // STATE
+  // ============================================
   const user = ref<User | null>(null)
-  
-  // 1. USE COOKIE INSTEAD OF REF (This replaces both the ref and the manual useCookie call)
-  const token = useCookie<string | null>('auth_token', {
-    maxAge: 60 * 60 * 24 * 7,
-    path: '/' 
-  })
-  
+  const token = ref<string | null>(null)
   const loading = ref(false)
   const error = ref<string | null>(null)
+  const initialized = ref(false)
 
-  // --- Getters ---
+  // ============================================
+  // GETTERS
+  // ============================================
   const isAuthenticated = computed(() => !!token.value && !!user.value)
-  const isAdmin = computed(() => user.value?.is_staff || false) 
+  
+  const isAdmin = computed(() => user.value?.is_staff ?? false)
+  
   const fullName = computed(() => {
-    if (!user.value) return ''
-    return `${user.value.first_name} ${user.value.last_name}`.trim() 
+    if (!user.value) return 'Guest'
+    const name = `${user.value.first_name} ${user.value.last_name}`.trim()
+    return name || user.value.email
   })
 
-  // --- Actions ---
-  async function register(credentials: RegisterCredentials) {
+  const userInitials = computed(() => {
+    if (!user.value) return 'G'
+    const first = user.value.first_name?.[0] || ''
+    const last = user.value.last_name?.[0] || ''
+    return (first + last).toUpperCase() || user.value.email[0].toUpperCase()
+  })
+
+  // ============================================
+  // ACTIONS: Authentication
+  // ============================================
+
+  async function login(credentials: LoginFormData): Promise<AuthResponse> {
     loading.value = true
     error.value = null
+
     try {
-      const response = await $api<AuthResponse>('/api/auth/register/', { 
+      const response = await $api<AuthResponse>('/api/auth/login/', {
         method: 'POST',
-        body: credentials
+        body: {
+          email: credentials.email.toLowerCase().trim(),
+          password: credentials.password
+        }
       })
+
+      // Set state
       token.value = response.token
       user.value = response.user
-      await navigateTo('/dashboard')
-    } catch (e: any) {
-      const data = e.data || {}
-      error.value = data.message || data.detail || 'Registration failed.'
-      throw e
-    } finally {
-      loading.value = false
-    }
-  }
 
-  async function login(credentials: LoginCredentials) {
-    loading.value = true
-    error.value = null
-    try {
-      const response = await $api<any>('/api/auth/login/', { 
-        method: 'POST',
-        body: credentials
-      })
-      // Ensure we access the token correctly based on your Django response structure
-      token.value = response.token || response.data?.token
-      user.value = response.user
+      // Persist to localStorage
+      if (import.meta.client) {
+        localStorage.setItem('auth_token', response.token)
+        localStorage.setItem('auth_user', JSON.stringify(response.user))
+      }
+
       return response
     } catch (e: any) {
-      error.value = 'Incorrect Credentials'
-      throw e
+      const message = extractErrorMessage(e)
+      error.value = message
+      throw new Error(message)
     } finally {
       loading.value = false
     }
   }
 
-  function logout() {
-    user.value = null
-    token.value = null // Clears the cookie automatically
+  async function register(formData: RegisterFormData): Promise<AuthResponse> {
+    loading.value = true
     error.value = null
-    navigateTo('/login')
+
+    if (formData.password !== formData.password_confirm) {
+      error.value = 'Passwords do not match'
+      loading.value = false
+      throw new Error('Passwords do not match')
+    }
+
+    try {
+      const response = await $api<AuthResponse>('/api/auth/register/', {
+        method: 'POST',
+        body: {
+          email: formData.email.toLowerCase().trim(),
+          password: formData.password,
+          first_name: formData.first_name.trim(),
+          last_name: formData.last_name.trim()
+        }
+      })
+
+      token.value = response.token
+      user.value = response.user
+
+      if (import.meta.client) {
+        localStorage.setItem('auth_token', response.token)
+        localStorage.setItem('auth_user', JSON.stringify(response.user))
+      }
+
+      return response
+    } catch (e: any) {
+      const message = extractErrorMessage(e)
+      error.value = message
+      throw new Error(message)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  function logout(redirect: string = '/') {
+    token.value = null
+    user.value = null
+    error.value = null
+
+    if (import.meta.client) {
+      localStorage.removeItem('auth_token')
+      localStorage.removeItem('auth_user')
+    }
+
+    router.push(redirect)
+  }
+
+  function initializeAuth() {
+    if (initialized.value) return
+    
+    if (import.meta.client) {
+      const savedToken = localStorage.getItem('auth_token')
+      const savedUser = localStorage.getItem('auth_user')
+
+      if (savedToken && savedUser) {
+        try {
+          token.value = savedToken
+          user.value = JSON.parse(savedUser)
+        } catch {
+          logout('/')
+        }
+      }
+    }
+    
+    initialized.value = true
   }
 
   function clearError() {
     error.value = null
   }
 
-  /**
-   * Example of how the plugin simplifies authenticated requests
-   */
-  async function verifyToken() {
-    if (!token.value) return false
-    
-    try {
-      // The plugin AUTOMATICALLY adds: Authorization: Token <token>
-      // await $api('/api/auth/verify/') 
-      return true
-    } catch {
-      logout() // Plugin also handles 401s, but good to be explicit
-      return false
+  // ============================================
+  // HELPERS
+  // ============================================
+
+  function extractErrorMessage(e: any): string {
+    if (e.data) {
+      if (typeof e.data === 'string') return e.data
+      if (e.data.detail) return e.data.detail
+      if (e.data.non_field_errors) return e.data.non_field_errors[0]
+      if (e.data.email) return `Email: ${e.data.email[0]}`
+      if (e.data.password) return `Password: ${e.data.password[0]}`
+      
+      const firstKey = Object.keys(e.data)[0]
+      if (firstKey && Array.isArray(e.data[firstKey])) {
+        return `${firstKey}: ${e.data[firstKey][0]}`
+      }
     }
+    return e.message || 'An unexpected error occurred'
   }
 
+  // ============================================
+  // RETURN
+  // ============================================
   return {
     user,
     token,
     loading,
     error,
+    initialized,
     isAuthenticated,
     isAdmin,
     fullName,
-    register,
+    userInitials,
     login,
+    register,
     logout,
-    clearError,
-    verifyToken
-  }
-}, {
-  persist: {
-    storage: persistedState.cookies, // <--- Change this from localStorage
-    paths: ['user'] 
+    initializeAuth,
+    clearError
   }
 })
+// NO persist config - we handle it manually with localStorage

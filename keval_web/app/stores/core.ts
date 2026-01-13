@@ -1,121 +1,240 @@
 // ~/stores/core.ts
 import { defineStore } from 'pinia'
-import type { Banner, CoreValue, WhyChooseUs } from '~/types/api'
+import type { 
+  Banner, 
+  CoreValue, 
+  WhyChooseUs, 
+  TeamMember,
+  ContactFormData,
+  ContactSubmissionResponse
+} from '~/types/api'
 
 export const useCoreStore = defineStore('core', () => {
-  // --- State ---
+  const { $api } = useNuxtApp()
+
+  // ============================================
+  // STATE: Content
+  // ============================================
   const banners = ref<Banner[]>([])
-  const values = ref<CoreValue[]>([])
+  const coreValues = ref<CoreValue[]>([])
   const whyChooseUs = ref<WhyChooseUs[]>([])
+  const teamMembers = ref<TeamMember[]>([])
+  
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  // --- Getters ---
-  const sortedBanners = computed(() => 
-    [...banners.value].sort((a, b) => a.order - b.order)
-  )
+  // ============================================
+  // STATE: Contact Form
+  // ============================================
+  const contactForm = reactive({
+    loading: false,
+    success: false,
+    error: null as string | null,
+    lastSubmission: null as ContactSubmissionResponse | null
+  })
 
-  const activeBanners = computed(() => 
-    sortedBanners.value.filter(b => b.is_active)
-  )
-
-  // --- Actions ---
+  // ============================================
+  // GETTERS
+  // ============================================
   
-  /**
-   * Fetch all banners
-   */
+  const activeBanners = computed(() =>
+    banners.value
+      .filter(b => b.is_active)
+      .sort((a, b) => a.order - b.order)
+  )
+
+  const primaryBanner = computed(() => activeBanners.value[0] || null)
+
+  const activeTeamMembers = computed(() =>
+    teamMembers.value
+      .filter(m => m.is_active)
+      .sort((a, b) => a.order - b.order)
+  )
+
+  const teamByDepartment = computed(() => {
+    const grouped: Record<string, TeamMember[]> = {}
+    activeTeamMembers.value.forEach(member => {
+      const dept = member.department || 'Other'
+      if (!grouped[dept]) grouped[dept] = []
+      grouped[dept].push(member)
+    })
+    return grouped
+  })
+
+  const sortedCoreValues = computed(() =>
+    [...coreValues.value].sort((a, b) => a.order - b.order)
+  )
+
+  const sortedWhyChooseUs = computed(() =>
+    [...whyChooseUs.value].sort((a, b) => a.order - b.order)
+  )
+
+  // ============================================
+  // ACTIONS: Fetch Content (GET)
+  // ============================================
+
   async function fetchBanners() {
+    if (banners.value.length > 0) return banners.value
+    
     loading.value = true
     error.value = null
-
     try {
-      const data = await $fetch<Banner[]>('/api/core/banners/')
+      const data = await $api<Banner[]>('/api/banners/')
       banners.value = data
+      return data
     } catch (e: any) {
-      error.value = 'Failed to fetch banners'
-      console.error('Failed to fetch banners:', e)
+      error.value = 'Failed to load banners'
+      console.error('[Core Store]', e)
+      return []
     } finally {
       loading.value = false
     }
   }
 
-  /**
-   * Fetch core values
-   */
-  async function fetchValues() {
+  async function fetchCoreValues() {
+    if (coreValues.value.length > 0) return coreValues.value
+    
     loading.value = true
-    error.value = null
-
     try {
-      const data = await $fetch<CoreValue[]>('/api/core/values/')
-      values.value = data
+      const data = await $api<CoreValue[]>('/api/values/')
+      coreValues.value = data
+      return data
     } catch (e: any) {
-      error.value = 'Failed to fetch core values'
-      console.error('Failed to fetch core values:', e)
+      error.value = 'Failed to load core values'
+      return []
     } finally {
       loading.value = false
     }
   }
 
-  /**
-   * Fetch why choose us items
-   */
   async function fetchWhyChooseUs() {
+    if (whyChooseUs.value.length > 0) return whyChooseUs.value
+    
     loading.value = true
-    error.value = null
-
     try {
-      const data = await $fetch<WhyChooseUs[]>('/api/core/why-choose-us/')
+      const data = await $api<WhyChooseUs[]>('/api/why-choose-us/')
       whyChooseUs.value = data
+      return data
     } catch (e: any) {
-      error.value = 'Failed to fetch why choose us'
-      console.error('Failed to fetch why choose us:', e)
+      error.value = 'Failed to load features'
+      return []
     } finally {
       loading.value = false
     }
   }
 
-  /**
-   * Fetch all core content at once
-   */
-  async function fetchAllCoreContent() {
+  async function fetchTeamMembers() {
+    if (teamMembers.value.length > 0) return teamMembers.value
+    
+    loading.value = true
+    try {
+      const data = await $api<TeamMember[]>('/api/team/')
+      teamMembers.value = data
+      return data
+    } catch (e: any) {
+      error.value = 'Failed to load team'
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchAllContent() {
     loading.value = true
     error.value = null
-
+    
     try {
-      const [bannersData, valuesData, whyChooseUsData] = await Promise.all([
-        $fetch<Banner[]>('/api/core/banners/'),
-        $fetch<CoreValue[]>('/api/core/values/'),
-        $fetch<WhyChooseUs[]>('/api/core/why-choose-us/')
+      await Promise.all([
+        fetchBanners(),
+        fetchCoreValues(),
+        fetchWhyChooseUs(),
+        fetchTeamMembers()
       ])
-
-      banners.value = bannersData
-      values.value = valuesData
-      whyChooseUs.value = whyChooseUsData
-    } catch (e: any) {
-      error.value = 'Failed to fetch core content'
-      console.error('Failed to fetch core content:', e)
+    } catch (e) {
+      error.value = 'Failed to load some content'
     } finally {
       loading.value = false
     }
   }
 
+  // ============================================
+  // ACTIONS: Contact Form (POST)
+  // ============================================
+
+  async function submitContactForm(formData: ContactFormData): Promise<boolean> {
+    contactForm.loading = true
+    contactForm.success = false
+    contactForm.error = null
+
+    try {
+      const response = await $api<ContactSubmissionResponse>('/api/contact/', {
+        method: 'POST',
+        body: {
+          name: formData.name.trim(),
+          email: formData.email.toLowerCase().trim(),
+          phone: formData.phone.trim(),
+          service_interest: formData.service_interest,
+          message: formData.message.trim()
+        }
+      })
+
+      contactForm.success = true
+      contactForm.lastSubmission = response
+      
+      return true
+    } catch (e: any) {
+      contactForm.error = extractContactError(e)
+      return false
+    } finally {
+      contactForm.loading = false
+    }
+  }
+
+  function resetContactForm() {
+    contactForm.loading = false
+    contactForm.success = false
+    contactForm.error = null
+    contactForm.lastSubmission = null
+  }
+
+  // ============================================
+  // HELPERS
+  // ============================================
+
+  function extractContactError(e: any): string {
+    if (e.data) {
+      if (e.data.detail) return e.data.detail
+      if (e.data.email) return `Email: ${e.data.email[0]}`
+      if (e.data.phone) return `Phone: ${e.data.phone[0]}`
+      if (e.data.message) return `Message: ${e.data.message[0]}`
+      if (e.data.non_field_errors) return e.data.non_field_errors[0]
+    }
+    return 'Failed to submit. Please try again.'
+  }
+
+  // ============================================
+  // RETURN
+  // ============================================
   return {
-    // State
     banners,
-    values,
+    coreValues,
     whyChooseUs,
+    teamMembers,
     loading,
     error,
-
-    // Getters
-    sortedBanners,
+    contactForm,
     activeBanners,
-
-    // Actions
+    primaryBanner,
+    activeTeamMembers,
+    teamByDepartment,
+    sortedCoreValues,
+    sortedWhyChooseUs,
     fetchBanners,
-    fetchValues,
+    fetchCoreValues,
     fetchWhyChooseUs,
-    fetchAllCoreContent
+    fetchTeamMembers,
+    fetchAllContent,
+    submitContactForm,
+    resetContactForm
   }
 })
