@@ -1,9 +1,11 @@
 <!-- ~/app.vue -->
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-  <UNotifications />
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+    <UNotifications />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,7 +13,6 @@ import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
 
-// Initialize auth state from localStorage on app start
 onMounted(() => {
   auth.initializeAuth()
 })
