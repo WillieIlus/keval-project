@@ -69,6 +69,7 @@
           </div>
         </div>
       </div>
+      <p>thanks</p>
 
     </div>
   </section>
