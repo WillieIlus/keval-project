@@ -7,21 +7,42 @@
 export interface User {
   id: number
   email: string
-  first_name: string
-  last_name: string
-  is_staff: boolean
+  first_name?: string
+  last_name?: string
+  is_staff?: boolean
 }
 
-export interface AuthResponse {
+/**
+ * Actual response from Django /api/auth/login/
+ */
+export interface LoginResponse {
   token: string
-  user: User
+  user_id: number
+  email: string
 }
 
+/**
+ * Actual response from Django /api/auth/register/
+ */
+export interface RegisterResponse {
+  token: string
+  user_id: number
+  email: string
+  // Django might return user object on register
+  user?: User
+}
+
+/**
+ * Login form data
+ */
 export interface LoginFormData {
   email: string
   password: string
 }
 
+/**
+ * Register form data
+ */
 export interface RegisterFormData {
   email: string
   password: string

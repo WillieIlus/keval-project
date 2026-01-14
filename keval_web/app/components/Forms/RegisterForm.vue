@@ -7,136 +7,143 @@
       <p class="text-gray-500 mt-2">Join us to get started</p>
     </div>
 
-    <!-- Error Alert -->
-    <UAlert
-      v-if="auth.error"
-      color="red"
-      variant="soft"
-      class="mb-6"
-      :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"
-      @close="auth.clearError"
-    >
-      <template #title>{{ auth.error }}</template>
-    </UAlert>
+    <!-- Success Message -->
+    <div v-if="registerSuccess" class="text-center py-8">
+      <UIcon name="i-heroicons-check-circle" class="w-16 h-16 text-green-500 mx-auto mb-4" />
+      <p class="text-lg font-medium text-gray-900">Account created!</p>
+      <p class="text-gray-500">Redirecting to dashboard...</p>
+    </div>
 
-    <!-- Form -->
-    <UForm :state="formData" :validate="validate" @submit="handleSubmit" class="space-y-5">
-      <!-- Name Row -->
-      <div class="grid grid-cols-2 gap-4">
-        <UFormGroup label="First Name" name="first_name" required>
-          <UInput
-            v-model="formData.first_name"
-            placeholder="John"
-            icon="i-heroicons-user"
-            size="lg"
-            :disabled="auth.loading"
-          />
-        </UFormGroup>
-
-        <UFormGroup label="Last Name" name="last_name" required>
-          <UInput
-            v-model="formData.last_name"
-            placeholder="Doe"
-            size="lg"
-            :disabled="auth.loading"
-          />
-        </UFormGroup>
-      </div>
-
-      <!-- Email -->
-      <UFormGroup label="Email" name="email" required>
-        <UInput
-          v-model="formData.email"
-          type="email"
-          placeholder="you@example.com"
-          icon="i-heroicons-envelope"
-          size="lg"
-          :disabled="auth.loading"
-        />
-      </UFormGroup>
-
-      <!-- Password -->
-      <UFormGroup label="Password" name="password" required>
-        <UInput
-          v-model="formData.password"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="Create a password"
-          icon="i-heroicons-lock-closed"
-          size="lg"
-          :disabled="auth.loading"
-        >
-          <template #trailing>
-            <UButton
-              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
-              color="gray"
-              variant="link"
-              :padded="false"
-              @click="showPassword = !showPassword"
-            />
-          </template>
-        </UInput>
-        <!-- Password Strength Indicator -->
-        <div class="mt-2">
-          <div class="flex gap-1">
-            <div
-              v-for="i in 4"
-              :key="i"
-              class="h-1 flex-1 rounded-full transition-colors"
-              :class="getStrengthBarColor(i)"
-            ></div>
-          </div>
-          <p class="text-xs mt-1" :class="strengthTextColor">
-            {{ strengthLabel }}
-          </p>
-        </div>
-      </UFormGroup>
-
-      <!-- Confirm Password -->
-      <UFormGroup label="Confirm Password" name="password_confirm" required>
-        <UInput
-          v-model="formData.password_confirm"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="Confirm your password"
-          icon="i-heroicons-lock-closed"
-          size="lg"
-          :disabled="auth.loading"
-        />
-      </UFormGroup>
-
-      <!-- Terms -->
-      <UFormGroup name="terms">
-        <UCheckbox v-model="acceptTerms" :disabled="auth.loading">
-          <template #label>
-            <span class="text-sm text-gray-600">
-              I agree to the
-              <NuxtLink to="/terms" class="text-kevalgreen-600 hover:underline">Terms of Service</NuxtLink>
-              and
-              <NuxtLink to="/privacy" class="text-kevalgreen-600 hover:underline">Privacy Policy</NuxtLink>
-            </span>
-          </template>
-        </UCheckbox>
-      </UFormGroup>
-
-      <!-- Submit Button -->
-      <UButton
-        type="submit"
-        block
-        size="lg"
-        :loading="auth.loading"
-        :disabled="auth.loading || !acceptTerms"
-        class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
+    <template v-else>
+      <!-- Error Alert -->
+      <UAlert
+        v-if="auth.error"
+        color="red"
+        variant="soft"
+        class="mb-6"
+        :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"
+        @close="auth.clearError"
       >
-        {{ auth.loading ? 'Creating account...' : 'Create Account' }}
-      </UButton>
-    </UForm>
+        <template #title>{{ auth.error }}</template>
+      </UAlert>
 
-    <!-- Login Link -->
-    <p class="text-center mt-6 text-gray-600">
-      Already have an account?
-      <NuxtLink to="/login" class="text-kevalgreen-600 font-semibold hover:underline">
-        Sign in
-      </NuxtLink>
-    </p>
+      <!-- Form -->
+      <UForm :state="formData" :validate="validate" @submit="handleSubmit" class="space-y-5">
+        <!-- Name Row -->
+        <div class="grid grid-cols-2 gap-4">
+          <UFormGroup label="First Name" name="first_name" required>
+            <UInput
+              v-model="formData.first_name"
+              placeholder="John"
+              icon="i-heroicons-user"
+              size="lg"
+              :disabled="auth.loading"
+            />
+          </UFormGroup>
+
+          <UFormGroup label="Last Name" name="last_name" required>
+            <UInput
+              v-model="formData.last_name"
+              placeholder="Doe"
+              size="lg"
+              :disabled="auth.loading"
+            />
+          </UFormGroup>
+        </div>
+
+        <!-- Email -->
+        <UFormGroup label="Email" name="email" required>
+          <UInput
+            v-model="formData.email"
+            type="email"
+            placeholder="you@example.com"
+            icon="i-heroicons-envelope"
+            size="lg"
+            :disabled="auth.loading"
+          />
+        </UFormGroup>
+
+        <!-- Password -->
+        <UFormGroup label="Password" name="password" required>
+          <UInput
+            v-model="formData.password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Create a password"
+            icon="i-heroicons-lock-closed"
+            size="lg"
+            :disabled="auth.loading"
+          >
+            <template #trailing>
+              <UButton
+                :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+                color="gray"
+                variant="link"
+                :padded="false"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </UInput>
+          <!-- Password Strength -->
+          <div class="mt-2">
+            <div class="flex gap-1">
+              <div
+                v-for="i in 4"
+                :key="i"
+                class="h-1 flex-1 rounded-full transition-colors"
+                :class="getStrengthBarColor(i)"
+              ></div>
+            </div>
+            <p class="text-xs mt-1" :class="strengthTextColor">{{ strengthLabel }}</p>
+          </div>
+        </UFormGroup>
+
+        <!-- Confirm Password -->
+        <UFormGroup label="Confirm Password" name="password_confirm" required>
+          <UInput
+            v-model="formData.password_confirm"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Confirm your password"
+            icon="i-heroicons-lock-closed"
+            size="lg"
+            :disabled="auth.loading"
+          />
+        </UFormGroup>
+
+        <!-- Terms -->
+        <UFormGroup name="terms">
+          <UCheckbox v-model="acceptTerms" :disabled="auth.loading">
+            <template #label>
+              <span class="text-sm text-gray-600">
+                I agree to the
+                <NuxtLink to="/terms" class="text-kevalgreen-600 hover:underline">Terms of Service</NuxtLink>
+                and
+                <NuxtLink to="/privacy" class="text-kevalgreen-600 hover:underline">Privacy Policy</NuxtLink>
+              </span>
+            </template>
+          </UCheckbox>
+        </UFormGroup>
+
+        <!-- Submit Button -->
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :loading="auth.loading"
+          :disabled="auth.loading || !acceptTerms"
+          class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
+        >
+          {{ auth.loading ? 'Creating account...' : 'Create Account' }}
+        </UButton>
+      </UForm>
+
+      <!-- Login Link -->
+      <p class="text-center mt-6 text-gray-600">
+        Already have an account?
+        <NuxtLink to="/login" class="text-kevalgreen-600 font-semibold hover:underline">
+          Sign in
+        </NuxtLink>
+      </p>
+    </template>
   </div>
 </template>
 
@@ -145,7 +152,7 @@ import { useAuthStore } from '~/stores/auth'
 import type { RegisterFormData } from '~/types/api'
 
 const auth = useAuthStore()
-const router = useRouter()
+const registerSuccess = ref(false)
 
 // Form state
 const formData = reactive<RegisterFormData>({
@@ -159,7 +166,7 @@ const formData = reactive<RegisterFormData>({
 const showPassword = ref(false)
 const acceptTerms = ref(false)
 
-// Password strength calculation
+// Password strength
 const passwordStrength = computed(() => {
   const pwd = formData.password
   if (!pwd) return 0
@@ -175,7 +182,6 @@ const passwordStrength = computed(() => {
 
 function getStrengthBarColor(index: number): string {
   if (index > passwordStrength.value) return 'bg-gray-200'
-  
   const colors: Record<number, string> = {
     1: 'bg-red-500',
     2: 'bg-orange-500',
@@ -246,7 +252,8 @@ async function handleSubmit() {
   
   try {
     await auth.register(formData)
-    router.push('/dashboard')
+    registerSuccess.value = true
+    // Router push happens in the store
   } catch (e) {
     console.error('Registration failed:', e)
   }

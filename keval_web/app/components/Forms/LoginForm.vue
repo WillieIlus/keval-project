@@ -7,82 +7,91 @@
       <p class="text-gray-500 mt-2">Sign in to your account</p>
     </div>
 
-    <!-- Error Alert -->
-    <UAlert
-      v-if="auth.error"
-      color="red"
-      variant="soft"
-      class="mb-6"
-      :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"
-      @close="auth.clearError"
-    >
-      <template #title>{{ auth.error }}</template>
-    </UAlert>
+    <!-- Success Message (brief flash before redirect) -->
+    <div v-if="loginSuccess" class="text-center py-8">
+      <UIcon name="i-heroicons-check-circle" class="w-16 h-16 text-green-500 mx-auto mb-4" />
+      <p class="text-lg font-medium text-gray-900">Login successful!</p>
+      <p class="text-gray-500">Redirecting to dashboard...</p>
+    </div>
 
-    <!-- Form -->
-    <UForm :state="formData" :validate="validate" @submit="handleSubmit" class="space-y-6">
-      <!-- Email -->
-      <UFormGroup label="Email" name="email" required>
-        <UInput
-          v-model="formData.email"
-          type="email"
-          placeholder="you@example.com"
-          icon="i-heroicons-envelope"
-          size="lg"
-          :disabled="auth.loading"
-        />
-      </UFormGroup>
-
-      <!-- Password -->
-      <UFormGroup label="Password" name="password" required>
-        <UInput
-          v-model="formData.password"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="Enter your password"
-          icon="i-heroicons-lock-closed"
-          size="lg"
-          :disabled="auth.loading"
-        >
-          <template #trailing>
-            <UButton
-              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
-              color="gray"
-              variant="link"
-              :padded="false"
-              @click="showPassword = !showPassword"
-            />
-          </template>
-        </UInput>
-      </UFormGroup>
-
-      <!-- Remember & Forgot -->
-      <div class="flex items-center justify-between">
-        <UCheckbox v-model="rememberMe" label="Remember me" />
-        <NuxtLink to="/forgot-password" class="text-sm text-kevalgreen-600 hover:underline">
-          Forgot password?
-        </NuxtLink>
-      </div>
-
-      <!-- Submit Button -->
-      <UButton
-        type="submit"
-        block
-        size="lg"
-        :loading="auth.loading"
-        :disabled="auth.loading"
-        class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
+    <template v-else>
+      <!-- Error Alert -->
+      <UAlert
+        v-if="auth.error"
+        color="red"
+        variant="soft"
+        class="mb-6"
+        :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"
+        @close="auth.clearError"
       >
-        {{ auth.loading ? 'Signing in...' : 'Sign In' }}
-      </UButton>
-    </UForm>
+        <template #title>{{ auth.error }}</template>
+      </UAlert>
 
-    <!-- Register Link -->
-    <p class="text-center mt-6 text-gray-600">
-      Don't have an account?
-      <NuxtLink to="/register" class="text-kevalgreen-600 font-semibold hover:underline">
-        Create one
-      </NuxtLink>
-    </p>
+      <!-- Form -->
+      <UForm :state="formData" :validate="validate" @submit="handleSubmit" class="space-y-6">
+        <!-- Email -->
+        <UFormGroup label="Email" name="email" required>
+          <UInput
+            v-model="formData.email"
+            type="email"
+            placeholder="you@example.com"
+            icon="i-heroicons-envelope"
+            size="lg"
+            :disabled="auth.loading"
+          />
+        </UFormGroup>
+
+        <!-- Password -->
+        <UFormGroup label="Password" name="password" required>
+          <UInput
+            v-model="formData.password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Enter your password"
+            icon="i-heroicons-lock-closed"
+            size="lg"
+            :disabled="auth.loading"
+          >
+            <template #trailing>
+              <UButton
+                :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+                color="gray"
+                variant="link"
+                :padded="false"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </UInput>
+        </UFormGroup>
+
+        <!-- Remember & Forgot -->
+        <div class="flex items-center justify-between">
+          <UCheckbox v-model="rememberMe" label="Remember me" />
+          <NuxtLink to="/forgot-password" class="text-sm text-kevalgreen-600 hover:underline">
+            Forgot password?
+          </NuxtLink>
+        </div>
+
+        <!-- Submit Button -->
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :loading="auth.loading"
+          :disabled="auth.loading"
+          class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
+        >
+          {{ auth.loading ? 'Signing in...' : 'Sign In' }}
+        </UButton>
+      </UForm>
+
+      <!-- Register Link -->
+      <p class="text-center mt-6 text-gray-600">
+        Don't have an account?
+        <NuxtLink to="/register" class="text-kevalgreen-600 font-semibold hover:underline">
+          Create one
+        </NuxtLink>
+      </p>
+    </template>
   </div>
 </template>
 
@@ -91,7 +100,7 @@ import { useAuthStore } from '~/stores/auth'
 import type { LoginFormData } from '~/types/api'
 
 const auth = useAuthStore()
-const router = useRouter()
+const loginSuccess = ref(false)
 
 // Form state
 const formData = reactive<LoginFormData>({
@@ -125,14 +134,11 @@ const validate = (state: LoginFormData) => {
 async function handleSubmit() {
   try {
     await auth.login(formData)
-    
-    if (auth.isAdmin) {
-      router.push('/admin/dashboard')
-    } else {
-      router.push('/dashboard')
-    }
+    loginSuccess.value = true
+    // Router push happens in the store
   } catch (e) {
     console.error('Login failed:', e)
+    // Error is already set in the store
   }
 }
 
