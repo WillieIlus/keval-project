@@ -183,15 +183,16 @@ export const useImageUrl = () => {
 
 /**
  * Composable for form handling
+ * RENAMED from useForm to useFormState to avoid conflict with vee-validate
  */
-export const useForm = <T extends Record<string, any>>(initialValues: T) => {
+export const useFormState = <T extends Record<string, any>>(initialValues: T) => {
   const form = reactive<T>({ ...initialValues })
   const errors = ref<Partial<Record<keyof T, string>>>({})
   const touched = ref<Partial<Record<keyof T, boolean>>>({})
 
   const resetForm = () => {
     Object.keys(initialValues).forEach(key => {
-      form[key as keyof T] = initialValues[key as keyof T]
+      (form as any)[key] = initialValues[key as keyof T]
     })
     errors.value = {}
     touched.value = {}
