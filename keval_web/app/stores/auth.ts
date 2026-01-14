@@ -41,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   // ============================================
-  // ACTIONS: Authentication
+  // ACTIONS
   // ============================================
 
   async function login(credentials: LoginFormData): Promise<AuthResponse> {
@@ -57,14 +57,17 @@ export const useAuthStore = defineStore('auth', () => {
         }
       })
 
-      // Set state
       token.value = response.token
       user.value = response.user
 
-      // Persist to localStorage
+      // Persist to localStorage (client-side only)
       if (import.meta.client) {
-        localStorage.setItem('auth_token', response.token)
-        localStorage.setItem('auth_user', JSON.stringify(response.user))
+        try {
+          localStorage.setItem('auth_token', response.token)
+          localStorage.setItem('auth_user', JSON.stringify(response.user))
+        } catch (e) {
+          console.warn('Failed to save to localStorage:', e)
+        }
       }
 
       return response
@@ -102,8 +105,12 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = response.user
 
       if (import.meta.client) {
-        localStorage.setItem('auth_token', response.token)
-        localStorage.setItem('auth_user', JSON.stringify(response.user))
+        try {
+          localStorage.setItem('auth_token', response.token)
+          localStorage.setItem('auth_user', JSON.stringify(response.user))
+        } catch (e) {
+          console.warn('Failed to save to localStorage:', e)
+        }
       }
 
       return response
@@ -122,8 +129,12 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
 
     if (import.meta.client) {
-      localStorage.removeItem('auth_token')
-      localStorage.removeItem('auth_user')
+      try {
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user')
+      } catch (e) {
+        console.warn('Failed to clear localStorage:', e)
+      }
     }
 
     router.push(redirect)
@@ -132,17 +143,19 @@ export const useAuthStore = defineStore('auth', () => {
   function initializeAuth() {
     if (initialized.value) return
     
+    // Only access localStorage on client
     if (import.meta.client) {
-      const savedToken = localStorage.getItem('auth_token')
-      const savedUser = localStorage.getItem('auth_user')
+      try {
+        const savedToken = localStorage.getItem('auth_token')
+        const savedUser = localStorage.getItem('auth_user')
 
-      if (savedToken && savedUser) {
-        try {
+        if (savedToken && savedUser) {
           token.value = savedToken
           user.value = JSON.parse(savedUser)
-        } catch {
-          logout('/')
         }
+      } catch (e) {
+        console.warn('Failed to read from localStorage:', e)
+        logout('/')
       }
     }
     
@@ -173,9 +186,6 @@ export const useAuthStore = defineStore('auth', () => {
     return e.message || 'An unexpected error occurred'
   }
 
-  // ============================================
-  // RETURN
-  // ============================================
   return {
     user,
     token,
@@ -193,4 +203,3 @@ export const useAuthStore = defineStore('auth', () => {
     clearError
   }
 })
-// NO persist config - we handle it manually with localStorage

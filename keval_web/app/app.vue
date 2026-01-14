@@ -4,7 +4,10 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <UNotifications />
+    <!-- Wrap in ClientOnly to avoid hydration mismatch -->
+    <ClientOnly>
+      <UNotifications />
+    </ClientOnly>
   </div>
 </template>
 
@@ -13,6 +16,7 @@ import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
 
+// Only initialize on client
 onMounted(() => {
   auth.initializeAuth()
 })

@@ -39,9 +39,15 @@ export default defineNuxtConfig({
 
 routeRules: {
     // Don't pre-render the dashboard, render it on the client side only
-    '/dashboard/**': { ssr: false },
-    '/login': { prerender: true },
-    '/register': { prerender: true }
+    '/login': { ssr: false },
+    '/register': { ssr: false },
+    '/forgot-password': { ssr: false },
+    '/dashboard': { ssr: false },
+    '/dashboard/**': { ssr: false }
+  },
+  
+  experimental: {
+    payloadExtraction: false // Disable payload extraction for static sites
   },
 
   runtimeConfig: {
