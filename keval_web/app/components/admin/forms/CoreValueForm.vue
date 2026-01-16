@@ -1,0 +1,83 @@
+<!-- ~/components/admin/forms/CoreValueForm.vue -->
+<template>
+  <UForm :state="form" :validate="validate" @submit="handleSubmit" class="space-y-6">
+    <UFormGroup label="Title" name="title" required>
+      <UInput v-model="form.title" placeholder="Quality" size="lg" />
+    </UFormGroup>
+
+    <UFormGroup label="Description" name="description" required>
+      <UTextarea v-model="form.description" placeholder="Describe this value..." :rows="3" />
+    </UFormGroup>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <UFormGroup label="Icon" name="icon">
+        <UInput v-model="form.icon" placeholder="i-heroicons-star" size="lg" />
+        <template #hint>
+          <a href="https://heroicons.com" target="_blank" class="text-kevalgreen-600 hover:underline">
+            Browse icons
+          </a>
+        </template>
+      </UFormGroup>
+
+      <UFormGroup label="Order" name="order">
+        <UInput v-model.number="form.order" type="number" placeholder="0" size="lg" />
+      </UFormGroup>
+    </div>
+
+    <!-- Icon Preview -->
+    <div v-if="form.icon" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+      <UIcon :name="form.icon" class="w-8 h-8 text-kevalgreen-600" />
+      <span class="text-sm text-gray-600">Icon preview</span>
+    </div>
+
+    <div class="flex justify-end gap-4">
+      <UButton type="button" variant="ghost" @click="$emit('cancel')">Cancel</UButton>
+      <UButton type="submit" :loading="loading" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
+        {{ isEdit ? 'Update Value' : 'Add Value' }}
+      </UButton>
+    </div>
+  </UForm>
+</template>
+
+<script setup lang="ts">
+import type { CoreValue, CoreValueFormData } from '~/types/api'
+
+const props = defineProps<{
+  initialData?: CoreValue | null
+  loading?: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'submit', data: CoreValueFormData): void
+  (e: 'cancel'): void
+}>()
+
+const isEdit = computed(() => !!props.initialData?.id)
+
+const form = reactive<CoreValueFormData>({
+  title: props.initialData?.title || '',
+  description: props.initialData?.description || '',
+  icon: props.initialData?.icon || '',
+  order: props.initialData?.order || 0
+})
+
+const validate = (state: CoreValueFormData) => {
+  const errors = []
+  if (!state.title?.trim()) errors.push({ path: 'title', message: 'Title is required' })
+  if (!state.description?.trim()) errors.push({ path: 'description', message: 'Description is required' })
+  return errors
+}
+
+function handleSubmit() {
+  emit('submit', { ...form })
+}
+
+watch(() => props.initialData, (newData) => {
+  if (newData) {
+    form.title = newData.title || ''
+    form.description = newData.description || ''
+    form.icon = newData.icon || ''
+    form.order = newData.order || 0
+  }
+}, { immediate: true })
+</script>
