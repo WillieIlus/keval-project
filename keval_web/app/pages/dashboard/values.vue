@@ -1,9 +1,9 @@
-<!-- ~/pages/dashboard/banners.vue -->
+<!-- ~/pages/dashboard/values.vue -->
 <template>
   <div>
     <AdminFormWrapper
-      title="Banners"
-      subtitle="Manage homepage hero banners"
+      title="Core Values"
+      subtitle="Manage your company core values"
       :error="admin.error"
       :success="admin.success"
       @clear-error="admin.clearMessages"
@@ -12,7 +12,7 @@
       <template #actions>
         <UButton @click="openModal()" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
           <UIcon name="i-heroicons-plus" class="w-5 h-5 mr-2" />
-          Add Banner
+          Add Value
         </UButton>
       </template>
 
@@ -23,49 +23,31 @@
 
       <!-- Empty State -->
       <div v-else-if="items.length === 0" class="text-center py-12">
-        <UIcon name="i-heroicons-photo" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <p class="text-gray-500">No banners yet</p>
-        <UButton @click="openModal()" variant="soft" class="mt-4">Add your first banner</UButton>
+        <UIcon name="i-heroicons-heart" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
+        <p class="text-gray-500">No core values yet</p>
+        <UButton @click="openModal()" variant="soft" class="mt-4">Add your first value</UButton>
       </div>
 
-      <!-- Banners List -->
+      <!-- Values List -->
       <div v-else class="space-y-4">
         <div 
           v-for="item in sortedItems" 
           :key="item.id"
-          class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+          class="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
         >
-          <!-- Thumbnail -->
-          <div class="w-32 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-            <img 
-              v-if="item.image" 
-              :src="item.image" 
-              :alt="item.title"
-              class="w-full h-full object-cover"
-            >
-            <div v-else class="w-full h-full flex items-center justify-center">
-              <UIcon name="i-heroicons-photo" class="w-8 h-8 text-gray-400" />
-            </div>
+          <!-- Icon -->
+          <div class="w-12 h-12 bg-kevalgreen-100 rounded-xl flex items-center justify-center shrink-0">
+            <UIcon :name="item.icon || 'i-heroicons-heart'" class="w-6 h-6 text-kevalgreen-600" />
           </div>
 
-          <!-- Info -->
+          <!-- Content -->
           <div class="flex-1 min-w-0">
-            <h3 class="font-semibold text-gray-900 truncate">{{ item.title }}</h3>
-            <p class="text-sm text-gray-500 truncate">{{ item.subtitle || 'No subtitle' }}</p>
-            <div class="flex items-center gap-3 mt-1">
-              <span v-if="item.cta_text" class="text-xs text-kevalgreen-600">
-                CTA: {{ item.cta_text }}
-              </span>
-            </div>
+            <h3 class="font-semibold text-gray-900">{{ item.title }}</h3>
+            <p class="text-sm text-gray-600 line-clamp-1">{{ item.description }}</p>
           </div>
 
-          <!-- Status & Order -->
-          <div class="flex items-center gap-4 shrink-0">
-            <span class="text-sm text-gray-400">{{ item.order }}</span>
-            <UBadge :color="item.is_active ? 'green' : 'gray'" variant="soft">
-              {{ item.is_active ? 'Active' : 'Inactive' }}
-            </UBadge>
-          </div>
+          <!-- Order -->
+          <span class="text-sm text-gray-400 shrink-0">Order: {{ item.order }}</span>
 
           <!-- Actions -->
           <div class="flex gap-2 shrink-0">
@@ -81,12 +63,12 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-2xl' }">
+    <UModal v-model="modalOpen">
       <div class="p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-6">
-          {{ editingItem ? 'Edit Banner' : 'New Banner' }}
+          {{ editingItem ? 'Edit Core Value' : 'Add Core Value' }}
         </h2>
-        <AdminFormsBannerForm
+        <AdminFormsCoreValueForm
           :initial-data="editingItem"
           :loading="admin.loading"
           @submit="handleSubmit"
@@ -99,8 +81,8 @@
     <UModal v-model="deleteModalOpen">
       <div class="p-6 text-center">
         <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Delete Banner?</h3>
-        <p class="text-gray-600 mb-6">This will permanently delete "{{ deletingItem?.title }}".</p>
+        <h3 class="text-lg font-bold text-gray-900 mb-2">Delete Core Value?</h3>
+        <p class="text-gray-600 mb-6">This will remove "{{ deletingItem?.title }}" from your values.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
           <UButton color="red" :loading="admin.loading" @click="handleDelete">Delete</UButton>
@@ -112,18 +94,18 @@
 
 <script setup lang="ts">
 import { useAdminStore } from '~/stores/admin'
-import type { Banner } from '~/types/api'
+import type { CoreValue, CoreValueFormData } from '~/types/api'
 
 const admin = useAdminStore()
 
-const items = ref<Banner[]>([])
+const items = ref<CoreValue[]>([])
 const loading = ref(false)
 const modalOpen = ref(false)
 const deleteModalOpen = ref(false)
-const editingItem = ref<Banner | null>(null)
-const deletingItem = ref<Banner | null>(null)
+const editingItem = ref<CoreValue | null>(null)
+const deletingItem = ref<CoreValue | null>(null)
 
-const ENDPOINT = '/api/banners/'
+const ENDPOINT = '/api/values/'
 
 const sortedItems = computed(() => 
   [...items.value].sort((a, b) => a.order - b.order)
@@ -131,27 +113,27 @@ const sortedItems = computed(() =>
 
 async function loadItems() {
   loading.value = true
-  items.value = await admin.fetchAll<Banner>(ENDPOINT)
+  items.value = await admin.fetchAll<CoreValue>(ENDPOINT)
   loading.value = false
 }
 
-function openModal(item?: Banner) {
+function openModal(item?: CoreValue) {
   editingItem.value = item || null
   admin.clearMessages()
   modalOpen.value = true
 }
 
-function confirmDelete(item: Banner) {
+function confirmDelete(item: CoreValue) {
   deletingItem.value = item
   deleteModalOpen.value = true
 }
 
-async function handleSubmit(formData: FormData) {
+async function handleSubmit(data: CoreValueFormData) {
   let result
   if (editingItem.value?.id) {
-    result = await admin.update<Banner>(ENDPOINT, editingItem.value.id, formData)
+    result = await admin.update<CoreValue>(ENDPOINT, editingItem.value.id, data)
   } else {
-    result = await admin.create<Banner>(ENDPOINT, formData)
+    result = await admin.create<CoreValue>(ENDPOINT, data)
   }
 
   if (result) {
