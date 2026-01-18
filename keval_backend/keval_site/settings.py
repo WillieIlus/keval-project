@@ -40,6 +40,8 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # Convert "localhost,127.0.0.1" string into a Python List
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
+# ALLOWED_HOSTS = ['localhost',]
+
 
 # Application definition
 
