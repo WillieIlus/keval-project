@@ -34,10 +34,10 @@ export default defineNuxtConfig({
   image: {
     provider: 'ipx',
   },
-  
+
   css: ['~/assets/css/main.css'],
 
-routeRules: {
+  routeRules: {
     // Don't pre-render the dashboard, render it on the client side only
     '/login': { ssr: false },
     '/register': { ssr: false },
@@ -45,7 +45,7 @@ routeRules: {
     '/dashboard': { ssr: false },
     '/dashboard/**': { ssr: false }
   },
-  
+
   experimental: {
     payloadExtraction: false // Disable payload extraction for static sites
   },
@@ -69,12 +69,11 @@ routeRules: {
   },
 
   nitro: {
-    // THIS IS THE DROP-IN FIX: 
-    // It tells the crawler "Do not try to pre-render these pages"
     prerender: {
-      ignore: ['/login', '/register', '/dashboard', '/middleware/guests']
+      ignore: ['/login', '/register', '/dashboard', '/middleware/guests'],
+      failOnError: false,
+      concurrency: 1,
     },
-    // Keep your existing devProxy below...
     devProxy: {
       '/api': {
         target: 'http://localhost:8000/api',
@@ -82,6 +81,15 @@ routeRules: {
         prependPath: true
       }
     }
-  }
-})
+  },
 
+  icon: {
+    serverBundle: 'local',
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 256,
+    },
+    fetchTimeout: 5000,
+  },
+
+})
