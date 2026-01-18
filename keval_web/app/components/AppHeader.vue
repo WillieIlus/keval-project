@@ -176,6 +176,7 @@
 import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
+const router = useRouter()
 
 const isMenuOpen = ref(false)
 const isAuthOpen = ref(false)
@@ -197,7 +198,10 @@ const userMenuItems = computed(() => [
     label: 'Sign Out',
     icon: 'i-heroicons-arrow-right-on-rectangle',
     class: 'text-red-500',
-    click: () => auth.logout('/')
+    click: async () => {
+      await auth.logout()
+      router.push('/')
+    }
   }]
 ])
 
@@ -206,6 +210,7 @@ function handleLogout() {
   isAuthOpen.value = false
   auth.logout('/')
 }
+
 
 // Handle scroll event
 const handleScroll = () => {
