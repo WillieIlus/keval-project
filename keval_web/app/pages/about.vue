@@ -3,7 +3,7 @@
   <div>
     <!-- Hero Section -->
     <section
-      class="relative bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 text-white py-24 overflow-hidden"
+      class="relative bg-gradient-to-br from-carrot-orange-600 to-carrot-orange-800 text-white py-24 overflow-hidden"
     >
       <!-- Background Pattern -->
       <div class="absolute inset-0 opacity-10">
