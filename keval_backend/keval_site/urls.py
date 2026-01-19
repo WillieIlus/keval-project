@@ -10,7 +10,7 @@ from core.views import (
 )
 from clients.views import ClientListView
 from testimonials.views import TestimonialListView
-from gallery.views import CategoryListView, ProjectDetailView
+from gallery.views import CategoryListView, ProjectDetailView, ProjectListCreateView
 from accounts.views import CustomLoginView, RegisterView
 
 # API URL patterns
@@ -27,7 +27,8 @@ api_patterns = [
     path('testimonials/', TestimonialListView.as_view(), name='testimonial-list'),
 
     # Portfolio / Gallery
-    path('portfolio/categories/', CategoryListView.as_view(), name='category-tree'),
+    path('portfolio/categories/', CategoryListView.as_view(), name='category-list'),
+    path('projects/', ProjectListCreateView.as_view(), name='project-list-create'),
     path('portfolio/project/<slug:slug>/', ProjectDetailView.as_view(), name='project-detail'),
 
     # Auth

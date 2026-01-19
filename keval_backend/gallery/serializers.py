@@ -1,5 +1,9 @@
 from rest_framework import serializers
 from gallery.models import ServiceCategory, Project, ProjectImage
+# serializers.py
+from rest_framework import serializers
+from gallery.models import ServiceCategory, Project, ProjectImage
+
 
 class ProjectImageSerializer(serializers.ModelSerializer):
     """
@@ -7,25 +11,32 @@ class ProjectImageSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = ProjectImage
-        fields = ['id', 'image', 'caption', 'is_cover', 'order'] 
+        fields = ['id', 'project', 'image', 'caption', 'is_cover', 'order']
+
+
+class ProjectImageUploadSerializer(serializers.ModelSerializer):
+    """
+    For uploading multiple images at once.
+    """
+    class Meta:
+        model = ProjectImage
+        fields = ['id', 'image', 'caption', 'is_cover', 'order']
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     """
     Serializes the Project and nests its images.
     """
-    # Fetch all images related to this project automatically
-    images = ProjectImageSerializer(many=True, read_only=True) 
-    
-    # Optional: Include the category name as a string for display convenience
+    images = ProjectImageSerializer(many=True, read_only=True)
     category_name = serializers.CharField(source='category.name', read_only=True)
 
     class Meta:
         model = Project
         fields = [
-            'id', 'title', 'slug', 'client', 'description', 
-            'print_method', 'material_used', 'finishing', 'date_completed', 
+            'id', 'title', 'slug', 'client', 'description',
+            'print_method', 'material_used', 'finishing', 'date_completed',
             'is_featured', 'category', 'category_name', 'images', 'created_at'
-        ] 
+        ]
 
 class ServiceCategorySerializer(serializers.ModelSerializer):
     """

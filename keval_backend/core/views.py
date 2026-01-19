@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.mail import EmailMessage
 from django.conf import settings
 
@@ -11,46 +12,38 @@ from .serializers import (
 )
 
 
-class BannerListView(generics.ListAPIView):
+class BannerListView(generics.ListCreateAPIView):
     queryset = Banner.objects.filter(is_active=True).order_by('order')
     serializer_class = BannerSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        """Allow POST to work the same as GET"""
-        return self.list(request, *args, **kwargs)
+    parser_classes = [MultiPartParser, FormParser]
 
 
-class CoreValueListView(generics.ListAPIView):
+class CoreValueListView(generics.ListCreateAPIView):
     queryset = CoreValue.objects.all().order_by('order')
     serializer_class = CoreValueSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        """Allow POST to work the same as GET"""
-        return self.list(request, *args, **kwargs)
+    parser_classes = [MultiPartParser, FormParser]
 
 
-class WhyChooseUsListView(generics.ListAPIView):
+class WhyChooseUsListView(generics.ListCreateAPIView):
     queryset = WhyChooseUs.objects.all().order_by('order')
     serializer_class = WhyChooseUsSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        """Allow POST to work the same as GET"""
-        return self.list(request, *args, **kwargs)
+    parser_classes = [MultiPartParser, FormParser]
 
 
-class TeamMemberListView(generics.ListAPIView):
+class TeamMemberListView(generics.ListCreateAPIView):
     serializer_class = TeamMemberSerializer
     permission_classes = [AllowAny]
     
     def get_queryset(self):
         return TeamMember.objects.filter(is_active=True).order_by('order')
 
-    def post(self, request, *args, **kwargs):
-        """Allow POST to work the same as GET"""
-        return self.list(request, *args, **kwargs)
+    parser_classes = [MultiPartParser, FormParser]
 
 
 class ContactSubmissionCreateView(generics.CreateAPIView):
