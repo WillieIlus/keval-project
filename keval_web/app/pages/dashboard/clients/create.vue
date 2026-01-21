@@ -52,7 +52,7 @@ async function submit() {
         <UInput v-model="form.website" placeholder="https://" />
       </UFormGroup>
 
-      <FormImageUpload label="Company Logo" v-model="form.logo" />
+      <FormsImageUpload label="Company Logo" v-model="form.logo" />
 
       <div class="flex gap-4">
         <UFormGroup label="Order Priority">

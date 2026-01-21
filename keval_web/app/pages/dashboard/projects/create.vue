@@ -157,7 +157,7 @@ async function uploadImage() {
         <h3 class="font-bold mb-4">Add Project Image</h3>
         <div class="flex gap-4 items-end">
           <div class="flex-1">
-             <FormImageUpload label="Image" v-model="newImage" />
+             <FormsImageUpload label="Image" v-model="newImage" />
           </div>
           <div class="flex-1">
              <UFormGroup label="Caption">
