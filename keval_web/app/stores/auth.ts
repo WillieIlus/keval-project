@@ -9,8 +9,8 @@ import type {
 } from '~/types/api'
 
 export const useAuthStore = defineStore('auth', () => {
-  const { $api } = useNuxtApp()
-  const router = useRouter()
+  // const { $api } = useNuxtApp()
+  // const router = useRouter()
 
   // ============================================
   // STATE

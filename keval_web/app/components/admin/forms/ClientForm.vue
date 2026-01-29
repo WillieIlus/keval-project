@@ -69,15 +69,23 @@ function handleSubmit() {
   const formData = new FormData()
   formData.append('name', form.name)
   formData.append('website', form.website || '')
-  formData.append('order', String(form.order))
+  formData.append('order', String(Number(form.order) || 0))
   formData.append('is_featured', String(form.is_featured))
-  
+
   if (form.logo instanceof File) {
-    formData.append('logo', form.logo)
+    formData.append('logo', form.logo, form.logo.name)
   }
-  
+
   emit('submit', formData)
 }
+
+const defaultFormState = (): ClientFormData => ({
+  name: '',
+  logo: null,
+  website: '',
+  is_featured: false,
+  order: 0
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -86,6 +94,8 @@ watch(() => props.initialData, (newData) => {
     form.website = newData.website || ''
     form.is_featured = newData.is_featured ?? false
     form.order = newData.order || 0
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>

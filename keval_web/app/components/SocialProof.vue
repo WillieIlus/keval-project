@@ -1,8 +1,6 @@
 <template>
   <div class="social-proof-wrapper bg-white">
-    <ClientsSection />
 
-    <TestimonialsSection />
     
   </div>
 </template>

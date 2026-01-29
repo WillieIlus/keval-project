@@ -1,26 +1,28 @@
 <!-- ~/pages/index.vue -->
 <template>
   <main>
-    <HeroBanner />
+    <!-- <HeroBanner /> -->
+    Banner should be here
 
-    <ServicesSection />
+    <!-- <ServicesSection /> -->
 
-    <SocialProof />
+    <!-- <ClientsSection /> -->
 
-    <Gallery :limit="5" />
 
-    <WhyChooseUsSection />
-    
-    <TestimonialsSection />
-    
-    <CTASection />
+    <!-- <Gallery :limit="5" /> -->
+
+    <!-- <WhyChooseUsSection /> -->
+
+    <!-- <TestimonialsSection /> -->
+
+    <!-- <CTASection /> -->
   </main>
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: "Keval | Premium Printing & Branding Solutions",
-  description:
-    "Nairobi's leading provider of corporate branding, garment printing, and design.",
-});
+// useSeoMeta({
+//   title: "Keval | Premium Printing & Branding Solutions",
+//   description:
+//     "Nairobi's leading provider of corporate branding, garment printing, and design.",
+// });
 </script>

@@ -80,6 +80,8 @@
               :options="serviceOptions"
               placeholder="Select a service"
               size="lg"
+              value-attribute="value"
+              option-attribute="label"
               :disabled="core.contactForm.loading"
             />
           </UFormGroup>
@@ -198,10 +200,23 @@ const validate = (state: ContactFormData) => {
   return errors
 }
 
+function getServiceInterestValue(v: string | { value?: string } | null | undefined): string {
+  if (typeof v === 'string') return v
+  if (v && typeof v === 'object' && 'value' in v) return (v as { value: string }).value ?? ''
+  return ''
+}
+
 // Submit handler
 async function handleSubmit() {
-  const success = await core.submitContactForm(formData)
-  
+  const payload: ContactFormData = {
+    name: formData.name.trim(),
+    email: formData.email.trim(),
+    phone: formData.phone.trim(),
+    service_interest: getServiceInterestValue(formData.service_interest),
+    message: formData.message.trim()
+  }
+  const success = await core.submitContactForm(payload)
+
   if (success) {
     emit('success')
   } else {

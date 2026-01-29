@@ -85,15 +85,25 @@ function handleSubmit() {
   formData.append('subtitle', form.subtitle)
   formData.append('cta_text', form.cta_text)
   formData.append('cta_link', form.cta_link)
-  formData.append('order', String(form.order))
+  formData.append('order', String(Number(form.order) || 0))
   formData.append('is_active', String(form.is_active))
-  
+
   if (form.image instanceof File) {
-    formData.append('image', form.image)
+    formData.append('image', form.image, form.image.name)
   }
-  
+
   emit('submit', formData)
 }
+
+const defaultFormState = (): BannerFormData => ({
+  title: '',
+  subtitle: '',
+  image: null,
+  cta_text: '',
+  cta_link: '',
+  order: 0,
+  is_active: true
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -104,6 +114,8 @@ watch(() => props.initialData, (newData) => {
     form.cta_link = newData.cta_link || ''
     form.order = newData.order || 0
     form.is_active = newData.is_active ?? true
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>

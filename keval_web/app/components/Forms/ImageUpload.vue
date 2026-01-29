@@ -20,7 +20,7 @@
       >
         <img 
           v-if="previewUrl || (typeof modelValue === 'string' && modelValue)" 
-          :src="previewUrl || modelValue" 
+          :src="previewUrl || (typeof modelValue === 'string' ? modelValue : '')" 
           :alt="label || 'Preview'"
           class="w-full h-full object-cover"
         >
@@ -158,13 +158,27 @@ function clearImage() {
   }
   previewUrl.value = null
   error.value = null
-  
+
   if (fileInput.value) {
     fileInput.value.value = ''
   }
-  
+
   emit('update:modelValue', null)
 }
+
+// When parent clears modelValue (e.g. form reset), revoke blob URL and clear local state
+watch(() => props.modelValue, (v) => {
+  if (!v) {
+    if (previewUrl.value) {
+      URL.revokeObjectURL(previewUrl.value)
+      previewUrl.value = null
+    }
+    error.value = null
+    if (fileInput.value) {
+      fileInput.value.value = ''
+    }
+  }
+})
 
 // Cleanup on unmount
 onUnmounted(() => {

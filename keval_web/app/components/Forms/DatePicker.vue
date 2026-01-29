@@ -128,9 +128,25 @@ const monthNames = [
 
 const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
+function parseLocalDate(value: string | Date | null): Date | null {
+  if (!value) return null
+  if (value instanceof Date) return value
+  const parts = value.split('-').map(Number)
+  if (parts.length !== 3) return new Date(value)
+  return new Date(parts[0], parts[1] - 1, parts[2])
+}
+
+function toLocalYYYYMMDD(date: Date): string {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
 const displayDate = computed(() => {
   if (!props.modelValue) return props.placeholder
-  const date = new Date(props.modelValue)
+  const date = parseLocalDate(props.modelValue)
+  if (!date) return props.placeholder
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -157,18 +173,30 @@ const calendarDays = computed(() => {
     })
   }
   
-  // Current month days
+  // Current month days (compare dates at start-of-day for min/max)
+  const minStart = props.minDate
+    ? new Date(props.minDate.getFullYear(), props.minDate.getMonth(), props.minDate.getDate())
+    : null
+  const maxStart = props.maxDate
+    ? new Date(props.maxDate.getFullYear(), props.maxDate.getMonth(), props.maxDate.getDate())
+    : null
+  const selectedStart = props.modelValue
+    ? (() => {
+        const d = parseLocalDate(props.modelValue)
+        return d ? new Date(d.getFullYear(), d.getMonth(), d.getDate()) : null
+      })()
+    : null
+
   for (let i = 1; i <= lastDay.getDate(); i++) {
     const date = new Date(currentYear.value, currentMonth.value, i)
+    const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const isToday = date.toDateString() === today.toDateString()
-    const isSelected = props.modelValue 
-      ? date.toDateString() === new Date(props.modelValue).toDateString()
-      : false
-    
+    const isSelected = selectedStart ? dateStart.getTime() === selectedStart.getTime() : false
+
     let isDisabled = false
-    if (props.minDate && date < props.minDate) isDisabled = true
-    if (props.maxDate && date > props.maxDate) isDisabled = true
-    
+    if (minStart && dateStart < minStart) isDisabled = true
+    if (maxStart && dateStart > maxStart) isDisabled = true
+
     days.push({
       date,
       dayNumber: i,
@@ -214,11 +242,11 @@ function nextMonth() {
 }
 
 function selectDate(date: Date) {
-  emit('update:modelValue', date.toISOString().split('T')[0])
+  emit('update:modelValue', toLocalYYYYMMDD(date))
 }
 
 function selectToday() {
-  emit('update:modelValue', today.toISOString().split('T')[0])
+  emit('update:modelValue', toLocalYYYYMMDD(today))
   currentMonth.value = today.getMonth()
   currentYear.value = today.getFullYear()
 }
@@ -226,4 +254,15 @@ function selectToday() {
 function clearDate() {
   emit('update:modelValue', null)
 }
+
+// Sync calendar view to selected date when modelValue is set (e.g. open picker to that month)
+watch(() => props.modelValue, (v) => {
+  if (v) {
+    const d = parseLocalDate(v)
+    if (d) {
+      currentMonth.value = d.getMonth()
+      currentYear.value = d.getFullYear()
+    }
+  }
+}, { immediate: true })
 </script>

@@ -54,5 +54,8 @@ defineProps<{
   success?: string | null
 }>()
 
-defineEmits(['clear-error', 'clear-success'])
+defineEmits<{
+  (e: 'clear-error'): void
+  (e: 'clear-success'): void
+}>()
 </script>

@@ -10,6 +10,8 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
+
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
@@ -30,7 +32,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./stores/**'],
   },
-
+  
   image: {
     provider: 'ipx',
   },

@@ -99,12 +99,31 @@ const validate = (state: ProjectFormData) => {
 }
 
 function handleSubmit() {
-  // Auto-generate slug if empty
-  if (!form.slug) {
-    form.slug = form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-  }
-  emit('submit', { ...form })
+  const slug = form.slug?.trim()
+    ? form.slug
+    : form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+  const categoryId = typeof form.category === 'object' && form.category !== null && 'id' in form.category
+    ? (form.category as { id: number }).id
+    : (form.category ?? null)
+  emit('submit', {
+    ...form,
+    slug,
+    category: categoryId
+  })
 }
+
+const defaultFormState = (): ProjectFormData => ({
+  title: '',
+  slug: '',
+  client: '',
+  description: '',
+  print_method: '',
+  material_used: '',
+  finishing: '',
+  date_completed: '',
+  is_featured: false,
+  category: null
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -118,8 +137,10 @@ watch(() => props.initialData, (newData) => {
       finishing: newData.finishing || '',
       date_completed: newData.date_completed || '',
       is_featured: newData.is_featured ?? false,
-      category: newData.category || null
+      category: newData.category ?? null
     })
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>

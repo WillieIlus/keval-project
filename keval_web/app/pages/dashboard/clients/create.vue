@@ -3,28 +3,35 @@ const { $api } = useNuxtApp()
 const toast = useToast()
 const router = useRouter()
 
-const form = reactive({
+interface ClientForm {
+  name: string
+  website: string
+  is_featured: boolean
+  order: number | string
+  logo: File | null
+}
+
+const form = reactive<ClientForm>({
   name: '',
   website: '',
   is_featured: false,
   order: 0,
-  logo: null // This will hold the File
+  logo: null
 })
 
 const loading = ref(false)
 
 async function submit() {
   loading.value = true
-  
-  // 1. Convert to FormData (Required for images)
+
   const formData = new FormData()
   formData.append('name', form.name)
   formData.append('website', form.website)
-  formData.append('is_featured', String(form.is_featured)) // Convert boolean to string
-  formData.append('order', String(form.order))
-  
+  formData.append('is_featured', String(form.is_featured))
+  formData.append('order', String(Number(form.order) || 0))
+
   if (form.logo) {
-    formData.append('logo', form.logo)
+    formData.append('logo', form.logo, form.logo.name)
   }
 
   try {

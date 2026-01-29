@@ -24,7 +24,7 @@
 
     <!-- Right Side - Branding -->
     <div class="hidden lg:flex lg:flex-1 bg-kevalgreen-600 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-kevalgreen-500 to-kevalgreen-700"></div>
+      <div class="absolute inset-0 bg-linear-to-br from-kevalgreen-500 to-kevalgreen-700"></div>
       <div class="relative z-10 flex flex-col justify-center px-12 text-white">
         <h1 class="text-4xl font-bold mb-4">Welcome Back!</h1>
         <p class="text-xl text-kevalgreen-100 mb-8">

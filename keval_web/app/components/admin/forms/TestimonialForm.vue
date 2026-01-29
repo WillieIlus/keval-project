@@ -94,14 +94,23 @@ function handleSubmit() {
   formData.append('company', form.company || '')
   formData.append('position', form.position || '')
   formData.append('content', form.content)
-  formData.append('rating', String(form.rating))
-  
+  formData.append('rating', String(Math.min(5, Math.max(1, Number(form.rating) || 5))))
+
   if (form.avatar instanceof File) {
-    formData.append('avatar', form.avatar)
+    formData.append('avatar', form.avatar, form.avatar.name)
   }
-  
+
   emit('submit', formData)
 }
+
+const defaultFormState = (): TestimonialFormData => ({
+  client_name: '',
+  company: '',
+  position: '',
+  avatar: null,
+  content: '',
+  rating: 5
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -110,7 +119,9 @@ watch(() => props.initialData, (newData) => {
     form.position = newData.position || ''
     form.avatar = newData.avatar || null
     form.content = newData.content || ''
-    form.rating = newData.rating || 5
+    form.rating = newData.rating ?? 5
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>

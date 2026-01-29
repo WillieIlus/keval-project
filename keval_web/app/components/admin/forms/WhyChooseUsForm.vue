@@ -68,8 +68,18 @@ const validate = (state: WhyChooseUsFormData) => {
 }
 
 function handleSubmit() {
-  emit('submit', { ...form })
+  emit('submit', {
+    ...form,
+    order: Number(form.order) || 0
+  })
 }
+
+const defaultFormState = (): WhyChooseUsFormData => ({
+  title: '',
+  description: '',
+  icon: '',
+  order: 0
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -77,6 +87,8 @@ watch(() => props.initialData, (newData) => {
     form.description = newData.description || ''
     form.icon = newData.icon || ''
     form.order = newData.order || 0
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>

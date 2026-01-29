@@ -18,6 +18,8 @@
           :options="departmentOptions"
           placeholder="Select department"
           size="lg"
+          value-attribute="value"
+          option-attribute="label"
         />
       </UFormGroup>
 
@@ -109,24 +111,43 @@ const validate = (state: TeamMemberFormData) => {
   return errors
 }
 
+function getDepartmentValue(d: string | { value?: string } | null | undefined): string {
+  if (typeof d === 'string') return d
+  if (d && typeof d === 'object' && 'value' in d) return (d as { value: string }).value ?? ''
+  return ''
+}
+
 function handleSubmit() {
   const formData = new FormData()
   formData.append('name', form.name)
   formData.append('title', form.title)
   formData.append('bio', form.bio || '')
-  formData.append('department', form.department || '')
+  formData.append('department', getDepartmentValue(form.department))
   formData.append('linkedin', form.linkedin || '')
   formData.append('twitter', form.twitter || '')
   formData.append('email', form.email || '')
-  formData.append('order', String(form.order))
+  formData.append('order', String(Number(form.order) || 0))
   formData.append('is_active', String(form.is_active))
-  
+
   if (form.image instanceof File) {
-    formData.append('image', form.image)
+    formData.append('image', form.image, form.image.name)
   }
-  
+
   emit('submit', formData)
 }
+
+const defaultFormState = (): TeamMemberFormData => ({
+  name: '',
+  title: '',
+  bio: '',
+  image: null,
+  department: '',
+  linkedin: '',
+  twitter: '',
+  email: '',
+  order: 0,
+  is_active: true
+})
 
 watch(() => props.initialData, (newData) => {
   if (newData) {
@@ -142,6 +163,8 @@ watch(() => props.initialData, (newData) => {
       order: newData.order || 0,
       is_active: newData.is_active ?? true
     })
+  } else {
+    Object.assign(form, defaultFormState())
   }
 }, { immediate: true })
 </script>
