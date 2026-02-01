@@ -99,81 +99,87 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
-      <div class="p-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-6">
-          {{ editingItem ? 'Edit Project' : 'New Project' }}
-        </h2>
-        <AdminFormsProjectForm
-          :initial-data="editingItem"
-          :categories="categories"
-          :loading="admin.loading"
-          @submit="handleSubmit"
-          @cancel="modalOpen = false"
-        />
-      </div>
+    <UModal v-model:open="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
+      <template #content>
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            {{ editingItem ? 'Edit Project' : 'New Project' }}
+          </h2>
+          <AdminFormsProjectForm
+            :initial-data="editingItem"
+            :categories="categories"
+            :loading="admin.loading"
+            @submit="handleSubmit"
+            @cancel="modalOpen = false"
+          />
+        </div>
+      </template>
     </UModal>
 
     <!-- Images Modal -->
-    <UModal v-model="imagesModalOpen" :ui="{ wrapper: 'sm:max-w-3xl' }">
-      <div class="p-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-6">
-          Manage Images - {{ editingItem?.title }}
-        </h2>
-        
-        <!-- Current Images -->
-        <div v-if="editingItem?.images?.length" class="grid grid-cols-3 gap-4 mb-6">
-          <div 
-            v-for="(img, index) in editingItem.images" 
-            :key="img.id"
-            class="relative aspect-square rounded-lg overflow-hidden group"
-          >
-            <img :src="img.image" :alt="img.caption" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <UButton size="xs" color="error" @click="deleteImage(img.id)">
-                <UIcon name="i-heroicons-trash" class="w-4 h-4" />
-              </UButton>
+    <UModal v-model:open="imagesModalOpen" :ui="{ wrapper: 'sm:max-w-3xl' }">
+      <template #content>
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            Manage Images - {{ editingItem?.title }}
+          </h2>
+          
+          <!-- Current Images -->
+          <div v-if="editingItem?.images?.length" class="grid grid-cols-3 gap-4 mb-6">
+            <div 
+              v-for="(img, index) in editingItem.images" 
+              :key="img.id"
+              class="relative aspect-square rounded-lg overflow-hidden group"
+            >
+              <img :src="img.image" :alt="img.caption" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <UButton size="xs" color="error" @click="deleteImage(img.id)">
+                  <UIcon name="i-heroicons-trash" class="w-4 h-4" />
+                </UButton>
+              </div>
+              <UBadge v-if="img.is_cover" class="absolute top-2 left-2" color="warning">Cover</UBadge>
             </div>
-            <UBadge v-if="img.is_cover" class="absolute top-2 left-2" color="warning">Cover</UBadge>
+          </div>
+
+          <p v-else class="text-gray-500 text-center py-8">No images yet</p>
+
+          <!-- Upload New -->
+          <div class="border-t pt-6">
+            <FormsMultiImageUpload
+              v-model="newImages"
+              label="Add New Images"
+              :max-images="10"
+            />
+          </div>
+
+          <div class="flex justify-end gap-4 mt-6">
+            <UButton variant="ghost" @click="imagesModalOpen = false">Close</UButton>
+            <UButton 
+              v-if="newImages.length > 0"
+              :loading="admin.loading" 
+              class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
+              @click="uploadImages"
+            >
+              Upload {{ newImages.length }} Image(s)
+            </UButton>
           </div>
         </div>
-
-        <p v-else class="text-gray-500 text-center py-8">No images yet</p>
-
-        <!-- Upload New -->
-        <div class="border-t pt-6">
-          <FormsMultiImageUpload
-            v-model="newImages"
-            label="Add New Images"
-            :max-images="10"
-          />
-        </div>
-
-        <div class="flex justify-end gap-4 mt-6">
-          <UButton variant="ghost" @click="imagesModalOpen = false">Close</UButton>
-          <UButton 
-            v-if="newImages.length > 0"
-            :loading="admin.loading" 
-            class="bg-kevalgreen-500 hover:bg-kevalgreen-600"
-            @click="uploadImages"
-          >
-            Upload {{ newImages.length }} Image(s)
-          </UButton>
-        </div>
-      </div>
+      </template>
     </UModal>
 
     <!-- Delete Confirmation -->
-    <UModal v-model="deleteModalOpen">
-      <div class="p-6 text-center">
-        <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Delete Project?</h3>
-        <p class="text-gray-600 mb-6">This will permanently delete "{{ deletingItem?.title }}" and all its images.</p>
-        <div class="flex gap-4 justify-center">
-          <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+    <UModal v-model:open="deleteModalOpen">
+      <template #content>
+        <div class="p-6 text-center">
+          <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Delete Project?</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">This will permanently delete "{{ deletingItem?.title }}" and all its images.</p>
+          <div class="flex gap-4 justify-center">
+            <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
+            <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          </div>
         </div>
-      </div>
+      </template>
     </UModal>
   </div>
 </template>

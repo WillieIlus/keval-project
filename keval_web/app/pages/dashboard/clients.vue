@@ -68,31 +68,35 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen">
-      <div class="p-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-6">
-          {{ editingItem ? 'Edit Client' : 'Add Client' }}
-        </h2>
-        <AdminFormsClientForm
-          :initial-data="editingItem"
-          :loading="admin.loading"
-          @submit="handleSubmit"
-          @cancel="modalOpen = false"
-        />
-      </div>
+    <UModal v-model:open="modalOpen">
+      <template #content>
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            {{ editingItem ? 'Edit Client' : 'Add Client' }}
+          </h2>
+          <AdminFormsClientForm
+            :initial-data="editingItem"
+            :loading="admin.loading"
+            @submit="handleSubmit"
+            @cancel="modalOpen = false"
+          />
+        </div>
+      </template>
     </UModal>
 
     <!-- Delete Confirmation -->
-    <UModal v-model="deleteModalOpen">
-      <div class="p-6 text-center">
-        <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Delete Client?</h3>
-        <p class="text-gray-600 mb-6">This will remove "{{ deletingItem?.name }}" from your client list.</p>
-        <div class="flex gap-4 justify-center">
-          <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+    <UModal v-model:open="deleteModalOpen">
+      <template #content>
+        <div class="p-6 text-center">
+          <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Delete Client?</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">This will remove "{{ deletingItem?.name }}" from your client list.</p>
+          <div class="flex gap-4 justify-center">
+            <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
+            <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          </div>
         </div>
-      </div>
+      </template>
     </UModal>
   </div>
 </template>

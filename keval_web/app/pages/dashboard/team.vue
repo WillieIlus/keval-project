@@ -105,31 +105,35 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
-      <div class="p-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-6">
-          {{ editingItem ? 'Edit Team Member' : 'Add Team Member' }}
-        </h2>
-        <AdminFormsTeamMemberForm
-          :initial-data="editingItem"
-          :loading="admin.loading"
-          @submit="handleSubmit"
-          @cancel="modalOpen = false"
-        />
-      </div>
+    <UModal v-model:open="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
+      <template #content>
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            {{ editingItem ? 'Edit Team Member' : 'Add Team Member' }}
+          </h2>
+          <AdminFormsTeamMemberForm
+            :initial-data="editingItem"
+            :loading="admin.loading"
+            @submit="handleSubmit"
+            @cancel="modalOpen = false"
+          />
+        </div>
+      </template>
     </UModal>
 
     <!-- Delete Confirmation -->
-    <UModal v-model="deleteModalOpen">
-      <div class="p-6 text-center">
-        <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Remove Team Member?</h3>
-        <p class="text-gray-600 mb-6">This will remove {{ deletingItem?.name }} from your team.</p>
-        <div class="flex gap-4 justify-center">
-          <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="error" :loading="admin.loading" @click="handleDelete">Remove</UButton>
+    <UModal v-model:open="deleteModalOpen">
+      <template #content>
+        <div class="p-6 text-center">
+          <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Remove Team Member?</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">This will remove {{ deletingItem?.name }} from your team.</p>
+          <div class="flex gap-4 justify-center">
+            <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
+            <UButton color="error" :loading="admin.loading" @click="handleDelete">Remove</UButton>
+          </div>
         </div>
-      </div>
+      </template>
     </UModal>
   </div>
 </template>
