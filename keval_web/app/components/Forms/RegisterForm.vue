@@ -18,7 +18,7 @@
       <!-- Error Alert -->
       <UAlert
         v-if="auth.error"
-        color="red"
+        color="error"
         variant="soft"
         class="mb-6"
         :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"
@@ -76,7 +76,7 @@
             <template #trailing>
               <UButton
                 :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
-                color="gray"
+                color="neutral"
                 variant="link"
                 :padded="false"
                 @click="showPassword = !showPassword"

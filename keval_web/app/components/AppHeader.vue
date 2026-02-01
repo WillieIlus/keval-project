@@ -1,11 +1,6 @@
 <!-- ~/components/AppHeader.vue -->
 <template>
-  <nav 
-    :class="[
-      'fixed top-0 left-0 right-0 text-white z-50 transition-all duration-300',
-      isScrolled ? 'bg-kevalgreen-500 shadow-lg' : 'bg-transparent'
-    ]"
-  >
+  <nav class="fixed top-0 left-0 right-0 text-white z-50 bg-kevalgreen-500 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
       
       <!-- Left: Menu Button (Mobile) + Logo (Desktop) -->
@@ -180,7 +175,6 @@ const route = useRoute()
 
 const isMenuOpen = ref(false)
 const isAuthOpen = ref(false)
-const isScrolled = ref(false)
 
 // User dropdown menu items
 const userMenuItems = computed(() => [
@@ -208,19 +202,6 @@ function handleLogout() {
   auth.logout('/')
 }
 
-
-// Handle scroll event
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 
 // Close menus when changing routes
 watch(() => route.fullPath, () => {

@@ -15,7 +15,7 @@
       <!-- Error Alert -->
       <UAlert
         v-if="error"
-        color="red"
+        color="error"
         variant="soft"
         class="mb-6"
         :close-button="{ icon: 'i-heroicons-x-mark' }"
@@ -27,7 +27,7 @@
       <!-- Success Alert -->
       <UAlert
         v-if="success"
-        color="green"
+        color="success"
         variant="soft"
         class="mb-6"
         :close-button="{ icon: 'i-heroicons-x-mark' }"

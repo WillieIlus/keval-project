@@ -10,12 +10,12 @@
           </NuxtLink>
 
           <div class="flex items-center gap-4">
-            <UButton to="/" variant="ghost" color="gray">
+            <UButton to="/" variant="ghost" color="neutral">
               <UIcon name="i-heroicons-home" class="w-5 h-5" />
             </UButton>
             
             <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
-              <UButton color="gray" variant="ghost" class="gap-2">
+              <UButton color="neutral" variant="ghost" class="gap-2">
                 <UAvatar :text="auth.userInitials" size="sm" class="bg-kevalgreen-500 text-white" />
                 <span class="hidden sm:inline">{{ auth.fullName }}</span>
                 <UIcon name="i-heroicons-chevron-down" class="w-4 h-4" />

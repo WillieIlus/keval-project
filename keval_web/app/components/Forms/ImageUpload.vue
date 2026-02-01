@@ -57,7 +57,7 @@
             v-if="previewUrl || modelValue"
             type="button"
             variant="ghost"
-            color="red"
+            color="error"
             size="sm"
             @click="clearImage"
             :disabled="disabled"

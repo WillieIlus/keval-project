@@ -32,7 +32,7 @@
             <UButton
               type="button"
               size="xs"
-              color="white"
+              color="neutral"
               variant="solid"
               @click="setAsCover(index)"
               :disabled="image.isCover"
@@ -42,7 +42,7 @@
             <UButton
               type="button"
               size="xs"
-              color="red"
+              color="error"
               variant="solid"
               @click="removeImage(index)"
             >
@@ -185,11 +185,11 @@ function processFiles(files: File[]) {
 }
 
 function removeImage(index: number) {
-  const wasCover = images.value[index].isCover
+  const wasCover = images.value[index]?.isCover
   const updated = images.value.filter((_, i) => i !== index)
   
   // If removed image was cover, set first image as cover
-  if (wasCover && updated.length > 0) {
+  if (wasCover && updated.length > 0 && updated[0]) {
     updated[0].isCover = true
   }
   

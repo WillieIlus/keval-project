@@ -20,7 +20,9 @@
         :items="socialStore.testimonials"
         :ui="{ 
           item: 'basis-full lg:basis-1/2 px-4',
-          container: '-mx-4 py-6'
+          container: '-mx-4 py-6',
+          prev: 'absolute -left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 text-kevalgreen-500 disabled:opacity-0',
+          next: 'absolute -right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 text-kevalgreen-500 disabled:opacity-0'
         }"
         arrows
         class="w-full"
@@ -31,12 +33,12 @@
             <div class="flex items-center gap-5 mb-6">
               <UAvatar
                 :src="item.avatar || '/default-avatar.png'"
-                :alt="`${item.name} avatar`"
+                :alt="`${item.client_name} avatar`"
                 size="xl"
                 class="ring-4 ring-kevalgreen-50 transition-transform group-hover:scale-110"
               />
               <div>
-                <h4 class="font-bold text-gray-900 text-lg leading-tight">{{ item.name }}</h4>
+                <h4 class="font-bold text-gray-900 text-lg leading-tight">{{ item.client_name }}</h4>
                 <p class="text-kevalgreen-500 text-xs font-black uppercase mt-1 tracking-widest">
                   {{ item.position || 'Verified Client' }}
                 </p>
@@ -58,36 +60,11 @@
                 />
               </div>
               
-              <img 
-                v-if="item.client_logo" 
-                :src="item.client_logo" 
-                class="h-6 opacity-20 grayscale" 
-                alt="Client Company"
-              />
+              <span v-if="item.company" class="text-sm text-gray-400">{{ item.company }}</span>
             </div>
 
           </div>
         </div>
-
-        <template #prev="{ onClick, disabled }">
-          <button 
-            :disabled="disabled" 
-            @click="onClick" 
-            class="absolute -left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 text-kevalgreen-500 disabled:opacity-0 transition-all"
-          >
-            <UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" />
-          </button>
-        </template>
-
-        <template #next="{ onClick, disabled }">
-          <button 
-            :disabled="disabled" 
-            @click="onClick" 
-            class="absolute -right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 text-kevalgreen-500 disabled:opacity-0 transition-all"
-          >
-            <UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" />
-          </button>
-        </template>
       </UCarousel>
 
     </div>
@@ -102,7 +79,7 @@ const socialStore = useSocialProofStore()
 
 onMounted(() => {
   if (socialStore.testimonials.length === 0) {
-    socialStore.fetchSocialData()
+    socialStore.initSocialProof()
   }
 })
 </script>

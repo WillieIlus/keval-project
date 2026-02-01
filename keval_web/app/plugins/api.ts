@@ -8,17 +8,17 @@ export default defineNuxtPlugin(() => {
     
     // Request Interceptor: Add auth token
     onRequest({ options }) {
-      // Get token from localStorage (can't use store here to avoid circular deps)
       if (import.meta.client) {
         const token = localStorage.getItem('auth_token')
         if (token) {
-          const headers = options.headers ||= {}
-          if (Array.isArray(headers)) {
-            headers.push(['Authorization', `Token ${token}`])
-          } else if (headers instanceof Headers) {
-            headers.set('Authorization', `Token ${token}`)
+          const existing = options.headers
+          if (existing instanceof Headers) {
+            existing.set('Authorization', `Token ${token}`)
           } else {
-            (headers as Record<string, string>)['Authorization'] = `Token ${token}`
+            const headers = (existing && typeof existing === 'object' && !Array.isArray(existing) && !(existing instanceof Headers))
+              ? { ...(existing as Record<string, string>), Authorization: `Token ${token}` }
+              : { Authorization: `Token ${token}` }
+            options.headers = headers
           }
         }
       }

@@ -75,7 +75,7 @@
                 {{ item.date_completed ? new Date(item.date_completed).toLocaleDateString() : '-' }}
               </td>
               <td class="py-4 px-4">
-                <UBadge :color="item.is_featured ? 'yellow' : 'gray'" variant="soft">
+                <UBadge :color="item.is_featured ? 'warning' : 'neutral'" variant="soft">
                   {{ item.is_featured ? 'Featured' : 'Standard' }}
                 </UBadge>
               </td>
@@ -87,7 +87,7 @@
                   <UButton variant="ghost" size="xs" @click="openImagesModal(item)">
                     <UIcon name="i-heroicons-photo" class="w-4 h-4" />
                   </UButton>
-                  <UButton variant="ghost" color="red" size="xs" @click="confirmDelete(item)">
+                  <UButton variant="ghost" color="error" size="xs" @click="confirmDelete(item)">
                     <UIcon name="i-heroicons-trash" class="w-4 h-4" />
                   </UButton>
                 </div>
@@ -99,7 +99,7 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-2xl' }">
+    <UModal v-model="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
       <div class="p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-6">
           {{ editingItem ? 'Edit Project' : 'New Project' }}
@@ -115,7 +115,7 @@
     </UModal>
 
     <!-- Images Modal -->
-    <UModal v-model="imagesModalOpen" :ui="{ width: 'sm:max-w-3xl' }">
+    <UModal v-model="imagesModalOpen" :ui="{ wrapper: 'sm:max-w-3xl' }">
       <div class="p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-6">
           Manage Images - {{ editingItem?.title }}
@@ -130,11 +130,11 @@
           >
             <img :src="img.image" :alt="img.caption" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <UButton size="xs" color="red" @click="deleteImage(img.id)">
+              <UButton size="xs" color="error" @click="deleteImage(img.id)">
                 <UIcon name="i-heroicons-trash" class="w-4 h-4" />
               </UButton>
             </div>
-            <UBadge v-if="img.is_cover" class="absolute top-2 left-2" color="yellow">Cover</UBadge>
+            <UBadge v-if="img.is_cover" class="absolute top-2 left-2" color="warning">Cover</UBadge>
           </div>
         </div>
 
@@ -171,7 +171,7 @@
         <p class="text-gray-600 mb-6">This will permanently delete "{{ deletingItem?.title }}" and all its images.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="red" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
         </div>
       </div>
     </UModal>

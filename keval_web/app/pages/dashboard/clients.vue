@@ -50,16 +50,16 @@
           <h3 class="font-semibold text-gray-900 text-sm truncate">{{ item.name }}</h3>
           
           <div class="flex items-center gap-2 mt-2">
-            <UBadge v-if="item.is_featured" color="yellow" variant="soft" size="xs">Featured</UBadge>
+            <UBadge v-if="item.is_featured" color="warning" variant="soft" size="xs">Featured</UBadge>
             <span class="text-xs text-gray-400">Order: {{ item.order }}</span>
           </div>
 
           <!-- Actions Overlay -->
           <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center gap-2">
-            <UButton size="sm" color="white" @click="openModal(item)">
+            <UButton size="sm" color="neutral" @click="openModal(item)">
               <UIcon name="i-heroicons-pencil" class="w-4 h-4" />
             </UButton>
-            <UButton size="sm" color="red" @click="confirmDelete(item)">
+            <UButton size="sm" color="error" @click="confirmDelete(item)">
               <UIcon name="i-heroicons-trash" class="w-4 h-4" />
             </UButton>
           </div>
@@ -90,7 +90,7 @@
         <p class="text-gray-600 mb-6">This will remove "{{ deletingItem?.name }}" from your client list.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="red" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
         </div>
       </div>
     </UModal>

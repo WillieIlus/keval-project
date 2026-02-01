@@ -15,8 +15,9 @@ const { data: clients } = await useAsyncData('clients', () => $api('/api/clients
 // --- 2. Computed Logic ---
 // We convert the nested tree into a flat list for the dropdown automatically
 const categoryOptions = computed(() => {
-  if (!rawCategories.value) return []
-  return flattenCategories(rawCategories.value)
+  const raw = rawCategories.value
+  if (!raw || !Array.isArray(raw)) return []
+  return flattenCategories(raw)
 })
 
 // --- 3. State Management ---
@@ -45,12 +46,11 @@ const projectImages = ref<any[]>([])
 async function createProject() {
   loading.value = true
   try {
-    const res = await $api('/api/gallery/projects/', {
+    const res = await $api<{ id: number }>('/api/gallery/projects/', {
       method: 'POST',
       body: projectForm 
     })
     
-    // Save the ID so we can attach images to it
     projectId.value = res.id
     
     // Move to next step
@@ -114,12 +114,6 @@ async function uploadImage() {
             searchable
             searchable-placeholder="Search categories..."
           >
-            <template #label>
-               <span v-if="projectForm.category">
-                 {{ categoryOptions.find(c => c.id === projectForm.category)?.originalName }}
-               </span>
-               <span v-else class="text-gray-400">Select...</span>
-            </template>
           </USelectMenu>
         </UFormGroup>
 
@@ -178,7 +172,7 @@ async function uploadImage() {
       </div>
 
       <div class="flex justify-end mt-8">
-        <UButton to="/dashboard/projects" color="gray">Finish & Go to List</UButton>
+        <UButton to="/dashboard/projects" color="neutral">Finish & Go to List</UButton>
       </div>
     </div>
   </div>

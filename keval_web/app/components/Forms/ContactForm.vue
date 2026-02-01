@@ -26,7 +26,7 @@
       <!-- Error Alert -->
       <UAlert
         v-if="core.contactForm.error"
-        color="red"
+        color="error"
         variant="soft"
         class="mb-6"
         :close-button="{ icon: 'i-heroicons-x-mark', color: 'red', variant: 'link' }"

@@ -1,6 +1,6 @@
 // ~/stores/marketing.ts
 import { defineStore } from 'pinia'
-import type { Banner, CoreValue, WhyChooseUs, ContactSubmission } from '~/types/api'
+import type { Banner, CoreValue, WhyChooseUs, ContactFormData } from '~/types/api'
 
 export const useMarketingStore = defineStore('marketing', () => {
   const { $api } = useNuxtApp()
@@ -54,7 +54,7 @@ export const useMarketingStore = defineStore('marketing', () => {
     }
   }
 
-  async function submitContact(form: ContactSubmission) {
+  async function submitContact(form: ContactFormData) {
     try {
       await $api('/api/contact/', { // [cite: 36]
         method: 'POST',

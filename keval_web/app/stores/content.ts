@@ -1,6 +1,6 @@
 // ~/stores/content.ts
 import { defineStore } from 'pinia';
-import type { Banner, Client, Testimonial, ContactSubmission } from '~/types/api';
+import type { Banner, Client, Testimonial, ContactFormData } from '~/types/api';
 
 export const useContentStore = defineStore('content', () => {
   // --- State ---
@@ -38,7 +38,7 @@ export const useContentStore = defineStore('content', () => {
   }
 
   // Handle Contact Form
-  async function submitContact(form: ContactSubmission) {
+  async function submitContact(form: ContactFormData) {
     try {
       
       await $fetch('/api/core/contact/', {

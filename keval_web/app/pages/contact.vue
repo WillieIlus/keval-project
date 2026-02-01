@@ -204,8 +204,7 @@ function handleSuccess() {
   toast.add({
     title: 'Message Sent!',
     description: 'We will get back to you within 24 hours.',
-    icon: 'i-heroicons-check-circle',
-    color: 'green'
+    color: 'success'
   })
 }
 </script>

@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import type { ContactForm } from '~/types/api'
+import type { ContactFormData } from '~/types/api'
 
 export const useContactStore = defineStore('contact', () => {
   const loading = ref(false)
   const success = ref(false)
   const error = ref<string | null>(null)
 
-  async function submitForm(form: ContactForm) {
+  async function submitForm(form: ContactFormData) {
     loading.value = true
     error.value = null
     success.value = false

@@ -21,11 +21,5 @@ onMounted(() => {
   auth.initializeAuth()
 })
 
-useSeoMeta({
-  title: 'Keval',
-  description: "Nairobi's leading provider of corporate branding, garment printing, and design.",
-  ogTitle: 'Keval',
-  ogImage: 'https://keval.co.ke/logo-white.png',
-  twitterCard: 'summary_large_image',
-})
+// Default meta moved to nuxt.config.ts to avoid useHead recursion with Nuxt UI
 </script>

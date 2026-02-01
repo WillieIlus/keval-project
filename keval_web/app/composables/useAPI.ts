@@ -18,21 +18,24 @@ export const useApi = () => {
       skipAuth?: boolean
     }
   ): Promise<T> => {
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...(options?.headers || {})
+      ...(options?.headers && typeof options.headers === 'object' && !Array.isArray(options.headers) && !(options.headers instanceof Headers)
+        ? (options.headers as Record<string, string>)
+        : {})
     }
 
-    // Add auth token if available and not skipped
     if (authStore.token && !options?.skipAuth) {
       headers['Authorization'] = `Token ${authStore.token}`
     }
 
     try {
+      const { method, ...restOptions } = options || {}
       const response = await $fetch<T>(url, {
         baseURL: options?.baseURL || config.public.apiBase,
-        ...options,
-        headers
+        ...restOptions,
+        headers,
+        ...(method && { method: method as 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' })
       })
 
       return response

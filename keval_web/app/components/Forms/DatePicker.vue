@@ -5,7 +5,7 @@
       <UButton
         type="button"
         variant="outline"
-        color="gray"
+        color="neutral"
         :class="['w-full justify-start text-left font-normal', !modelValue && 'text-gray-400']"
         :disabled="disabled"
       >
@@ -13,7 +13,7 @@
         {{ displayDate }}
       </UButton>
 
-      <template #panel="{ close }">
+      <template #content="{ close }">
         <div class="p-4">
           <!-- Month/Year Navigation -->
           <div class="flex items-center justify-between mb-4">
@@ -87,7 +87,7 @@
               type="button"
               variant="ghost"
               size="xs"
-              color="red"
+              color="error"
               @click="clearDate(); close()"
             >
               Clear
@@ -131,9 +131,10 @@ const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 function parseLocalDate(value: string | Date | null): Date | null {
   if (!value) return null
   if (value instanceof Date) return value
-  const parts = value.split('-').map(Number)
-  if (parts.length !== 3) return new Date(value)
-  return new Date(parts[0], parts[1] - 1, parts[2])
+  const parts = String(value).split('-').map(Number)
+  if (parts.length !== 3) return new Date(String(value))
+  const [y, m, d] = parts
+  return new Date(y ?? 0, (m ?? 1) - 1, d ?? 1)
 }
 
 function toLocalYYYYMMDD(date: Date): string {

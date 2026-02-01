@@ -1,6 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'Keval',
+      meta: [
+        {
+          name: 'description',
+          content: "Nairobi's leading provider of corporate branding, garment printing, and design."
+        },
+        { property: 'og:title', content: 'Keval' },
+        { property: 'og:image', content: 'https://keval.co.ke/logo-white.png' },
+        { name: 'twitter:card', content: 'summary_large_image' }
+      ]
+    }
+  },
 
   imports: {
     dirs: ['stores']

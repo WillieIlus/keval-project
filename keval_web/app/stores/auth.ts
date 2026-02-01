@@ -9,8 +9,8 @@ import type {
 } from '~/types/api'
 
 export const useAuthStore = defineStore('auth', () => {
-  // const { $api } = useNuxtApp()
-  // const router = useRouter()
+  const { $api } = useNuxtApp()
+  const router = useRouter()
 
   // ============================================
   // STATE
@@ -37,15 +37,16 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   const userInitials = computed(() => {
-    if (!user.value) return 'G'
-    const firstName = user.value.first_name || ''
-    const lastName = user.value.last_name || ''
-    
+    const u = user.value
+    if (!u) return 'G'
+    const firstName = u.first_name ?? ''
+    const lastName = u.last_name ?? ''
     if (firstName && lastName) {
-      return (firstName[0] + lastName[0]).toUpperCase()
+      const first = firstName?.[0] ?? ''
+      const last = lastName?.[0] ?? ''
+      return (first + last).toUpperCase() || 'G'
     }
-    
-    return user.value.email[0].toUpperCase()
+    return (u.email?.[0] ?? 'G').toUpperCase()
   })
 
   // ============================================

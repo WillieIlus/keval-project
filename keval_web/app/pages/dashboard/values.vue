@@ -54,7 +54,7 @@
             <UButton variant="ghost" size="sm" @click="openModal(item)">
               <UIcon name="i-heroicons-pencil" class="w-4 h-4" />
             </UButton>
-            <UButton variant="ghost" color="red" size="sm" @click="confirmDelete(item)">
+            <UButton variant="ghost" color="error" size="sm" @click="confirmDelete(item)">
               <UIcon name="i-heroicons-trash" class="w-4 h-4" />
             </UButton>
           </div>
@@ -85,7 +85,7 @@
         <p class="text-gray-600 mb-6">This will remove "{{ deletingItem?.title }}" from your values.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="red" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
         </div>
       </div>
     </UModal>

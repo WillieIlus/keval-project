@@ -82,7 +82,7 @@
                   <UIcon name="i-heroicons-pencil" class="w-4 h-4 mr-1" />
                   Edit
                 </UButton>
-                <UButton variant="ghost" color="red" size="xs" @click="confirmDelete(item)">
+                <UButton variant="ghost" color="error" size="xs" @click="confirmDelete(item)">
                   <UIcon name="i-heroicons-trash" class="w-4 h-4 mr-1" />
                   Delete
                 </UButton>
@@ -116,7 +116,7 @@
         <p class="text-gray-600 mb-6">This will remove the testimonial from {{ deletingItem?.client_name }}.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="red" :loading="admin.loading" @click="handleDelete">Delete</UButton>
+          <UButton color="error" :loading="admin.loading" @click="handleDelete">Delete</UButton>
         </div>
       </div>
     </UModal>

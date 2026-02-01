@@ -49,7 +49,7 @@
 
             <!-- Status Badge -->
             <div class="absolute top-3 right-3">
-              <UBadge :color="item.is_active ? 'green' : 'gray'" variant="solid">
+              <UBadge :color="item.is_active ? 'success' : 'neutral'" variant="solid">
                 {{ item.is_active ? 'Active' : 'Inactive' }}
               </UBadge>
             </div>
@@ -94,7 +94,7 @@
                 <UIcon name="i-heroicons-pencil" class="w-4 h-4 mr-1" />
                 Edit
               </UButton>
-              <UButton variant="ghost" color="red" size="xs" class="flex-1" @click="confirmDelete(item)">
+              <UButton variant="ghost" color="error" size="xs" class="flex-1" @click="confirmDelete(item)">
                 <UIcon name="i-heroicons-trash" class="w-4 h-4 mr-1" />
                 Delete
               </UButton>
@@ -105,7 +105,7 @@
     </AdminFormWrapper>
 
     <!-- Create/Edit Modal -->
-    <UModal v-model="modalOpen" :ui="{ width: 'sm:max-w-2xl' }">
+    <UModal v-model="modalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
       <div class="p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-6">
           {{ editingItem ? 'Edit Team Member' : 'Add Team Member' }}
@@ -127,7 +127,7 @@
         <p class="text-gray-600 mb-6">This will remove {{ deletingItem?.name }} from your team.</p>
         <div class="flex gap-4 justify-center">
           <UButton variant="ghost" @click="deleteModalOpen = false">Cancel</UButton>
-          <UButton color="red" :loading="admin.loading" @click="handleDelete">Remove</UButton>
+          <UButton color="error" :loading="admin.loading" @click="handleDelete">Remove</UButton>
         </div>
       </div>
     </UModal>
