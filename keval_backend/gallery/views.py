@@ -26,12 +26,24 @@ class ProjectListCreateView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     parser_classes = [MultiPartParser, FormParser]
 
+class ProjectAdminListCreateView(generics.ListCreateAPIView):
+    queryset = Project.objects.all().order_by('-created_at')
+    serializer_class = ProjectSerializer
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser]
+
 
 class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
     lookup_field = 'slug'
+    parser_classes = [MultiPartParser, FormParser]
+
+class ProjectAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [AllowAny]
     parser_classes = [MultiPartParser, FormParser]
 
 
@@ -54,6 +66,12 @@ class ProjectImageListCreateView(generics.ListCreateAPIView):
         project_id = self.kwargs['project_id']
         project = Project.objects.get(id=project_id)
         serializer.save(project=project)
+
+class ProjectImageAdminListCreateView(generics.ListCreateAPIView):
+    queryset = ProjectImage.objects.all().order_by('order')
+    serializer_class = ProjectImageSerializer
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser]
 
 
 class ProjectImageDetailView(generics.RetrieveUpdateDestroyAPIView):

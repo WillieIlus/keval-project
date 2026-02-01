@@ -11,3 +11,9 @@ class TestimonialListView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
 
     parser_classes = [MultiPartParser, FormParser]
+
+class TestimonialDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Testimonial.objects.all()
+    serializer_class = TestimonialSerializer
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser]

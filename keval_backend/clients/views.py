@@ -10,3 +10,9 @@ class ClientListView(generics.ListCreateAPIView):  # ← Changed from ListAPIVie
     serializer_class = ClientSerializer
     permission_classes = [AllowAny]
     parser_classes = [MultiPartParser, FormParser]  
+
+class ClientDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser]

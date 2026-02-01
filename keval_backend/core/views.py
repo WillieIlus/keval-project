@@ -19,9 +19,23 @@ class BannerListView(generics.ListCreateAPIView):
 
     parser_classes = [MultiPartParser, FormParser]
 
+class BannerDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
+    permission_classes = [AllowAny]
+
+    parser_classes = [MultiPartParser, FormParser]
+
 
 class CoreValueListView(generics.ListCreateAPIView):
     queryset = CoreValue.objects.all().order_by('order')
+    serializer_class = CoreValueSerializer
+    permission_classes = [AllowAny]
+
+    parser_classes = [MultiPartParser, FormParser]
+
+class CoreValueDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CoreValue.objects.all()
     serializer_class = CoreValueSerializer
     permission_classes = [AllowAny]
 
@@ -35,6 +49,13 @@ class WhyChooseUsListView(generics.ListCreateAPIView):
 
     parser_classes = [MultiPartParser, FormParser]
 
+class WhyChooseUsDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = WhyChooseUs.objects.all()
+    serializer_class = WhyChooseUsSerializer
+    permission_classes = [AllowAny]
+
+    parser_classes = [MultiPartParser, FormParser]
+
 
 class TeamMemberListView(generics.ListCreateAPIView):
     serializer_class = TeamMemberSerializer
@@ -42,6 +63,13 @@ class TeamMemberListView(generics.ListCreateAPIView):
     
     def get_queryset(self):
         return TeamMember.objects.filter(is_active=True).order_by('order')
+
+    parser_classes = [MultiPartParser, FormParser]
+
+class TeamMemberDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TeamMember.objects.all()
+    serializer_class = TeamMemberSerializer
+    permission_classes = [AllowAny]
 
     parser_classes = [MultiPartParser, FormParser]
 
