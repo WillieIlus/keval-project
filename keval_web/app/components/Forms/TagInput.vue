@@ -7,8 +7,8 @@
       <!-- Tags -->
       <div class="flex flex-wrap gap-2">
         <span
-          v-for="(tag, index) in modelValue"
-          :key="index"
+          v-for="(tag, index) in (modelValue ?? [])"
+          :key="`${tag}-${index}`"
           class="inline-flex items-center gap-1 px-2 py-1 bg-kevalgreen-100 text-kevalgreen-700 rounded-full text-sm"
         >
           {{ tag }}
@@ -25,7 +25,7 @@
         <input
           v-model="inputValue"
           type="text"
-          :placeholder="modelValue.length === 0 ? placeholder : ''"
+          :placeholder="(modelValue ?? []).length === 0 ? placeholder : ''"
           class="flex-1 min-w-[120px] outline-none text-sm"
           @keydown.enter.prevent="addTag"
           @keydown.backspace="handleBackspace"
@@ -59,27 +59,25 @@ const emit = defineEmits<{
 
 const inputValue = ref('')
 
+const tags = computed(() => props.modelValue ?? [])
+
 function addTag() {
   const tag = inputValue.value.trim()
-  
-  if (
-    tag && 
-    !props.modelValue.includes(tag) && 
-    props.modelValue.length < props.maxTags
-  ) {
-    emit('update:modelValue', [...props.modelValue, tag])
+
+  if (tag && !tags.value.includes(tag) && tags.value.length < props.maxTags) {
+    emit('update:modelValue', [...tags.value, tag])
   }
-  
+
   inputValue.value = ''
 }
 
 function removeTag(index: number) {
-  emit('update:modelValue', props.modelValue.filter((_, i) => i !== index))
+  emit('update:modelValue', tags.value.filter((_, i) => i !== index))
 }
 
 function handleBackspace() {
-  if (inputValue.value === '' && props.modelValue.length > 0) {
-    removeTag(props.modelValue.length - 1)
+  if (inputValue.value === '' && tags.value.length > 0) {
+    removeTag(tags.value.length - 1)
   }
 }
 </script>

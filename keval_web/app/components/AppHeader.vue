@@ -176,7 +176,7 @@
 import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
-const router = useRouter()
+const route = useRoute()
 
 const isMenuOpen = ref(false)
 const isAuthOpen = ref(false)
@@ -198,10 +198,7 @@ const userMenuItems = computed(() => [
     label: 'Sign Out',
     icon: 'i-heroicons-arrow-right-on-rectangle',
     class: 'text-red-500',
-    click: async () => {
-      await auth.logout()
-      router.push('/')
-    }
+    click: () => auth.logout()
   }]
 ])
 
@@ -226,7 +223,7 @@ onUnmounted(() => {
 })
 
 // Close menus when changing routes
-watch(() => useRoute().fullPath, () => {
+watch(() => route.fullPath, () => {
   isMenuOpen.value = false
   isAuthOpen.value = false
 })
