@@ -95,13 +95,6 @@ export default defineNuxtConfig({
       ignore: ['/login', '/register', '/dashboard', '/middleware/guests'],
       failOnError: false,
       concurrency: 1,
-    },
-    devProxy: {
-      '/api': {
-        target: 'http://localhost:8000/api',
-        changeOrigin: true,
-        prependPath: true
-      }
     }
   },
 

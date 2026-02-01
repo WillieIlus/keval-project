@@ -13,7 +13,8 @@ from core.views import (
 from clients.views import ClientListView, ClientDetailView
 from testimonials.views import TestimonialListView, TestimonialDetailView
 from gallery.views import (
-    CategoryListView, ProjectDetailView, ProjectListCreateView,
+    CategoryListView, CategoryAdminListView,
+    ProjectDetailView, ProjectListCreateView,
     ProjectAdminListCreateView, ProjectAdminDetailView,
     ProjectImageListCreateView, ProjectImageDetailView, ProjectImageAdminListCreateView,
     ProjectMultipleImageUploadView
@@ -41,6 +42,7 @@ api_patterns = [
 
     # Portfolio / Gallery
     path('portfolio/categories/', CategoryListView.as_view(), name='category-list'),
+    path('portfolio/categories/all/', CategoryAdminListView.as_view(), name='category-admin-list'),
     path('projects/', ProjectListCreateView.as_view(), name='project-list-create'),
     path('portfolio/projects/', ProjectAdminListCreateView.as_view(), name='project-admin-list-create'),
     path('portfolio/projects/<int:pk>/', ProjectAdminDetailView.as_view(), name='project-admin-detail'),

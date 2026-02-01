@@ -17,14 +17,15 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <UFormGroup label="Category" name="category">
-        <USelectMenu
+        <select
           v-model="form.category"
-          :options="categoryOptions"
-          placeholder="Select category"
-          size="lg"
-          value-attribute="id"
-          option-attribute="name"
-        />
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
+        >
+          <option :value="null" disabled>Select category</option>
+          <option v-for="cat in categoryOptions" :key="cat.id" :value="cat.id">
+            {{ cat.name }}
+          </option>
+        </select>
       </UFormGroup>
 
       <UFormGroup label="Date Completed" name="date_completed">
@@ -34,15 +35,33 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <UFormGroup label="Print Method" name="print_method">
-        <UInput v-model="form.print_method" placeholder="Digital, Screen..." size="lg" />
+        <select
+          v-model="form.print_method"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
+        >
+          <option value="">Select method</option>
+          <option v-for="method in printMethods" :key="method" :value="method">{{ method }}</option>
+        </select>
       </UFormGroup>
 
       <UFormGroup label="Material Used" name="material_used">
-        <UInput v-model="form.material_used" placeholder="Vinyl, Canvas..." size="lg" />
+        <select
+          v-model="form.material_used"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
+        >
+          <option value="">Select material</option>
+          <option v-for="material in materials" :key="material" :value="material">{{ material }}</option>
+        </select>
       </UFormGroup>
 
       <UFormGroup label="Finishing" name="finishing">
-        <UInput v-model="form.finishing" placeholder="Matte, Gloss..." size="lg" />
+        <select
+          v-model="form.finishing"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
+        >
+          <option value="">Select finishing</option>
+          <option v-for="finish in finishingOptions" :key="finish" :value="finish">{{ finish }}</option>
+        </select>
       </UFormGroup>
     </div>
 
@@ -75,8 +94,84 @@ const emit = defineEmits<{
 
 const isEdit = computed(() => !!props.initialData?.id)
 
-const categoryOptions = computed(() => 
-  props.categories?.map(c => ({ id: c.id, name: c.name })) || []
+// Print method options
+const printMethods = [
+  'Digital Printing',
+  'Screen Printing',
+  'Offset Printing',
+  'Large Format Printing',
+  'UV Printing',
+  'Sublimation',
+  'DTG (Direct to Garment)',
+  'Heat Transfer',
+  'Embroidery',
+  'Vinyl Cutting',
+  'Laser Engraving'
+]
+
+// Material options
+const materials = [
+  'Paper (Glossy)',
+  'Paper (Matte)',
+  'Cardstock',
+  'Canvas',
+  'Vinyl',
+  'PVC',
+  'Acrylic',
+  'Fabric',
+  'Cotton',
+  'Polyester',
+  'Leather',
+  'Wood',
+  'Metal',
+  'Glass',
+  'Foam Board',
+  'Corrugated Board',
+  'Banner Material',
+  'Mesh Banner',
+  'Sticker Paper',
+  'Photo Paper'
+]
+
+// Finishing options
+const finishingOptions = [
+  'Matte Lamination',
+  'Gloss Lamination',
+  'Soft Touch Lamination',
+  'Spot UV',
+  'Foil Stamping (Gold)',
+  'Foil Stamping (Silver)',
+  'Embossing',
+  'Debossing',
+  'Die Cut',
+  'Rounded Corners',
+  'Grommets',
+  'Hemming',
+  'Mounting',
+  'Framing',
+  'Edge Painting',
+  'Perforating',
+  'Scoring',
+  'Binding (Saddle Stitch)',
+  'Binding (Perfect)',
+  'Binding (Wire-O)',
+  'None'
+]
+
+function flattenCategories(categories: ServiceCategory[], prefix = ''): { id: number; name: string }[] {
+  const options: { id: number; name: string }[] = []
+  for (const category of categories) {
+    const name = prefix ? `${prefix} / ${category.name}` : category.name
+    options.push({ id: category.id, name })
+    if (category.subcategories?.length) {
+      options.push(...flattenCategories(category.subcategories, name))
+    }
+  }
+  return options
+}
+
+const categoryOptions = computed(() =>
+  props.categories?.length ? flattenCategories(props.categories) : []
 )
 
 const form = reactive<ProjectFormData>({
@@ -102,13 +197,10 @@ function handleSubmit() {
   const slug = form.slug?.trim()
     ? form.slug
     : form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-  const categoryId = typeof form.category === 'object' && form.category !== null && 'id' in form.category
-    ? (form.category as { id: number }).id
-    : (form.category ?? null)
   emit('submit', {
     ...form,
     slug,
-    category: categoryId
+    category: form.category
   })
 }
 

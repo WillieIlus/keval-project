@@ -4,8 +4,8 @@
     <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 dark:from-kevalgreen-700 dark:to-gray-900 text-white py-20 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h1>
-          <p class="text-xl text-kevalgreen-100 max-w-2xl mx-auto">
+          <h1 class="text-4xl text-black/90 dark:text-white/90 md:text-5xl font-bold mb-4">Get In Touch</h1>
+          <p class="text-xl text-black/90 dark:text-white/90 max-w-2xl mx-auto">
             Have a project in mind? We would love to hear from you.
           </p>
         </div>

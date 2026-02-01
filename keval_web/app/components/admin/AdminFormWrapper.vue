@@ -12,29 +12,30 @@
 
     <!-- Content -->
     <div class="p-6">
-      <!-- Error Alert -->
-      <UAlert
-        v-if="error"
-        color="error"
-        variant="soft"
-        class="mb-6"
-        :close-button="{ icon: 'i-heroicons-x-mark' }"
-        @close="$emit('clear-error')"
-      >
-        <template #title>{{ error }}</template>
-      </UAlert>
+      <!-- Optional alerts -->
+      <template v-if="showMessages">
+        <UAlert
+          v-if="error"
+          color="error"
+          variant="soft"
+          class="mb-6"
+          :close-button="{ icon: 'i-heroicons-x-mark' }"
+          @close="$emit('clear-error')"
+        >
+          <template #title>{{ error }}</template>
+        </UAlert>
 
-      <!-- Success Alert -->
-      <UAlert
-        v-if="success"
-        color="success"
-        variant="soft"
-        class="mb-6"
-        :close-button="{ icon: 'i-heroicons-x-mark' }"
-        @close="$emit('clear-success')"
-      >
-        <template #title>{{ success }}</template>
-      </UAlert>
+        <UAlert
+          v-if="success"
+          color="success"
+          variant="soft"
+          class="mb-6"
+          :close-button="{ icon: 'i-heroicons-x-mark' }"
+          @close="$emit('clear-success')"
+        >
+          <template #title>{{ success }}</template>
+        </UAlert>
+      </template>
 
       <slot />
     </div>
@@ -47,12 +48,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = withDefaults(defineProps<{
   title: string
   subtitle?: string
   error?: string | null
   success?: string | null
-}>()
+  showMessages?: boolean
+}>(), {
+  showMessages: false
+})
 
 defineEmits<{
   (e: 'clear-error'): void

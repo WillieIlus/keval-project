@@ -3,7 +3,7 @@
   <div class="bg-white dark:bg-gray-950 transition-colors">
     <!-- Hero Section -->
     <section
-      class="relative bg-gradient-to-br from-carrot-orange-600 to-carrot-orange-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-24 overflow-hidden transition-colors"
+      class="relative bg-gradient-to-br from-kevalorange-600 to-kevalorange-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-24 overflow-hidden transition-colors"
     >
       <!-- Background Pattern -->
       <div class="absolute inset-0 opacity-10">
@@ -19,15 +19,15 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <span
-              class="inline-block px-4 py-2 bg-white/20 rounded-full text-sm font-medium mb-6"
+              class="inline-block px-4 py-2 bg-white/20 text-black/90 dark:text-white/90 rounded-full text-sm font-medium mb-6"
             >
               Our Story
             </span>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl text-black/90 dark:text-white/90  font-black leading-tight mb-6">
               Crafting Brands<br />
               <span class="text-kevalorange-400">Since 2014</span>
             </h1>
-            <p class="text-xl text-kevalgreen-100 leading-relaxed">
+            <p class="text-xl text-black/90 dark:text-white/90  text-kevalgreen-100 leading-relaxed">
               From a small printing shop in Nairobi to becoming Kenya's trusted partner
               for corporate branding and premium print solutions. Our journey is built on
               quality, innovation, and unwavering commitment to our clients.

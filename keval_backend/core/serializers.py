@@ -8,6 +8,17 @@ class BannerSerializer(serializers.ModelSerializer):
         model = Banner
         fields = ['id', 'title', 'subtitle', 'image', 'cta_text', 'cta_link', 'order', 'is_active']
 
+    def validate_cta_link(self, value):
+        if not value:
+            return '/'
+        if value.startswith('http://') or value.startswith('https://'):
+            raise serializers.ValidationError("Use an internal path like '/contact'.")
+        if not value.startswith('/'):
+            raise serializers.ValidationError("CTA link must start with '/'.")
+        if value.startswith('//'):
+            raise serializers.ValidationError("CTA link must be a single '/' path.")
+        return value
+
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client

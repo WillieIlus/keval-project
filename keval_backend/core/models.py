@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxLengthValidator
+from django.core.validators import MaxLengthValidator, RegexValidator
 
 
 class Banner(models.Model):
@@ -21,9 +21,18 @@ class Banner(models.Model):
         blank=True, 
         help_text="Text for the button (e.g., 'View Work')."
     )
-    cta_link = models.URLField(
-        blank=True, 
-        help_text="Full URL where the banner button should link."
+    cta_link = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        default='/',
+        validators=[
+            RegexValidator(
+                regex=r'^/[^\\s]*$',
+                message="CTA link must be an internal path starting with '/'."
+            )
+        ],
+        help_text="Internal URL path (e.g., '/contact'). Leave blank for homepage."
     )
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(
@@ -37,6 +46,11 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.cta_link:
+            self.cta_link = '/'
+        super().save(*args, **kwargs)
     
 
 # --- 2. Core Values ---

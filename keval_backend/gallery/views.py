@@ -2,7 +2,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.views import APIView
 from .models import ServiceCategory, Project, ProjectImage
 from .serializers import (
@@ -17,20 +17,26 @@ class CategoryListView(generics.ListCreateAPIView):
     queryset = ServiceCategory.objects.filter(parent__isnull=True)
     serializer_class = ServiceCategorySerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+
+class CategoryAdminListView(generics.ListAPIView):
+    queryset = ServiceCategory.objects.all().order_by('name')
+    serializer_class = ServiceCategorySerializer
+    permission_classes = [AllowAny]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.filter(is_featured=True)
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 class ProjectAdminListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by('-created_at')
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -38,13 +44,13 @@ class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
     lookup_field = 'slug'
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 class ProjectAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 # ========== IMAGE VIEWS ==========
@@ -56,7 +62,7 @@ class ProjectImageListCreateView(generics.ListCreateAPIView):
     """
     serializer_class = ProjectImageSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
         project_id = self.kwargs['project_id']
@@ -71,7 +77,7 @@ class ProjectImageAdminListCreateView(generics.ListCreateAPIView):
     queryset = ProjectImage.objects.all().order_by('order')
     serializer_class = ProjectImageSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectImageDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -81,7 +87,7 @@ class ProjectImageDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectImage.objects.all()
     serializer_class = ProjectImageSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectMultipleImageUploadView(APIView):
@@ -89,7 +95,7 @@ class ProjectMultipleImageUploadView(APIView):
     Upload multiple images to a project at once
     """
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def post(self, request, project_id):
         project = Project.objects.get(id=project_id)

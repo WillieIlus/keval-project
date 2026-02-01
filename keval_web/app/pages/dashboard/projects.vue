@@ -105,6 +105,28 @@
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
             {{ editingItem ? 'Edit Project' : 'New Project' }}
           </h2>
+          <UAlert
+            v-if="admin.error"
+            color="error"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.error }}</template>
+          </UAlert>
+
+          <UAlert
+            v-if="admin.success"
+            color="success"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.success }}</template>
+          </UAlert>
+
           <AdminFormsProjectForm
             :initial-data="editingItem"
             :categories="categories"
@@ -112,6 +134,89 @@
             @submit="handleSubmit"
             @cancel="modalOpen = false"
           />
+
+          <div class="mt-4 flex items-center justify-between text-sm">
+            <span class="text-gray-500">Can't find a category?</span>
+            <UButton variant="link" @click="openCategoryModal">
+              Add category
+            </UButton>
+          </div>
+        </div>
+      </template>
+    </UModal>
+
+    <!-- Add Category Modal -->
+    <UModal v-model:open="categoryModalOpen" :ui="{ wrapper: 'sm:max-w-2xl' }">
+      <template #content>
+        <div class="p-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            Add Category
+          </h2>
+
+          <UAlert
+            v-if="admin.error"
+            color="error"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.error }}</template>
+          </UAlert>
+
+          <UAlert
+            v-if="admin.success"
+            color="success"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.success }}</template>
+          </UAlert>
+
+          <UForm :state="categoryForm" @submit="handleCategorySubmit" class="space-y-6">
+            <UFormGroup label="Category Name" name="name" required>
+              <UInput v-model="categoryForm.name" placeholder="e.g. Business Cards" size="lg" />
+            </UFormGroup>
+
+            <UFormGroup label="Parent Category (optional)" name="parent">
+              <select
+                v-model="categoryForm.parent"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
+              >
+                <option :value="null">No parent (top level)</option>
+                <option v-for="cat in categoryParentOptions" :key="cat.id" :value="cat.id">
+                  {{ cat.name }}
+                </option>
+              </select>
+            </UFormGroup>
+
+            <UFormGroup label="Description" name="description">
+              <UTextarea v-model="categoryForm.description" placeholder="Short description..." :rows="3" />
+            </UFormGroup>
+
+            <UFormGroup label="Order" name="order">
+              <UInput v-model="categoryForm.order" type="number" min="0" size="lg" />
+            </UFormGroup>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <UFormGroup label="Icon (optional)" name="icon">
+                <input type="file" accept="image/*" @change="onCategoryFileChange($event, 'icon')" />
+              </UFormGroup>
+
+              <UFormGroup label="Cover Image (optional)" name="cover_image">
+                <input type="file" accept="image/*" @change="onCategoryFileChange($event, 'cover_image')" />
+              </UFormGroup>
+            </div>
+
+            <div class="flex justify-end gap-4">
+              <UButton type="button" variant="ghost" @click="categoryModalOpen = false">Cancel</UButton>
+              <UButton type="submit" :loading="admin.loading" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
+                Create Category
+              </UButton>
+            </div>
+          </UForm>
         </div>
       </template>
     </UModal>
@@ -198,6 +303,7 @@ const loading = ref(false)
 const modalOpen = ref(false)
 const imagesModalOpen = ref(false)
 const deleteModalOpen = ref(false)
+const categoryModalOpen = ref(false)
 const editingItem = ref<Project | null>(null)
 const deletingItem = ref<Project | null>(null)
 const newImages = ref<any[]>([])
@@ -210,7 +316,7 @@ async function loadItems() {
   // Load projects and categories
   const [projectsData, categoriesData] = await Promise.all([
     admin.fetchAll<Project>(ENDPOINT),
-    admin.fetchAll<ServiceCategory>('/api/portfolio/categories/')
+    admin.fetchAll<ServiceCategory>('/api/portfolio/categories/all/')
   ])
   
   items.value = projectsData
@@ -222,6 +328,71 @@ function openModal(item?: Project) {
   editingItem.value = item || null
   admin.clearMessages()
   modalOpen.value = true
+}
+
+function openCategoryModal() {
+  admin.clearMessages()
+  resetCategoryForm()
+  categoryModalOpen.value = true
+}
+
+function flattenCategories(categoriesList: ServiceCategory[], prefix = ''): { id: number | null; name: string }[] {
+  const options: { id: number | null; name: string }[] = []
+  for (const category of categoriesList) {
+    const name = prefix ? `${prefix} / ${category.name}` : category.name
+    options.push({ id: category.id, name })
+    if (category.subcategories?.length) {
+      options.push(...flattenCategories(category.subcategories, name))
+    }
+  }
+  return options
+}
+
+const categoryParentOptions = computed(() => {
+  return flattenCategories(categories.value)
+})
+
+const categoryForm = reactive({
+  name: '',
+  parent: null as number | null,
+  description: '',
+  order: 0,
+  icon: null as File | null,
+  cover_image: null as File | null
+})
+
+function resetCategoryForm() {
+  categoryForm.name = ''
+  categoryForm.parent = null
+  categoryForm.description = ''
+  categoryForm.order = 0
+  categoryForm.icon = null
+  categoryForm.cover_image = null
+}
+
+function onCategoryFileChange(event: Event, field: 'icon' | 'cover_image') {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0] || null
+  categoryForm[field] = file
+}
+
+async function handleCategorySubmit() {
+  const formData = new FormData()
+  formData.append('name', categoryForm.name)
+  if (categoryForm.description) formData.append('description', categoryForm.description)
+  formData.append('order', String(categoryForm.order || 0))
+  if (categoryForm.parent !== null) formData.append('parent', String(categoryForm.parent))
+  if (categoryForm.icon) formData.append('icon', categoryForm.icon)
+  if (categoryForm.cover_image) formData.append('cover_image', categoryForm.cover_image)
+
+  const result = await admin.create<ServiceCategory>('/api/portfolio/categories/', formData)
+  if (result) {
+    setTimeout(async () => {
+      categoryModalOpen.value = false
+      admin.clearMessages()
+      await loadItems()
+    }, 1500)
+  }
 }
 
 function openImagesModal(item: Project) {
@@ -244,8 +415,11 @@ async function handleSubmit(data: ProjectFormData) {
   }
 
   if (result) {
-    modalOpen.value = false
-    await loadItems()
+    setTimeout(async () => {
+      modalOpen.value = false
+      admin.clearMessages()
+      await loadItems()
+    }, 1500)
   }
 }
 

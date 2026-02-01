@@ -49,6 +49,7 @@
 
         <!-- Main Content -->
         <main class="flex-1 min-w-0">
+          <AdminDashboardStats />
           <NuxtPage />
         </main>
       </div>

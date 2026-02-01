@@ -87,6 +87,28 @@
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
             {{ editingItem ? 'Edit Banner' : 'New Banner' }}
           </h2>
+          <UAlert
+            v-if="admin.error"
+            color="error"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.error }}</template>
+          </UAlert>
+
+          <UAlert
+            v-if="admin.success"
+            color="success"
+            variant="soft"
+            class="mb-6"
+            :close-button="{ icon: 'i-heroicons-x-mark' }"
+            @close="admin.clearMessages"
+          >
+            <template #title>{{ admin.success }}</template>
+          </UAlert>
+
           <AdminFormsBannerForm
             :initial-data="editingItem"
             :loading="admin.loading"
@@ -159,8 +181,11 @@ async function handleSubmit(formData: FormData) {
   }
 
   if (result) {
-    modalOpen.value = false
-    await loadItems()
+    setTimeout(async () => {
+      modalOpen.value = false
+      admin.clearMessages()
+      await loadItems()
+    }, 1500)
   }
 }
 
