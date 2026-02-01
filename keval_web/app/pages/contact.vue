@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="bg-white dark:bg-gray-950 transition-colors">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 text-white py-20">
+    <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 dark:from-kevalgreen-700 dark:to-gray-900 text-white py-20 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h1>
@@ -13,25 +13,25 @@
     </section>
 
     <!-- Main Content -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           <!-- Contact Info Cards -->
           <div class="space-y-6">
             <!-- Address Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm transition-colors">
               <div class="w-12 h-12 bg-kevalgreen-100 rounded-xl flex items-center justify-center mb-4">
                 <UIcon name="i-heroicons-map-pin" class="w-6 h-6 text-kevalgreen-600" />
               </div>
-              <h3 class="font-bold text-gray-900 mb-2">Visit Us</h3>
-              <p class="text-gray-600">
+              <h3 class="font-bold text-gray-900 dark:text-white mb-2">Visit Us</h3>
+              <p class="text-gray-600 dark:text-gray-300">
                 Print Hub Building, Ground Floor
               </p>
-              <p class="text-gray-600">
+              <p class="text-gray-600 dark:text-gray-300">
                 Room B06, Kweria Road
               </p>
-              <p class="text-gray-600">
+              <p class="text-gray-600 dark:text-gray-300">
                 Nairobi, Kenya
               </p>
               <a 
@@ -46,39 +46,39 @@
             </div>
 
             <!-- Phone Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm transition-colors">
               <div class="w-12 h-12 bg-kevalorange-100 rounded-xl flex items-center justify-center mb-4">
                 <UIcon name="i-heroicons-phone" class="w-6 h-6 text-kevalorange-600" />
               </div>
-              <h3 class="font-bold text-gray-900 mb-2">Call Us</h3>
-              <p class="text-gray-600">
-                <a href="tel:+254711635104" class="hover:text-kevalgreen-600">0711 635 104</a>
+              <h3 class="font-bold text-gray-900 dark:text-white mb-2">Call Us</h3>
+              <p class="text-gray-600 dark:text-gray-300">
+                <a href="tel:+254711635104" class="hover:text-kevalgreen-600 dark:hover:text-kevalgreen-400">0711 635 104</a>
               </p>
-              <p class="text-gray-600">
-                <a href="tel:+254720335863" class="hover:text-kevalgreen-600">0720 335 863</a>
+              <p class="text-gray-600 dark:text-gray-300">
+                <a href="tel:+254720335863" class="hover:text-kevalgreen-600 dark:hover:text-kevalgreen-400">0720 335 863</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">Mon - Fri: 8:00 AM - 6:00 PM</p>
             </div>
 
             <!-- Email Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm transition-colors">
               <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <UIcon name="i-heroicons-envelope" class="w-6 h-6 text-blue-600" />
               </div>
-              <h3 class="font-bold text-gray-900 mb-2">Email Us</h3>
-              <p class="text-gray-600">
-                <a href="mailto:info@keval.co.ke" class="hover:text-kevalgreen-600">info@keval.co.ke</a>
+              <h3 class="font-bold text-gray-900 dark:text-white mb-2">Email Us</h3>
+              <p class="text-gray-600 dark:text-gray-300">
+                <a href="mailto:info@keval.co.ke" class="hover:text-kevalgreen-600 dark:hover:text-kevalgreen-400">info@keval.co.ke</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">We respond within 24 hours</p>
             </div>
 
             <!-- WhatsApp Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm transition-colors">
               <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                 <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-6 h-6 text-green-600" />
               </div>
-              <h3 class="font-bold text-gray-900 mb-2">WhatsApp</h3>
-              <p class="text-gray-600 mb-3">Quick responses via WhatsApp</p>
+              <h3 class="font-bold text-gray-900 dark:text-white mb-2">WhatsApp</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3">Quick responses via WhatsApp</p>
               <a 
                 href="https://wa.me/254711635104"
                 target="_blank"
@@ -93,9 +93,9 @@
 
           <!-- Contact Form -->
           <div class="lg:col-span-2">
-            <div class="bg-white rounded-2xl shadow-sm p-8">
-              <h2 class="text-2xl font-bold text-gray-900 mb-2">Send Us a Message</h2>
-              <p class="text-gray-600 mb-8">Fill out the form below and we will get back to you within 24 hours.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8 transition-colors">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Send Us a Message</h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-8">Fill out the form below and we will get back to you within 24 hours.</p>
               <FormsContactForm :show-header="false" @success="handleSuccess" />
             </div>
           </div>
@@ -104,29 +104,29 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-white dark:bg-gray-950 transition-colors">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
-        
+        <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Frequently Asked Questions</h2>
+
         <div class="space-y-4">
-          <div 
-            v-for="(item, index) in faqItems" 
-            :key="index" 
-            class="border border-gray-200 rounded-xl overflow-hidden"
+          <div
+            v-for="(item, index) in faqItems"
+            :key="index"
+            class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-colors"
           >
-            <button 
+            <button
               type="button"
-              class="w-full p-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+              class="w-full p-5 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               @click="toggleFaq(index)"
             >
-              <span class="font-semibold text-gray-900">{{ item.question }}</span>
+              <span class="font-semibold text-gray-900 dark:text-white">{{ item.question }}</span>
               <UIcon 
                 :name="openFaq === index ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'" 
                 class="w-5 h-5 text-gray-500 flex-shrink-0"
               />
             </button>
-            <div v-show="openFaq === index" class="px-5 pb-5 border-t border-gray-100">
-              <p class="text-gray-600 pt-4">{{ item.answer }}</p>
+            <div v-show="openFaq === index" class="px-5 pb-5 border-t border-gray-100 dark:border-gray-700">
+              <p class="text-gray-600 dark:text-gray-300 pt-4">{{ item.answer }}</p>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-kevalgreen-600 py-16">
+    <section class="bg-kevalgreen-600 dark:bg-kevalgreen-800 py-16 transition-colors">
       <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold text-white mb-4">Ready to Start Your Project?</h2>
         <p class="text-kevalgreen-100 text-lg mb-8">

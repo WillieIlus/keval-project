@@ -1,6 +1,6 @@
 <!-- ~/layouts/default.vue -->
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen bg-white dark:bg-gray-950 transition-colors">
     <AppHeader />
     
     <!-- Main content grows to fill available space -->

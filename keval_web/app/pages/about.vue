@@ -1,9 +1,9 @@
 <!-- ~/pages/about.vue -->
 <template>
-  <div>
+  <div class="bg-white dark:bg-gray-950 transition-colors">
     <!-- Hero Section -->
     <section
-      class="relative bg-gradient-to-br from-carrot-orange-600 to-carrot-orange-800 text-white py-24 overflow-hidden"
+      class="relative bg-gradient-to-br from-carrot-orange-600 to-carrot-orange-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-24 overflow-hidden transition-colors"
     >
       <!-- Background Pattern -->
       <div class="absolute inset-0 opacity-10">
@@ -37,7 +37,7 @@
             <div
               class="absolute -top-8 -right-8 w-64 h-64 bg-kevalorange-400/30 rounded-3xl rotate-12"
             ></div>
-            <div class="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8">
+            <div class="relative bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-3xl p-8">
               <div class="grid grid-cols-2 gap-6">
                 <div class="text-center">
                   <p class="text-5xl font-black text-kevalorange-400">10+</p>
@@ -63,36 +63,36 @@
     </section>
 
     <!-- Mission, Vision, Values -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-white dark:bg-gray-950 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <span
             class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
             >What Drives Us</span
           >
-          <h2 class="text-4xl font-black text-gray-900 mt-2">Our Foundation</h2>
+          <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2">Our Foundation</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Mission -->
           <div
-            class="group bg-gray-50 rounded-3xl p-8 hover:bg-kevalgreen-500 transition-all duration-300"
+            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-kevalgreen-500 dark:hover:bg-kevalgreen-600 transition-all duration-300"
           >
             <div
-              class="w-16 h-16 bg-kevalgreen-100 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
+              class="w-16 h-16 bg-kevalgreen-100 dark:bg-kevalgreen-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
             >
               <UIcon
                 name="i-heroicons-rocket-launch"
-                class="w-8 h-8 text-kevalgreen-600 group-hover:text-white transition-colors"
+                class="w-8 h-8 text-kevalgreen-600 dark:text-kevalgreen-400 group-hover:text-white transition-colors"
               />
             </div>
             <h3
-              class="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors"
+              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
             >
               Our Mission
             </h3>
             <p
-              class="text-gray-600 group-hover:text-kevalgreen-100 leading-relaxed transition-colors"
+              class="text-gray-600 dark:text-gray-300 group-hover:text-kevalgreen-100 leading-relaxed transition-colors"
             >
               To empower businesses with exceptional branding and printing solutions that
               elevate their identity, enhance their visibility, and drive their success in
@@ -102,23 +102,23 @@
 
           <!-- Vision -->
           <div
-            class="group bg-gray-50 rounded-3xl p-8 hover:bg-kevalorange-500 transition-all duration-300"
+            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-kevalorange-500 dark:hover:bg-kevalorange-600 transition-all duration-300"
           >
             <div
-              class="w-16 h-16 bg-kevalorange-100 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
+              class="w-16 h-16 bg-kevalorange-100 dark:bg-kevalorange-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
             >
               <UIcon
                 name="i-heroicons-eye"
-                class="w-8 h-8 text-kevalorange-600 group-hover:text-white transition-colors"
+                class="w-8 h-8 text-kevalorange-600 dark:text-kevalorange-400 group-hover:text-white transition-colors"
               />
             </div>
             <h3
-              class="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors"
+              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
             >
               Our Vision
             </h3>
             <p
-              class="text-gray-600 group-hover:text-orange-100 leading-relaxed transition-colors"
+              class="text-gray-600 dark:text-gray-300 group-hover:text-orange-100 leading-relaxed transition-colors"
             >
               To be East Africa's most trusted and innovative branding partner, known for
               transforming ideas into impactful visual experiences that leave lasting
@@ -128,23 +128,23 @@
 
           <!-- Values -->
           <div
-            class="group bg-gray-50 rounded-3xl p-8 hover:bg-blue-600 transition-all duration-300"
+            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300"
           >
             <div
-              class="w-16 h-16 bg-blue-100 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
+              class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
             >
               <UIcon
                 name="i-heroicons-heart"
-                class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors"
+                class="w-8 h-8 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors"
               />
             </div>
             <h3
-              class="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors"
+              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
             >
               Our Values
             </h3>
             <p
-              class="text-gray-600 group-hover:text-blue-100 leading-relaxed transition-colors"
+              class="text-gray-600 dark:text-gray-300 group-hover:text-blue-100 leading-relaxed transition-colors"
             >
               Quality without compromise. Innovation in everything. Customer satisfaction
               always. Integrity in every interaction. These principles guide every project
@@ -156,20 +156,20 @@
     </section>
 
     <!-- Our Story Timeline -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <span
             class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
             >Our Journey</span
           >
-          <h2 class="text-4xl font-black text-gray-900 mt-2">The Keval Story</h2>
+          <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2">The Keval Story</h2>
         </div>
 
         <div class="relative">
           <!-- Timeline Line -->
           <div
-            class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-kevalgreen-200"
+            class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-kevalgreen-200 dark:bg-kevalgreen-800"
           ></div>
 
           <!-- Timeline Items -->
@@ -177,10 +177,10 @@
             <!-- 2014 -->
             <div class="relative flex flex-col md:flex-row items-center">
               <div class="flex-1 md:text-right md:pr-12">
-                <div class="bg-white rounded-2xl p-6 shadow-sm inline-block">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
                   <span class="text-kevalorange-500 font-bold text-lg">2014</span>
-                  <h3 class="text-xl font-bold text-gray-900 mt-2">The Beginning</h3>
-                  <p class="text-gray-600 mt-2">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">The Beginning</h3>
+                  <p class="text-gray-600 dark:text-gray-300 mt-2">
                     Started as a small print shop with a single machine and a big dream to
                     serve local businesses in Nairobi.
                   </p>
@@ -203,10 +203,10 @@
                 <UIcon name="i-heroicons-arrow-trending-up" class="w-6 h-6 text-white" />
               </div>
               <div class="flex-1 md:pl-12">
-                <div class="bg-white rounded-2xl p-6 shadow-sm inline-block">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
                   <span class="text-kevalorange-500 font-bold text-lg">2016</span>
-                  <h3 class="text-xl font-bold text-gray-900 mt-2">Expansion</h3>
-                  <p class="text-gray-600 mt-2">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">Expansion</h3>
+                  <p class="text-gray-600 dark:text-gray-300 mt-2">
                     Moved to a larger facility and invested in state-of-the-art printing
                     equipment. Added garment printing services.
                   </p>
@@ -217,10 +217,10 @@
             <!-- 2018 -->
             <div class="relative flex flex-col md:flex-row items-center">
               <div class="flex-1 md:text-right md:pr-12">
-                <div class="bg-white rounded-2xl p-6 shadow-sm inline-block">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
                   <span class="text-kevalorange-500 font-bold text-lg">2018</span>
-                  <h3 class="text-xl font-bold text-gray-900 mt-2">Corporate Clients</h3>
-                  <p class="text-gray-600 mt-2">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">Corporate Clients</h3>
+                  <p class="text-gray-600 dark:text-gray-300 mt-2">
                     Partnered with major corporations for their branding needs. Launched
                     our in-house design studio.
                   </p>
@@ -243,12 +243,12 @@
                 <UIcon name="i-heroicons-globe-alt" class="w-6 h-6 text-white" />
               </div>
               <div class="flex-1 md:pl-12">
-                <div class="bg-white rounded-2xl p-6 shadow-sm inline-block">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
                   <span class="text-kevalorange-500 font-bold text-lg">2021</span>
-                  <h3 class="text-xl font-bold text-gray-900 mt-2">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">
                     Digital Transformation
                   </h3>
-                  <p class="text-gray-600 mt-2">
+                  <p class="text-gray-600 dark:text-gray-300 mt-2">
                     Launched online ordering platform. Expanded services to include
                     vehicle branding and large format printing.
                   </p>
@@ -260,7 +260,7 @@
             <div class="relative flex flex-col md:flex-row items-center">
               <div class="flex-1 md:text-right md:pr-12">
                 <div
-                  class="bg-kevalgreen-500 rounded-2xl p-6 shadow-lg inline-block text-white"
+                  class="bg-kevalgreen-500 dark:bg-kevalgreen-600 rounded-2xl p-6 shadow-lg inline-block text-white transition-colors"
                 >
                   <span class="text-kevalorange-400 font-bold text-lg">Today</span>
                   <h3 class="text-xl font-bold mt-2">Industry Leaders</h3>
@@ -283,7 +283,7 @@
     </section>
 
     <!-- What Sets Us Apart -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-white dark:bg-gray-950 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -291,10 +291,10 @@
               class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
               >Why Choose Us</span
             >
-            <h2 class="text-4xl font-black text-gray-900 mt-2 mb-6">
+            <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2 mb-6">
               What Sets Keval Apart
             </h2>
-            <p class="text-gray-600 text-lg leading-relaxed mb-8">
+            <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8">
               We don't just print—we partner with you to create lasting impressions. Our
               commitment to quality, innovation, and customer satisfaction has made us the
               preferred choice for businesses across Kenya.
@@ -311,8 +311,8 @@
                   />
                 </div>
                 <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Premium Quality Materials</h3>
-                  <p class="text-gray-600">
+                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">Premium Quality Materials</h3>
+                  <p class="text-gray-600 dark:text-gray-300">
                     We use only the highest quality materials and inks to ensure your
                     prints last longer and look better.
                   </p>
@@ -326,8 +326,8 @@
                   <UIcon name="i-heroicons-clock" class="w-6 h-6 text-kevalorange-600" />
                 </div>
                 <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Fast Turnaround Times</h3>
-                  <p class="text-gray-600">
+                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">Fast Turnaround Times</h3>
+                  <p class="text-gray-600 dark:text-gray-300">
                     Need it urgently? We offer 24-hour rush services without compromising
                     on quality.
                   </p>
@@ -341,8 +341,8 @@
                   <UIcon name="i-heroicons-paint-brush" class="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 class="font-bold text-gray-900 mb-1">In-House Design Team</h3>
-                  <p class="text-gray-600">
+                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">In-House Design Team</h3>
+                  <p class="text-gray-600 dark:text-gray-300">
                     Our creative experts can bring your vision to life or help you develop
                     your brand from scratch.
                   </p>
@@ -372,36 +372,36 @@
           <div class="relative">
             <!-- Decorative Elements -->
             <div
-              class="absolute -top-4 -left-4 w-72 h-72 bg-kevalgreen-100 rounded-3xl"
+              class="absolute -top-4 -left-4 w-72 h-72 bg-kevalgreen-100 dark:bg-kevalgreen-900/30 rounded-3xl"
             ></div>
             <div
-              class="absolute -bottom-4 -right-4 w-72 h-72 bg-kevalorange-100 rounded-3xl"
+              class="absolute -bottom-4 -right-4 w-72 h-72 bg-kevalorange-100 dark:bg-kevalorange-900/30 rounded-3xl"
             ></div>
 
             <!-- Image Grid -->
             <div class="relative grid grid-cols-2 gap-4">
               <div class="space-y-4">
                 <div
-                  class="bg-gray-200 rounded-2xl aspect-square flex items-center justify-center"
+                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-square flex items-center justify-center transition-colors"
                 >
-                  <UIcon name="i-heroicons-printer" class="w-16 h-16 text-gray-400" />
+                  <UIcon name="i-heroicons-printer" class="w-16 h-16 text-gray-400 dark:text-gray-500" />
                 </div>
                 <div
-                  class="bg-gray-200 rounded-2xl aspect-video flex items-center justify-center"
+                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-video flex items-center justify-center transition-colors"
                 >
-                  <UIcon name="i-heroicons-scissors" class="w-12 h-12 text-gray-400" />
+                  <UIcon name="i-heroicons-scissors" class="w-12 h-12 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
               <div class="space-y-4 pt-8">
                 <div
-                  class="bg-gray-200 rounded-2xl aspect-video flex items-center justify-center"
+                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-video flex items-center justify-center transition-colors"
                 >
-                  <UIcon name="i-heroicons-paint-brush" class="w-12 h-12 text-gray-400" />
+                  <UIcon name="i-heroicons-paint-brush" class="w-12 h-12 text-gray-400 dark:text-gray-500" />
                 </div>
                 <div
-                  class="bg-gray-200 rounded-2xl aspect-square flex items-center justify-center"
+                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-square flex items-center justify-center transition-colors"
                 >
-                  <UIcon name="i-heroicons-truck" class="w-16 h-16 text-gray-400" />
+                  <UIcon name="i-heroicons-truck" class="w-16 h-16 text-gray-400 dark:text-gray-500" />
                 </div>
               </div>
             </div>
@@ -411,7 +411,7 @@
     </section>
 
     <!-- Our Services Overview -->
-    <section class="py-20 bg-gray-900 text-white">
+    <section class="py-20 bg-gray-900 dark:bg-gray-950 text-white transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <span
@@ -486,14 +486,14 @@
     </section>
 
     <!-- Testimonial Highlight -->
-    <section class="py-20 bg-kevalgreen-50">
+    <section class="py-20 bg-kevalgreen-50 dark:bg-gray-900 transition-colors">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <UIcon
           name="i-heroicons-chat-bubble-bottom-center-text"
           class="w-16 h-16 text-kevalgreen-300 mx-auto mb-8"
         />
         <blockquote
-          class="text-2xl md:text-3xl font-medium text-gray-900 leading-relaxed mb-8"
+          class="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-relaxed mb-8"
         >
           "Keval has been our printing partner for over 5 years. Their attention to
           detail, quality of work, and reliable service has made them an invaluable part
@@ -506,15 +506,15 @@
             SM
           </div>
           <div class="text-left">
-            <p class="font-bold text-gray-900">Sarah Muthoni</p>
-            <p class="text-gray-600">Marketing Director, TechStart Kenya</p>
+            <p class="font-bold text-gray-900 dark:text-white">Sarah Muthoni</p>
+            <p class="text-gray-600 dark:text-gray-300">Marketing Director, TechStart Kenya</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-br from-kevalorange-500 to-kevalorange-600">
+    <section class="py-20 bg-gradient-to-br from-kevalorange-500 to-kevalorange-600 dark:from-kevalgreen-700 dark:to-gray-900 transition-colors">
       <div class="max-w-4xl mx-auto px-4 text-center text-white">
         <h2 class="text-4xl font-black mb-4">Let's Create Something Amazing</h2>
         <p class="text-xl text-orange-100 mb-10">

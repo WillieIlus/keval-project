@@ -32,6 +32,7 @@
       <div class="flex flex-1 lg:flex-none justify-end items-center gap-4">
         <!-- Desktop Auth -->
         <div class="hidden lg:flex items-center gap-4">
+          <UColorModeButton class="p-2 hover:bg-white/10 rounded-md transition" color="neutral" />
           <!-- Not Logged In -->
           <template v-if="!auth.isAuthenticated">
             <NuxtLink to="/login" class="px-4 py-2 hover:bg-white/10 rounded-md transition">
@@ -83,13 +84,14 @@
     <Transition name="slide-left">
       <div v-if="isMenuOpen" class="fixed inset-0 z-[60] lg:hidden">
         <div class="absolute inset-0 bg-black/50" @click="isMenuOpen = false"></div>
-        <div class="absolute inset-y-0 left-0 w-64 bg-white text-gray-900 p-6 flex flex-col">
+        <div class="absolute inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-6 flex flex-col transition-colors">
           <div class="flex justify-between items-center mb-10">
             <span class="font-black text-kevalgreen-500">MENU</span>
             <button @click="isMenuOpen = false">
               <UIcon name="i-heroicons-x-mark" class="w-6 h-6" />
             </button>
           </div>
+          <UColorModeButton class="mb-4" />
           <ul class="flex flex-col gap-6 text-lg font-bold">
             <li><NuxtLink to="/" @click="isMenuOpen = false">Home</NuxtLink></li>
             <li><NuxtLink to="/portfolio" @click="isMenuOpen = false">Portfolio</NuxtLink></li>
@@ -104,7 +106,7 @@
     <Transition name="slide-right">
       <div v-if="isAuthOpen" class="fixed inset-0 z-[60] lg:hidden">
         <div class="absolute inset-0 bg-black/20" @click="isAuthOpen = false"></div>
-        <div class="absolute inset-y-0 right-0 w-64 bg-white text-gray-900 p-6">
+        <div class="absolute inset-y-0 right-0 w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-6 transition-colors">
           <div class="flex justify-between items-center mb-10">
             <button @click="isAuthOpen = false">
               <UIcon name="i-heroicons-x-mark" class="w-6 h-6" />
