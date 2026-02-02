@@ -28,6 +28,8 @@ export const useAuthStore = defineStore('auth', () => {
   
   const isAdmin = computed(() => user.value?.is_staff ?? false)
   
+  const isSuperuser = computed(() => user.value?.is_superuser ?? false)
+  
   const fullName = computed(() => {
     if (!user.value) return 'Guest'
     const firstName = user.value.first_name || ''
@@ -76,13 +78,13 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = response.token
 
       // Build user object from response
-      // Django returns: { token, user_id, email }
       user.value = {
         id: response.user_id,
         email: response.email,
-        first_name: '',
-        last_name: '',
-        is_staff: false // We'll need to fetch this separately or have Django include it
+        first_name: response.first_name || '',
+        last_name: response.last_name || '',
+        is_staff: response.is_staff ?? false,
+        is_superuser: response.is_superuser ?? false
       }
 
       // Persist to localStorage
@@ -142,9 +144,10 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = {
         id: response.user_id,
         email: response.email,
-        first_name: formData.first_name.trim(),
-        last_name: formData.last_name.trim(),
-        is_staff: false
+        first_name: response.first_name || formData.first_name.trim(),
+        last_name: response.last_name || formData.last_name.trim(),
+        is_staff: response.is_staff ?? false,
+        is_superuser: response.is_superuser ?? false
       }
 
       if (import.meta.client) {
@@ -274,6 +277,7 @@ export const useAuthStore = defineStore('auth', () => {
     // Getters
     isAuthenticated,
     isAdmin,
+    isSuperuser,
     fullName,
     userInitials,
     // Actions

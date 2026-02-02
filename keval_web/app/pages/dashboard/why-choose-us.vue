@@ -1,6 +1,12 @@
 <!-- ~/pages/dashboard/why-choose-us.vue -->
 <template>
   <div>
+    <!-- Permission Warning -->
+    <UAlert v-if="!auth.isSuperuser" color="warning" variant="soft" class="mb-6">
+      <template #title>View Only</template>
+      <template #description>You don't have permission to add or edit why choose us items. Contact an administrator.</template>
+    </UAlert>
+
     <AdminFormWrapper
       title="Why Choose Us"
       subtitle="Manage reasons why customers should choose you"
@@ -9,7 +15,7 @@
       @clear-error="admin.clearMessages"
       @clear-success="admin.clearMessages"
     >
-      <template #actions>
+      <template v-if="auth.isSuperuser" #actions>
         <UButton @click="openModal()" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
           <UIcon name="i-heroicons-plus" class="w-5 h-5 mr-2" />
           Add Reason
@@ -25,7 +31,7 @@
       <div v-else-if="items.length === 0" class="text-center py-12">
         <UIcon name="i-heroicons-star" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
         <p class="text-gray-500">No reasons added yet</p>
-        <UButton @click="openModal()" variant="soft" class="mt-4">Add your first reason</UButton>
+        <UButton v-if="auth.isSuperuser" @click="openModal()" variant="soft" class="mt-4">Add your first reason</UButton>
       </div>
 
       <!-- Items List -->
@@ -50,7 +56,7 @@
               <p class="text-sm text-gray-600 mt-1">{{ item.description }}</p>
 
               <!-- Actions -->
-              <div class="flex gap-2 mt-4">
+              <div v-if="auth.isSuperuser" class="flex gap-2 mt-4">
                 <UButton variant="ghost" size="xs" @click="openModal(item)">
                   <UIcon name="i-heroicons-pencil" class="w-4 h-4 mr-1" />
                   Edit
@@ -124,9 +130,11 @@
 
 <script setup lang="ts">
 import { useAdminStore } from '~/stores/admin'
+import { useAuthStore } from '~/stores/auth'
 import type { WhyChooseUs, WhyChooseUsFormData } from '~/types/api'
 
 const admin = useAdminStore()
+const auth = useAuthStore()
 
 const items = ref<WhyChooseUs[]>([])
 const loading = ref(false)

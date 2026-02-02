@@ -25,6 +25,10 @@ class RegisterView(generics.CreateAPIView):
         return Response({
             "user_id": user.pk,
             "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_staff": user.is_staff,
+            "is_superuser": user.is_superuser,
             "token": token.key,
             "message": "Account created successfully"
         }, status=status.HTTP_201_CREATED)
@@ -41,6 +45,10 @@ class CustomLoginView(views.APIView):
             return Response({
                 "token": token.key,
                 "user_id": user.pk,
-                "email": user.email
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

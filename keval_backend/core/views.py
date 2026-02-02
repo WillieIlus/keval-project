@@ -10,67 +10,60 @@ from .serializers import (
     BannerSerializer, CoreValueSerializer, 
     WhyChooseUsSerializer, TeamMemberSerializer, ContactSubmissionSerializer
 )
+from accounts.permissions import IsSuperuserOrReadOnly
 
 
 class BannerListView(generics.ListCreateAPIView):
     queryset = Banner.objects.filter(is_active=True).order_by('order')
     serializer_class = BannerSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 class BannerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Banner.objects.all()
     serializer_class = BannerSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 
 class CoreValueListView(generics.ListCreateAPIView):
     queryset = CoreValue.objects.all().order_by('order')
     serializer_class = CoreValueSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 class CoreValueDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CoreValue.objects.all()
     serializer_class = CoreValueSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 
 class WhyChooseUsListView(generics.ListCreateAPIView):
     queryset = WhyChooseUs.objects.all().order_by('order')
     serializer_class = WhyChooseUsSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 class WhyChooseUsDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = WhyChooseUs.objects.all()
     serializer_class = WhyChooseUsSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 
 class TeamMemberListView(generics.ListCreateAPIView):
     serializer_class = TeamMemberSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser]
     
     def get_queryset(self):
         return TeamMember.objects.filter(is_active=True).order_by('order')
 
-    parser_classes = [MultiPartParser, FormParser]
-
 class TeamMemberDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
 

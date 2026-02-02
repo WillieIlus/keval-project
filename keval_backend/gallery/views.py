@@ -11,45 +11,46 @@ from .serializers import (
     ProjectImageSerializer,
     ProjectImageUploadSerializer
 )
+from accounts.permissions import IsSuperuserOrReadOnly, IsSuperuser
 
 
 class CategoryListView(generics.ListCreateAPIView):
     queryset = ServiceCategory.objects.filter(parent__isnull=True)
     serializer_class = ServiceCategorySerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 class CategoryAdminListView(generics.ListAPIView):
     queryset = ServiceCategory.objects.all().order_by('name')
     serializer_class = ServiceCategorySerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Read-only, so anyone can list
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.filter(is_featured=True)
     serializer_class = ProjectSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 class ProjectAdminListCreateView(generics.ListCreateAPIView):
     queryset = Project.objects.all().order_by('-created_at')
     serializer_class = ProjectSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
 class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     lookup_field = 'slug'
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 class ProjectAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
@@ -61,7 +62,7 @@ class ProjectImageListCreateView(generics.ListCreateAPIView):
     POST: Add a single image to a project
     """
     serializer_class = ProjectImageSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
@@ -76,7 +77,7 @@ class ProjectImageListCreateView(generics.ListCreateAPIView):
 class ProjectImageAdminListCreateView(generics.ListCreateAPIView):
     queryset = ProjectImage.objects.all().order_by('order')
     serializer_class = ProjectImageSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
@@ -86,7 +87,7 @@ class ProjectImageDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = ProjectImage.objects.all()
     serializer_class = ProjectImageSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuserOrReadOnly]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
 
@@ -94,7 +95,7 @@ class ProjectMultipleImageUploadView(APIView):
     """
     Upload multiple images to a project at once
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsSuperuser]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def post(self, request, project_id):

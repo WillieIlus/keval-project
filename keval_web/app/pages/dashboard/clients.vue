@@ -1,6 +1,12 @@
 <!-- ~/pages/dashboard/clients.vue -->
 <template>
   <div>
+    <!-- Permission Warning -->
+    <UAlert v-if="!auth.isSuperuser" color="warning" variant="soft" class="mb-6">
+      <template #title>View Only</template>
+      <template #description>You don't have permission to add or edit clients. Contact an administrator.</template>
+    </UAlert>
+
     <AdminFormWrapper
       title="Clients"
       subtitle="Manage client logos and information"
@@ -9,7 +15,7 @@
       @clear-error="admin.clearMessages"
       @clear-success="admin.clearMessages"
     >
-      <template #actions>
+      <template v-if="auth.isSuperuser" #actions>
         <UButton @click="openModal()" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
           <UIcon name="i-heroicons-plus" class="w-5 h-5 mr-2" />
           Add Client
@@ -25,7 +31,7 @@
       <div v-else-if="items.length === 0" class="text-center py-12">
         <UIcon name="i-heroicons-building-office" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
         <p class="text-gray-500">No clients yet</p>
-        <UButton @click="openModal()" variant="soft" class="mt-4">Add your first client</UButton>
+        <UButton v-if="auth.isSuperuser" @click="openModal()" variant="soft" class="mt-4">Add your first client</UButton>
       </div>
 
       <!-- Clients Grid -->
@@ -55,7 +61,7 @@
           </div>
 
           <!-- Actions Overlay -->
-          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center gap-2">
+          <div v-if="auth.isSuperuser" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center gap-2">
             <UButton size="sm" color="neutral" @click="openModal(item)">
               <UIcon name="i-heroicons-pencil" class="w-4 h-4" />
             </UButton>
@@ -125,9 +131,11 @@
 
 <script setup lang="ts">
 import { useAdminStore } from '~/stores/admin'
+import { useAuthStore } from '~/stores/auth'
 import type { Client } from '~/types/api'
 
 const admin = useAdminStore()
+const auth = useAuthStore()
 
 const items = ref<Client[]>([])
 const loading = ref(false)

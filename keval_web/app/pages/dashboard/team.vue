@@ -1,6 +1,12 @@
 <!-- ~/pages/dashboard/team.vue -->
 <template>
   <div>
+    <!-- Permission Warning -->
+    <UAlert v-if="!auth.isSuperuser" color="warning" variant="soft" class="mb-6">
+      <template #title>View Only</template>
+      <template #description>You don't have permission to add or edit team members. Contact an administrator.</template>
+    </UAlert>
+
     <AdminFormWrapper
       title="Team Members"
       subtitle="Manage your team profiles"
@@ -9,7 +15,7 @@
       @clear-error="admin.clearMessages"
       @clear-success="admin.clearMessages"
     >
-      <template #actions>
+      <template v-if="auth.isSuperuser" #actions>
         <UButton @click="openModal()" class="bg-kevalgreen-500 hover:bg-kevalgreen-600">
           <UIcon name="i-heroicons-plus" class="w-5 h-5 mr-2" />
           Add Team Member
@@ -25,7 +31,7 @@
       <div v-else-if="items.length === 0" class="text-center py-12">
         <UIcon name="i-heroicons-users" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
         <p class="text-gray-500">No team members yet</p>
-        <UButton @click="openModal()" variant="soft" class="mt-4">Add your first team member</UButton>
+        <UButton v-if="auth.isSuperuser" @click="openModal()" variant="soft" class="mt-4">Add your first team member</UButton>
       </div>
 
       <!-- Team Grid -->
@@ -89,7 +95,7 @@
             </div>
 
             <!-- Actions -->
-            <div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+            <div v-if="auth.isSuperuser" class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
               <UButton variant="ghost" size="xs" class="flex-1" @click="openModal(item)">
                 <UIcon name="i-heroicons-pencil" class="w-4 h-4 mr-1" />
                 Edit
@@ -162,9 +168,11 @@
 
 <script setup lang="ts">
 import { useAdminStore } from '~/stores/admin'
+import { useAuthStore } from '~/stores/auth'
 import type { TeamMember } from '~/types/api'
 
 const admin = useAdminStore()
+const auth = useAuthStore()
 
 const items = ref<TeamMember[]>([])
 const loading = ref(false)

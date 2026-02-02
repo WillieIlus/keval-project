@@ -36,18 +36,27 @@ export interface User {
   first_name?: string;
   last_name?: string;
   is_staff?: boolean;
+  is_superuser?: boolean;
 }
 
 export interface LoginResponse {
   token: string;
   user_id: number;
   email: string;
+  first_name?: string;
+  last_name?: string;
+  is_staff?: boolean;
+  is_superuser?: boolean;
 }
 
 export interface RegisterResponse {
   token: string;
   user_id: number;
   email: string;
+  first_name?: string;
+  last_name?: string;
+  is_staff?: boolean;
+  is_superuser?: boolean;
   user?: User;
 }
 

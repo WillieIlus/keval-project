@@ -67,19 +67,29 @@ definePageMeta({
 
 const auth = useAuthStore()
 
-const menuItems = [
-  { label: 'Overview', to: '/dashboard', icon: 'i-heroicons-squares-2x2' },
-  { label: 'Banners', to: '/dashboard/banners', icon: 'i-heroicons-photo' },
-  { label: 'Clients', to: '/dashboard/clients', icon: 'i-heroicons-building-office' },
-  { label: 'Testimonials', to: '/dashboard/testimonials', icon: 'i-heroicons-chat-bubble-left-right' },
-  { label: 'Team', to: '/dashboard/team', icon: 'i-heroicons-users' },
-  { label: 'Projects', to: '/dashboard/projects', icon: 'i-heroicons-rectangle-stack' },
-  { label: 'Core Values', to: '/dashboard/values', icon: 'i-heroicons-heart' },
-  { label: 'Why Choose Us', to: '/dashboard/why-choose-us', icon: 'i-heroicons-star' }
+// All menu items with permission levels
+const allMenuItems = [
+  { label: 'Overview', to: '/dashboard', icon: 'i-heroicons-squares-2x2', requiresSuperuser: false },
+  { label: 'Banners', to: '/dashboard/banners', icon: 'i-heroicons-photo', requiresSuperuser: true },
+  { label: 'Clients', to: '/dashboard/clients', icon: 'i-heroicons-building-office', requiresSuperuser: true },
+  { label: 'Testimonials', to: '/dashboard/testimonials', icon: 'i-heroicons-chat-bubble-left-right', requiresSuperuser: false },
+  { label: 'Team', to: '/dashboard/team', icon: 'i-heroicons-users', requiresSuperuser: true },
+  { label: 'Projects', to: '/dashboard/projects', icon: 'i-heroicons-rectangle-stack', requiresSuperuser: true },
+  { label: 'Core Values', to: '/dashboard/values', icon: 'i-heroicons-heart', requiresSuperuser: true },
+  { label: 'Why Choose Us', to: '/dashboard/why-choose-us', icon: 'i-heroicons-star', requiresSuperuser: true }
 ]
+
+// Filter menu items based on user permissions
+const menuItems = computed(() => {
+  return allMenuItems.filter(item => {
+    if (!item.requiresSuperuser) return true
+    return auth.isSuperuser
+  })
+})
 
 const userMenuItems = computed(() => [
   [{ label: auth.user?.email || 'User', disabled: true }],
+  [{ label: auth.isSuperuser ? 'Admin' : 'User', disabled: true }],
   [{ label: 'Sign Out', icon: 'i-heroicons-arrow-right-on-rectangle', click: () => auth.logout('/') }]
 ])
 
