@@ -50,7 +50,11 @@
               Dashboard
             </NuxtLink>
             
-            <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
+            <UDropdown
+              :items="userMenuItems"
+              :popper="{ placement: 'bottom-end' }"
+              :ui="{ content: 'z-[70]' }"
+            >
               <button class="flex items-center gap-2 px-3 py-2 hover:bg-white/10 rounded-md transition">
                 <UAvatar 
                   :text="auth.userInitials" 
