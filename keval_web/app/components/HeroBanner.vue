@@ -1,7 +1,7 @@
 <template>
   <section 
     class="relative w-full overflow-hidden bg-kevalgreen-500 group" 
-    style="height: 90vh;"
+    style="height: 56vh; min-height: 420px; max-height: 520px;"
     @mouseenter="pauseTimer" 
     @mouseleave="resumeTimer"
     aria-roledescription="carousel"
@@ -39,7 +39,7 @@
               class="transition-all duration-1000 delay-300 transform"
               :class="currentIndex === index ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'"
             >
-              <span class="inline-block py-1 px-3 mb-4 text-sm font-medium tracking-widest uppercase bg-white/10 backdrop-blur-sm rounded">
+              <span class="inline-block py-1 px-2.5 mb-3 text-xs font-medium tracking-widest uppercase bg-white/10 backdrop-blur-sm rounded-sm">
                 {{ banner.title }}
               </span>
             </div>
@@ -48,7 +48,7 @@
               class="transition-all duration-1000 delay-500 transform"
               :class="currentIndex === index ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'"
             >
-              <h1 class="text-4xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 uppercase drop-shadow-lg">
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 uppercase drop-shadow-lg">
                 {{ banner.subtitle }}
               </h1>
             </div>
@@ -60,7 +60,7 @@
               <NuxtLink 
                 v-if="banner.cta_link" 
                 :to="banner.cta_link" 
-                class="inline-flex items-center gap-2 px-8 py-4 bg-kevalorange-500 text-white hover:bg-kevalorange-700 transition-all duration-300 rounded-full font-bold text-lg shadow-xl group/btn"
+                class="inline-flex items-center gap-2 px-5 py-2.5 bg-kevalorange-500 text-white hover:bg-kevalorange-700 transition-all duration-300 rounded font-semibold text-sm shadow group/btn"
               >
                 {{ banner.cta_text || 'Learn More' }}
                 <UIcon 
@@ -75,12 +75,12 @@
       </div>
     </div>
 
-    <div class="absolute bottom-8 left-0 right-0 z-30 flex justify-center gap-3">
+    <div class="absolute bottom-4 left-0 right-0 z-30 flex justify-center gap-2">
       <button 
         v-for="(_, index) in marketing.activeBanners" 
         :key="index"
         @click="setSlide(index)"
-        class="h-1.5 rounded-full transition-all duration-300"
+        class="h-1 rounded-sm transition-all duration-300"
         :class="currentIndex === index ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'"
         :aria-label="`Go to slide ${index + 1}`"
       ></button>

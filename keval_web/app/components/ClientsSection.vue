@@ -1,9 +1,9 @@
 <template>
-  <section class="py-16 bg-white border-y border-gray-100 overflow-hidden">
+  <section class="py-10 bg-white border-y border-gray-100 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4">
       
-      <div class="text-center mb-10">
-        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-[0.3em]">
+      <div class="text-center mb-6">
+        <h3 class="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.25em]">
           Trusted by Industry Leaders
         </h3>
       </div>
@@ -25,7 +25,7 @@
               <img
                 :src="item.logo"
                 :alt="item.name"
-                class="h-10 md:h-12 w-auto object-contain transition-all duration-300 filter grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transform hover:scale-110"
+                class="h-8 md:h-10 w-auto object-contain transition-all duration-300 filter grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transform hover:scale-105"
                 draggable="false"
               />
             </div>

@@ -1,7 +1,7 @@
 <!-- ~/components/AppHeader.vue -->
 <template>
   <nav class="fixed top-0 left-0 right-0 text-white z-50 bg-kevalgreen-500 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       
       <!-- Left: Menu Button (Mobile) + Logo (Desktop) -->
       <div class="flex items-center flex-1 lg:flex-none">
@@ -10,17 +10,17 @@
         </button>
 
         <NuxtLink to="/" class="hidden lg:block">
-          <img src="/logo-white.png" alt="Keval Logo" class="h-20 w-auto">
+          <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
         </NuxtLink>
       </div>
 
       <!-- Center: Logo (Mobile) + Nav Links (Desktop) -->
       <div class="flex flex-1 justify-center">
         <NuxtLink to="/" class="lg:hidden">
-          <img src="/logo-white.png" alt="Keval Logo" class="h-20 w-auto">
+          <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
         </NuxtLink>
 
-        <ul class="hidden lg:flex items-center gap-8 font-medium">
+        <ul class="hidden lg:flex items-center gap-6 font-medium text-sm">
           <li><NuxtLink to="/" class="hover:text-kevalorange-500 transition">Home</NuxtLink></li>
           <li><NuxtLink to="/portfolio" class="hover:text-kevalorange-500 transition">Our Work</NuxtLink></li>
           <li><NuxtLink to="/about" class="hover:text-kevalorange-500 transition">About Us</NuxtLink></li>

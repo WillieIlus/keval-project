@@ -29,7 +29,7 @@
       <FormsImageUpload
         v-model="form.image"
         label=""
-        hint="Recommended: 1920x600px"
+        hint="Recommended: 1200x400px (slender hero) or 1020x600px"
       />
     </UFormGroup>
 

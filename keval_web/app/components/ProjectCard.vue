@@ -1,8 +1,8 @@
 <template>
   <NuxtLink 
     :to="`/portfolio/${project.slug}`" 
-    class="group relative block w-full h-full overflow-hidden shadow-lg border border-white"
-    :class="isLarge ? 'rounded-[2.5rem]' : 'rounded-[1.5rem] aspect-square lg:aspect-auto'"
+    class="group relative block w-full h-full overflow-hidden shadow-sm border border-gray-200/80 hover:border-kevalgreen-500/40"
+    :class="isLarge ? 'rounded-lg' : 'rounded-lg aspect-square lg:aspect-auto'"
   >
     <img 
       :src="coverImage" 
@@ -16,11 +16,11 @@
       <span class="text-kevalorange-500 font-bold text-[10px] uppercase tracking-widest mb-1">
         {{ project.category_name }}
       </span>
-      <h3 class="text-white font-black uppercase leading-tight" :class="isLarge ? 'text-3xl' : 'text-lg'">
+      <h3 class="text-white font-semibold uppercase leading-tight" :class="isLarge ? 'text-xl' : 'text-sm'">
         {{ project.title }}
       </h3>
       
-      <div class="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500">
+      <div class="max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-500">
          <p class="text-gray-300 text-xs mt-2 line-clamp-2">{{ project.client }}</p>
          <div class="mt-4 flex items-center text-white text-xs font-bold uppercase">
            View Project <UIcon name="i-heroicons-arrow-right" class="ml-2 w-4 h-4" />

@@ -4,12 +4,12 @@
 
     <Gallery />
     
-    <section class="py-20 text-center">
-      <h3 class="text-2xl font-bold mb-6">Have a specific project in mind?</h3>
+    <section class="py-12 text-center">
+      <h3 class="text-lg font-semibold mb-4">Have a specific project in mind?</h3>
       <UButton 
         to="/contact" 
-        size="xl" 
-        class="bg-kevalorange-500 hover:bg-kevalgreen-500 rounded-full px-10"
+        size="sm" 
+        class="bg-kevalorange-500 hover:bg-kevalgreen-500 rounded px-6 py-2 font-semibold text-sm"
       >
         Get a Quote
       </UButton>

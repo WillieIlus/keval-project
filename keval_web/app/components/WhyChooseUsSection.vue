@@ -1,21 +1,21 @@
 <template>
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center text-kevalgreen-500 mb-12">
+  <section class="py-12 md:py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-center text-kevalgreen-500 mb-8">
         Why Choose Us
       </h2>
       
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-3 gap-6">
         <div 
           v-for="(item, index) in features" 
           :key="index"
-          class="bg-white p-6 rounded-xl shadow-lg text-center"
+          class="bg-white p-5 rounded-lg border border-gray-100 text-center"
         >
-          <div class="w-16 h-16 bg-kevalgreen-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <UIcon :name="item.icon" class="w-8 h-8 text-kevalgreen-500" />
+          <div class="w-12 h-12 bg-kevalgreen-100 rounded-md flex items-center justify-center mx-auto mb-3">
+            <UIcon :name="item.icon" class="w-6 h-6 text-kevalgreen-500" />
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-2">{{ item.title }}</h3>
-          <p class="text-gray-600">{{ item.description }}</p>
+          <h3 class="text-base font-semibold text-gray-900 mb-1">{{ item.title }}</h3>
+          <p class="text-gray-600 text-sm">{{ item.description }}</p>
         </div>
       </div>
     </div>

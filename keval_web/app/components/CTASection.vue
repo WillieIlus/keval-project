@@ -1,7 +1,7 @@
 <!-- ~/components/sections/CTASection.vue -->
 <template>
   <section
-    class="relative overflow-hidden py-20 transition-colors
+    class="relative overflow-hidden py-12 md:py-16 transition-colors
            bg-gradient-to-br from-kevalgreen-50 to-kevalgreen-100
            dark:from-kevalgreen-900 dark:to-gray-900"
   >
@@ -33,7 +33,7 @@
 
       <!-- Heading -->
       <h2
-        class="mb-6 text-4xl md:text-5xl font-black leading-tight
+        class="mb-4 text-2xl md:text-3xl font-bold leading-tight
                text-gray-900 dark:text-white"
       >
         Let’s Bring Your<br />
@@ -44,7 +44,7 @@
 
       <!-- Description -->
       <p
-        class="mx-auto mb-10 max-w-2xl text-lg md:text-xl
+        class="mx-auto mb-8 max-w-xl text-sm md:text-base
                text-gray-700 dark:text-gray-300"
       >
         Get a free consultation and quote for your next project.
@@ -52,11 +52,11 @@
       </p>
 
       <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+      <div class="flex flex-col sm:flex-row justify-center gap-3 mb-8">
         <NuxtLink
           to="/contact"
           class="inline-flex items-center justify-center gap-2
-                 px-8 py-4 rounded-xl font-bold
+                 px-5 py-2.5 rounded font-semibold text-sm
                  bg-kevalgreen-600 text-white
                  hover:bg-kevalgreen-700
                  dark:bg-white dark:text-gray-900
@@ -73,8 +73,8 @@
         <a
           href="tel:+254711635104"
           class="inline-flex items-center justify-center gap-2
-                 px-8 py-4 rounded-xl font-bold
-                 border-2 border-kevalgreen-600
+                 px-5 py-2.5 rounded font-semibold text-sm
+                 border border-kevalgreen-600
                  text-kevalgreen-700
                  hover:bg-kevalgreen-600 hover:text-white
                  dark:border-white/70
@@ -88,7 +88,7 @@
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         <Stat value="500+" label="Happy Clients" />
         <Stat value="2K+" label="Projects Done" />
         <Stat value="10+" label="Years Experience" />
@@ -106,8 +106,8 @@ const Stat = defineComponent({
   },
   template: `
     <div>
-      <p
-        class="text-4xl font-black
+        <p
+        class="text-2xl font-bold
                text-kevalorange-500 dark:text-kevalorange-300"
       >
         {{ value }}

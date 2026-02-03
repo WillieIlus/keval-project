@@ -1,5 +1,5 @@
 <template>
-  <section class="relative bg-kevalgreen-500 pt-48 pb-12 md:pb-20 overflow-hidden">
+  <section class="relative bg-kevalgreen-500 pt-32 pb-8 md:pb-12 overflow-hidden">
     
     <div class="absolute inset-0 z-0">
       <img 
@@ -31,7 +31,7 @@
             <UIcon name="i-heroicons-chevron-right" class="text-white/40 w-4 h-4" />
             <NuxtLink
               :to="crumb.path"
-              class="text-white font-black text-2xl md:text-4xl hover:text-kevalorange-500 transition-colors focus:outline-none uppercase"
+              class="text-white font-bold text-lg md:text-2xl hover:text-kevalorange-500 transition-colors focus:outline-none uppercase"
               :aria-current="index === crumbs.length - 1 ? 'page' : undefined"
             >
               {{ crumb.name }}

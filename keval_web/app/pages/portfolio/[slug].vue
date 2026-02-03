@@ -1,16 +1,16 @@
 <template>
   <div v-if="project" class="min-h-screen bg-white pb-20">
-    <header class="bg-gray-50 py-16 px-4">
+    <header class="bg-gray-50 py-10 px-4">
       <div class="max-w-7xl mx-auto">
         <NuxtLink to="/" class="text-indigo-600 font-medium mb-4 inline-block">← Back to Gallery</NuxtLink>
-        <h1 class="text-5xl font-black text-gray-900">{{ project.title }}</h1>
-        <p class="text-xl text-gray-500 mt-4 max-w-2xl">{{ project.description }}</p>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ project.title }}</h1>
+        <p class="text-base text-gray-500 mt-3 max-w-2xl">{{ project.description }}</p>
       </div>
     </header>
 
     <div class="max-w-7xl mx-auto px-4 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
       <div class="lg:col-span-2 space-y-8">
-        <div v-for="img in sortedImages" :key="img.id" class="rounded-2xl overflow-hidden shadow-lg">
+        <div v-for="img in sortedImages" :key="img.id" class="rounded-lg overflow-hidden shadow-sm border border-gray-100">
           <img :src="img.image" :alt="img.caption" class="w-full object-cover" />
           <p v-if="img.caption && img.caption !== 'none'" class="p-4 text-sm text-gray-500 bg-white italic">
             {{ img.caption }}
@@ -19,7 +19,7 @@
       </div>
 
       <aside class="lg:col-span-1">
-        <div class="sticky top-8 bg-gray-50 p-8 rounded-2xl border border-gray-100">
+        <div class="sticky top-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
           <h3 class="text-lg font-bold mb-6 border-b pb-2">Project Specifications</h3>
           
           <div class="space-y-6">
@@ -44,7 +44,7 @@
                 <span 
                   v-for="tag in project.finishing.split(',')" 
                   :key="tag" 
-                  class="px-3 py-1 bg-white border border-gray-200 rounded text-sm text-gray-600"
+                  class="px-2.5 py-0.5 bg-white border border-gray-200 rounded-sm text-xs text-gray-600"
                 >
                   {{ tag.trim() }}
                 </span>
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <button class="w-full mt-10 bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 transition">
+          <button class="w-full mt-6 bg-kevalgreen-500 text-white py-3 rounded font-semibold text-sm hover:bg-kevalgreen-600 transition">
             Request Similar Quote
           </button>
         </div>
