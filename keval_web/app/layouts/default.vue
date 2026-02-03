@@ -4,7 +4,7 @@
     <AppHeader />
     
     <!-- Main content grows to fill available space -->
-    <main class="flex-grow pt-24">
+    <main class="flex-grow pt-0">
       <slot />
     </main>
     

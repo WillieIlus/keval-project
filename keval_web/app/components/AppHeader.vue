@@ -1,7 +1,7 @@
 <!-- ~/components/AppHeader.vue -->
 <template>
-  <nav class="fixed top-0 left-0 right-0 text-white z-50 bg-kevalgreen-500 shadow-lg">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+  <nav class="fixed top-0 left-0 right-0 text-white z-[100] bg-kevalgreen-500 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
       
       <!-- Left: Menu Button (Mobile) + Logo (Desktop) -->
       <div class="flex items-center flex-1 lg:flex-none">
@@ -10,14 +10,14 @@
         </button>
 
         <NuxtLink to="/" class="hidden lg:block">
-          <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
+          <img src="/logo-white.png" alt="Keval Logo" class="h-14 w-auto">
         </NuxtLink>
       </div>
 
       <!-- Center: Logo (Mobile) + Nav Links (Desktop) -->
       <div class="flex flex-1 justify-center">
         <NuxtLink to="/" class="lg:hidden">
-          <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
+          <img src="/logo-white.png" alt="Keval Logo" class="h-12 w-auto">
         </NuxtLink>
 
         <ul class="hidden lg:flex items-center gap-6 font-medium text-sm">
@@ -50,7 +50,7 @@
               Dashboard
             </NuxtLink>
             
-            <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
+            <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end', strategy: 'fixed' }" :ui="{ content: 'z-[10000]' }">
               <button class="flex items-center gap-2 px-3 py-2 hover:bg-white/10 rounded-md transition">
                 <UAvatar 
                   :text="auth.userInitials" 

@@ -25,7 +25,7 @@
           class="absolute inset-0 transition-transform duration-[8000ms] ease-linear"
           :class="currentIndex === index ? 'scale-110' : 'scale-100'"
           :style="{
-            backgroundImage: `linear-gradient(to right, rgba(0, 166, 156, 0.9) 0%, rgba(0, 166, 156, 0.2) 100%), url(${banner.image})`,
+            backgroundImage: `linear-gradient(to right, rgba(0, 166, 156, 0.55) 0%, rgba(0, 166, 156, 0.15) 35%, transparent 100%), url(${banner.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }"

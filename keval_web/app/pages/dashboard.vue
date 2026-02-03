@@ -5,16 +5,27 @@
     <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <NuxtLink to="/" class="flex items-center">
-            <img src="/logo-white.png" alt="Keval" class="h-8">
-          </NuxtLink>
+          <div class="flex items-center gap-4">
+            <!-- Mobile menu toggle -->
+            <button
+              type="button"
+              class="lg:hidden p-2 -ml-2 rounded-md text-gray-600 hover:bg-gray-100"
+              aria-label="Toggle menu"
+              @click="mobileMenuOpen = !mobileMenuOpen"
+            >
+              <UIcon :name="mobileMenuOpen ? 'i-heroicons-x-mark' : 'i-heroicons-bars-3'" class="w-6 h-6" />
+            </button>
+            <NuxtLink to="/" class="flex items-center">
+              <img src="/logo-white.png" alt="Keval" class="h-8">
+            </NuxtLink>
+          </div>
 
           <div class="flex items-center gap-4">
-            <UButton to="/" variant="ghost" color="neutral">
+            <UButton to="/" variant="ghost" color="neutral" class="hidden sm:flex">
               <UIcon name="i-heroicons-home" class="w-5 h-5" />
             </UButton>
             
-            <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
+            <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end', strategy: 'fixed' }">
               <UButton color="neutral" variant="ghost" class="gap-2">
                 <UAvatar :text="auth.userInitials" size="sm" class="bg-kevalgreen-500 text-white" />
                 <span class="hidden sm:inline">{{ auth.fullName }}</span>
@@ -28,7 +39,48 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex gap-8">
-        <!-- Sidebar Navigation -->
+        <!-- Mobile Content Management drawer -->
+        <Transition name="slide-left">
+          <div
+            v-if="mobileMenuOpen"
+            class="fixed inset-0 z-50 lg:hidden"
+            aria-modal="true"
+          >
+            <div
+              class="absolute inset-0 bg-black/50"
+              @click="mobileMenuOpen = false"
+            />
+            <nav
+              class="absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-white shadow-xl p-6 overflow-y-auto"
+            >
+              <div class="flex justify-between items-center mb-6">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Management</p>
+                <button
+                  type="button"
+                  class="p-2 -mr-2 rounded-md text-gray-500 hover:bg-gray-100"
+                  @click="mobileMenuOpen = false"
+                >
+                  <UIcon name="i-heroicons-x-mark" class="w-5 h-5" />
+                </button>
+              </div>
+              <ul class="space-y-1">
+                <li v-for="item in menuItems" :key="item.to">
+                  <NuxtLink
+                    :to="item.to"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                    active-class="bg-kevalgreen-50 text-kevalgreen-700"
+                    @click="mobileMenuOpen = false"
+                  >
+                    <UIcon :name="item.icon" class="w-5 h-5 shrink-0" />
+                    {{ item.label }}
+                  </NuxtLink>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </Transition>
+
+        <!-- Sidebar Navigation (desktop) -->
         <aside class="w-64 shrink-0 hidden lg:block">
           <nav class="bg-white rounded-xl shadow-sm p-4 sticky top-24">
             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Content Management</p>
@@ -66,6 +118,7 @@ definePageMeta({
 })
 
 const auth = useAuthStore()
+const mobileMenuOpen = ref(false)
 
 // All menu items with permission levels
 const allMenuItems = [
@@ -97,3 +150,15 @@ onMounted(() => {
   auth.initializeAuth()
 })
 </script>
+
+<style scoped>
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.slide-left-enter-from,
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+</style>
