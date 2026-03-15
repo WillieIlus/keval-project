@@ -18,52 +18,50 @@
         role="group"
         :aria-hidden="currentIndex !== index"
       >
-        <div class="hero__container">
-          <div class="hero__grid">
-            <div class="hero__content">
-              <div class="hero__content-inner">
-                <span
-                  class="hero__badge"
-                  :class="{ 'hero__badge--visible': currentIndex === index }"
-                >
-                  {{ banner.title }}
-                </span>
-                <h1
-                  class="hero__title"
-                  :class="{ 'hero__title--visible': currentIndex === index }"
-                >
-                  {{ banner.subtitle }}
-                </h1>
-                <div
-                  class="hero__cta"
-                  :class="{ 'hero__cta--visible': currentIndex === index }"
-                >
-                  <NuxtLink
-                    v-if="banner.cta_link"
-                    :to="banner.cta_link"
-                    class="hero__btn"
-                  >
-                    {{ banner.cta_text || 'Learn More' }}
-                    <UIcon name="i-heroicons-arrow-right" class="w-5 h-5 hero__btn-icon" />
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero__media">
-              <div
-                class="hero__media-frame"
-                :class="{ 'hero__media-frame--active': currentIndex === index }"
+        <div class="hero__layout">
+          <!-- Left: green content panel -->
+          <div class="hero__panel">
+            <div class="hero__panel-inner">
+              <h1
+                class="hero__title"
+                :class="{ 'hero__title--visible': currentIndex === index }"
               >
-                <img
-                  v-if="banner.image"
-                  :src="getImageUrl(banner.image)"
-                  :alt="banner.title || banner.subtitle"
-                  class="hero__media-img"
-                />
-                <div v-else class="hero__media-placeholder" />
+                {{ banner.title }}
+              </h1>
+              <p
+                v-if="banner.subtitle"
+                class="hero__subtitle"
+                :class="{ 'hero__subtitle--visible': currentIndex === index }"
+              >
+                {{ banner.subtitle }}
+              </p>
+              <div
+                class="hero__cta"
+                :class="{ 'hero__cta--visible': currentIndex === index }"
+              >
+                <NuxtLink
+                  v-if="banner.cta_link"
+                  :to="banner.cta_link"
+                  class="hero__btn"
+                >
+                  {{ banner.cta_text || 'Get a Quote' }}
+                  <UIcon name="i-heroicons-arrow-right" class="w-5 h-5 hero__btn-icon" />
+                </NuxtLink>
               </div>
             </div>
+          </div>
+
+          <!-- Right: full-height hero image -->
+          <div class="hero__image-wrap">
+            <img
+              v-if="banner.image"
+              :src="getImageUrl(banner.image)"
+              :alt="banner.title || banner.subtitle"
+              class="hero__image"
+            />
+            <div v-else class="hero__image-placeholder" />
+            <!-- Slanted edge overlay (angled toward right) -->
+            <div class="hero__slant" aria-hidden="true" />
           </div>
         </div>
       </div>
@@ -132,31 +130,16 @@ onUnmounted(stopTimer)
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #00A69C;
-  min-height: 92vh;
-  padding: 3.5rem 0;
-}
-@media (min-width: 640px) {
-  .hero {
-    padding: 5rem 0;
-  }
-}
-@media (min-width: 768px) {
-  .hero {
-    min-height: 680px;
-    padding: 6rem 0;
-  }
+  min-height: 85vh;
 }
 @media (min-width: 1024px) {
   .hero {
-    min-height: 720px;
-    padding: 7rem 0;
+    min-height: 90vh;
   }
 }
 @media (min-width: 1280px) {
   .hero {
-    min-height: 800px;
-    padding: 8rem 0;
+    min-height: 600px;
   }
 }
 
@@ -193,143 +176,128 @@ onUnmounted(stopTimer)
   pointer-events: auto;
 }
 
-.hero__container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  height: 100%;
-}
-@media (min-width: 640px) {
-  .hero__container {
-    padding: 0 1.5rem;
-  }
+/* 2-column layout: left panel + right image */
+.hero__layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
 }
 @media (min-width: 1024px) {
-  .hero__container {
-    padding: 0 2rem;
+  .hero__layout {
+    flex-direction: row;
+    min-height: 90vh;
   }
 }
 @media (min-width: 1280px) {
-  .hero__container {
-    padding: 0 3rem;
-  }
-}
-
-.hero__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-items: center;
-  min-height: 65vh;
-}
-@media (min-width: 768px) {
-  .hero__grid {
-    min-height: 580px;
-  }
-}
-@media (min-width: 1024px) {
-  .hero__grid {
-    grid-template-columns: 5fr 7fr;
-    gap: 3rem;
+  .hero__layout {
     min-height: 600px;
   }
 }
-@media (min-width: 1280px) {
-  .hero__grid {
-    gap: 4rem;
-  }
-}
 
-.hero__content {
-  grid-row: 2;
+/* Left: green content panel (42–48%) */
+.hero__panel {
+  flex: 1;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  background: #00A69C;
+  padding: 3rem 1.5rem 4rem;
+  order: 2;
+}
+@media (min-width: 640px) {
+  .hero__panel {
+    padding: 4rem 2rem 5rem;
+  }
 }
 @media (min-width: 1024px) {
-  .hero__content {
-    grid-row: 1;
+  .hero__panel {
+    flex: 0 0 45%;
+    padding: 3rem 3rem 3rem 4rem;
+    order: 1;
+  }
+}
+@media (min-width: 1280px) {
+  .hero__panel {
+    flex: 0 0 45%;
+    padding: 4rem 4rem 4rem 5rem;
   }
 }
 
-.hero__content-inner {
-  max-width: 36rem;
-  margin: 0 auto;
+.hero__panel-inner {
+  max-width: 28rem;
+  width: 100%;
   text-align: center;
 }
 @media (min-width: 1024px) {
-  .hero__content-inner {
-    margin: 0;
+  .hero__panel-inner {
     text-align: left;
+    max-width: 24rem;
   }
-}
-
-.hero__badge {
-  display: inline-block;
-  padding: 0.375rem 0.75rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  border-radius: 0.125rem;
-  color: rgba(255, 255, 255, 0.95);
-  transform: translateX(-2.5rem);
-  opacity: 0;
-  transition: transform 1s ease, opacity 1s ease;
-  transition-delay: 300ms;
-}
-.hero__badge--visible {
-  transform: translateX(0);
-  opacity: 1;
 }
 
 .hero__title {
-  font-size: 1.875rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 2rem;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
   color: white;
-  transform: translateX(-2.5rem);
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+  transform: translateY(0.5rem);
   opacity: 0;
-  transition: transform 1s ease, opacity 1s ease;
-  transition-delay: 500ms;
+  transition: transform 0.8s ease, opacity 0.8s ease;
 }
 @media (min-width: 640px) {
   .hero__title {
-    font-size: 2.25rem;
-  }
-}
-@media (min-width: 768px) {
-  .hero__title {
-    font-size: 3rem;
-    margin-bottom: 2.5rem;
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
   }
 }
 @media (min-width: 1024px) {
   .hero__title {
-    font-size: 3rem;
-  }
-}
-@media (min-width: 1280px) {
-  .hero__title {
-    font-size: 3.75rem;
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
   }
 }
 .hero__title--visible {
-  transform: translateX(0);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hero__subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 22rem;
+  margin: 0 auto 1.75rem;
+  transform: translateY(0.5rem);
+  opacity: 0;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  transition-delay: 150ms;
+}
+@media (min-width: 640px) {
+  .hero__subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .hero__subtitle {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 2.25rem;
+  }
+}
+.hero__subtitle--visible {
+  transform: translateY(0);
   opacity: 1;
 }
 
 .hero__cta {
-  transform: translateY(1rem);
+  transform: translateY(0.5rem);
   opacity: 0;
-  transition: transform 1s ease, opacity 1s ease;
-  transition-delay: 700ms;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  transition-delay: 300ms;
 }
 .hero__cta--visible {
   transform: translateY(0);
@@ -340,23 +308,18 @@ onUnmounted(stopTimer)
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  padding: 0.875rem 1.75rem;
   background: #F6921E;
   color: white;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-@media (min-width: 640px) {
-  .hero__btn {
-    padding: 1rem 2rem;
-  }
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 .hero__btn:hover {
   background: #d97d12;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 .hero__btn-icon {
   transition: transform 0.2s ease;
@@ -365,73 +328,74 @@ onUnmounted(stopTimer)
   transform: translateX(0.25rem);
 }
 
-.hero__media {
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 18rem;
-}
-@media (min-width: 640px) {
-  .hero__media {
-    min-height: 22rem;
-  }
-}
-@media (min-width: 768px) {
-  .hero__media {
-    min-height: 25rem;
-  }
-}
-@media (min-width: 1024px) {
-  .hero__media {
-    grid-row: 1;
-    min-height: 30rem;
-  }
-}
-
-.hero__media-frame {
+/* Right: full-height hero image (52–58%) */
+.hero__image-wrap {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  max-width: 42rem;
-  margin: 0 auto;
-  border-radius: 0.75rem;
+  flex: 1;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  transform: scale(0.95);
-  transition: transform 8s ease;
-}
-@media (min-width: 640px) {
-  .hero__media-frame {
-    aspect-ratio: 16 / 10;
-  }
+  order: 1;
 }
 @media (min-width: 1024px) {
-  .hero__media-frame {
-    aspect-ratio: 16 / 9;
-    max-width: none;
+  .hero__image-wrap {
+    flex: 1;
+    aspect-ratio: auto;
+    min-height: 100%;
+    order: 2;
   }
 }
-.hero__media-frame--active {
-  transform: scale(1);
-}
 
-.hero__media-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-}
-
-.hero__media-placeholder {
+.hero__image {
   position: absolute;
   inset: 0;
-  background: rgba(0, 102, 95, 0.3);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+@media (min-width: 1024px) {
+  .hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+}
+
+.hero__image-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #008e86;
+}
+
+/* Slanted edge overlay - subtle diagonal transition toward the right */
+.hero__slant {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .hero__slant {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 10rem;
+    background: linear-gradient(
+      105deg,
+      #00A69C 0%,
+      #00A69C 35%,
+      rgba(0, 166, 156, 0.6) 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
 }
 
 .hero__nav {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 1.25rem;
   left: 0;
   right: 0;
   display: flex;
@@ -441,13 +405,13 @@ onUnmounted(stopTimer)
 }
 @media (min-width: 640px) {
   .hero__nav {
-    bottom: 2rem;
+    bottom: 1.5rem;
   }
 }
 
 .hero__dot {
-  height: 0.375rem;
-  width: 0.75rem;
+  height: 0.25rem;
+  width: 0.5rem;
   border-radius: 0.125rem;
   background: rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
@@ -457,7 +421,7 @@ onUnmounted(stopTimer)
   background: rgba(255, 255, 255, 0.8);
 }
 .hero__dot--active {
-  width: 2.5rem;
+  width: 2rem;
   background: white;
 }
 </style>

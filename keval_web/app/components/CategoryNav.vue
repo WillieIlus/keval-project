@@ -1,29 +1,67 @@
 <template>
-  <div class="category-nav py-4">
-    <div class="flex flex-wrap justify-center gap-2">
-      <button 
-        @click="gallery.setSelectedCategory(null)"
-        :class="[!gallery.selectedCategoryId ? 'bg-black text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']"
-        class="px-4 py-1.5 rounded text-sm font-medium transition-colors"
+  <nav class="category-nav" aria-label="Filter projects by category">
+    <div class="category-nav__list">
+      <button
+        type="button"
+        :class="['category-nav__tab', { 'category-nav__tab--active': isAllSelected }]"
+        @click="selectAll"
       >
         All Projects
       </button>
-
-      <button 
-        v-for="cat in gallery.categories" 
-        :key="cat.id"
-        @click="gallery.setSelectedCategory(cat.id)"
-        :class="[gallery.selectedCategoryId === cat.id ? 'bg-black text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']"
-        class="px-4 py-1.5 rounded text-sm font-medium transition-colors"
+      <button
+        v-for="label in gallery.categoryTabs"
+        :key="label"
+        type="button"
+        :class="['category-nav__tab', { 'category-nav__tab--active': gallery.selectedCategoryDisplayName === label }]"
+        @click="gallery.setSelectedCategoryByDisplayName(label)"
       >
-        {{ cat.name }}
+        {{ label }}
       </button>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script setup lang="ts">
 import { useGalleryStore } from '~/stores/gallery'
 
 const gallery = useGalleryStore()
+
+const isAllSelected = computed(() =>
+  !gallery.selectedCategoryId && !gallery.selectedCategoryDisplayName
+)
+
+function selectAll() {
+  gallery.setSelectedCategory(null)
+  gallery.setSelectedCategoryByDisplayName(null)
+}
 </script>
+
+<style scoped>
+.category-nav {
+  padding: 0.5rem 0;
+}
+
+.category-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.category-nav__tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  background: #f3f4f6;
+  color: #374151;
+}
+.category-nav__tab:hover {
+  background: #e5e7eb;
+}
+.category-nav__tab--active {
+  background: #111827;
+  color: white;
+}
+</style>

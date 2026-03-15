@@ -1,6 +1,7 @@
 // ~/stores/gallery.ts
 import { defineStore } from 'pinia'
 import type { ServiceCategory, Project } from '~/types/api'
+import { getCategoryDisplayName } from '~/config/portfolio'
 
 export const useGalleryStore = defineStore('gallery', () => {
   const { $api } = useNuxtApp()
@@ -8,6 +9,7 @@ export const useGalleryStore = defineStore('gallery', () => {
   const categories = ref<ServiceCategory[]>([])
   const currentProject = ref<Project | null>(null)
   const selectedCategoryId = ref<number | null>(null)
+  const selectedCategoryDisplayName = ref<string | null>(null)
   const loading = ref(false)
   const error = ref<string | null>(null)
 
@@ -21,6 +23,19 @@ export const useGalleryStore = defineStore('gallery', () => {
     }
     traverse(categories.value)
     return projects
+  })
+
+  /** Unique tab labels for filter (deduped display names) */
+  const categoryTabs = computed(() => {
+    const names = new Set<string>()
+    const traverse = (cats: ServiceCategory[]) => {
+      cats.forEach(cat => {
+        names.add(getCategoryDisplayName(cat.name))
+        if (cat.subcategories?.length) traverse(cat.subcategories)
+      })
+    }
+    traverse(categories.value)
+    return Array.from(names).sort()
   })
 
   const featuredProjects = computed(() => 
@@ -89,7 +104,10 @@ export const useGalleryStore = defineStore('gallery', () => {
     totalProjects,
     getProjectBySlug,
     selectedCategoryId,
+    selectedCategoryDisplayName,
+    categoryTabs,
     setSelectedCategory,
+    setSelectedCategoryByDisplayName,
     fetchCategories,
     fetchProjectBySlug,
     clearCurrentProject,
