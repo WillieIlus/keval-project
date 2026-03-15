@@ -130,16 +130,16 @@ onUnmounted(stopTimer)
   position: relative;
   width: 100%;
   overflow: hidden;
-  min-height: 85vh;
+  min-height: 90vh;
 }
 @media (min-width: 1024px) {
   .hero {
-    min-height: 90vh;
+    min-height: 95vh;
   }
 }
 @media (min-width: 1280px) {
   .hero {
-    min-height: 600px;
+    min-height: 720px;
   }
 }
 
@@ -180,17 +180,17 @@ onUnmounted(stopTimer)
 .hero__layout {
   display: flex;
   flex-direction: column;
-  min-height: 85vh;
+  min-height: 90vh;
 }
 @media (min-width: 1024px) {
   .hero__layout {
     flex-direction: row;
-    min-height: 90vh;
+    min-height: 95vh;
   }
 }
 @media (min-width: 1280px) {
   .hero__layout {
-    min-height: 600px;
+    min-height: 720px;
   }
 }
 
