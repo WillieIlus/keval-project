@@ -87,6 +87,12 @@ export const useGalleryStore = defineStore('gallery', () => {
 
   function setSelectedCategory(id: number | null) {
     selectedCategoryId.value = id
+    selectedCategoryDisplayName.value = null
+  }
+
+  function setSelectedCategoryByDisplayName(displayName: string | null) {
+    selectedCategoryDisplayName.value = displayName
+    selectedCategoryId.value = null
   }
 
   async function refreshCategories() {
