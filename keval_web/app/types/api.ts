@@ -149,6 +149,8 @@ export interface Client {
   name: string;
   logo: string;
   website?: string;
+  description?: string;
+  project_type?: string;
   is_featured: boolean;
   order: number;
 }

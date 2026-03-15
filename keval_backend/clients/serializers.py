@@ -5,10 +5,12 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = [
-            'id', 
-            'name', 
-            'logo', 
-            'website', 
-            'is_featured', 
+            'id',
+            'name',
+            'logo',
+            'website',
+            'description',
+            'project_type',
+            'is_featured',
             'order'
         ]

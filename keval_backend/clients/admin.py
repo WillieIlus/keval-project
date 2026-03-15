@@ -4,9 +4,14 @@ from .models import Client
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ['name', 'logo_preview', 'order'] #, 'is_active']
-    list_editable = ['order', ]# 'is_active']
+    list_display = ['name', 'logo_preview', 'project_type', 'order']
+    list_editable = ['order']
     search_fields = ['name']
+    fieldsets = (
+        (None, {'fields': ('name', 'logo', 'website')}),
+        ('Details', {'fields': ('description', 'project_type'), 'classes': ('collapse',)}),
+        ('Display', {'fields': ('is_featured', 'order')}),
+    )
     
     def logo_preview(self, obj):
         if obj.logo:
