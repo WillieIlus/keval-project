@@ -100,12 +100,18 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Mobile-first: base = small screens */
 .clients {
-  padding: 5rem 0;
+  padding: 2.5rem 0 3rem;
   background: #f9fafb;
   overflow: hidden;
 }
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .clients {
+    padding: 4rem 0 5rem;
+  }
+}
+@media (min-width: 1024px) {
   .clients {
     padding: 7rem 0;
   }
@@ -130,28 +136,46 @@ onUnmounted(() => {
 .clients__header {
   text-align: center;
   max-width: 48rem;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2.5rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .clients__header {
+    margin-bottom: 3.5rem;
+  }
+}
+@media (min-width: 1024px) {
   .clients__header {
     margin-bottom: 5rem;
   }
 }
 
 .clients__eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: #00A69C;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  margin-bottom: 1rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 640px) {
+  .clients__eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 1rem;
+  }
 }
 
 .clients__title {
-  font-size: 1.875rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #111827;
   letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+@media (min-width: 640px) {
+  .clients__title {
+    font-size: 1.875rem;
+  }
 }
 @media (min-width: 768px) {
   .clients__title {
@@ -165,21 +189,27 @@ onUnmounted(() => {
 }
 
 .clients__subtitle {
-  margin-top: 1.25rem;
-  font-size: 1.125rem;
+  margin-top: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.6;
   color: #7F7F7F;
+}
+@media (min-width: 640px) {
+  .clients__subtitle {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+  }
 }
 
 .clients__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 @media (min-width: 640px) {
   .clients__grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 }
 @media (min-width: 1024px) {
@@ -192,8 +222,13 @@ onUnmounted(() => {
 .clients__skeleton {
   aspect-ratio: 1;
   background: #f3f4f6;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@media (min-width: 640px) {
+  .clients__skeleton {
+    border-radius: 1rem;
+  }
 }
 @keyframes pulse {
   50% { opacity: 0.5; }
@@ -204,13 +239,26 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 1rem;
   background: white;
   border: 1px solid #f3f4f6;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  min-height: 7.5rem;
+}
+@media (min-width: 640px) {
+  .clients__card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    min-height: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .clients__card {
+    padding: 2rem;
+  }
 }
 .clients__card:hover {
   transform: translateY(-0.5rem);
@@ -227,16 +275,21 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 6.25rem;
+  min-height: 3.5rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .clients__card-media {
+    min-height: 5rem;
+  }
+}
+@media (min-width: 1024px) {
   .clients__card-media {
     min-height: 7.5rem;
   }
 }
 
 .clients__card-logo {
-  max-height: 5rem;
+  max-height: 3rem;
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
@@ -245,10 +298,10 @@ onUnmounted(() => {
 }
 @media (min-width: 640px) {
   .clients__card-logo {
-    max-height: 6.25rem;
+    max-height: 5rem;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .clients__card-logo {
     max-height: 7.5rem;
   }
@@ -260,8 +313,8 @@ onUnmounted(() => {
 }
 
 .clients__card-name {
-  margin-top: 1rem;
-  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: #6b7280;
   transition: color 0.2s ease;
@@ -270,16 +323,28 @@ onUnmounted(() => {
   white-space: nowrap;
   max-width: 100%;
 }
+@media (min-width: 640px) {
+  .clients__card-name {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+}
 .clients__card:hover .clients__card-name {
   color: #00A69C;
 }
 
 .clients__card-hint {
-  margin-top: 0.375rem;
-  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
   color: #9ca3af;
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+@media (min-width: 640px) {
+  .clients__card-hint {
+    font-size: 0.75rem;
+    margin-top: 0.375rem;
+  }
 }
 .clients__card:hover .clients__card-hint {
   opacity: 1;
