@@ -1,0 +1,8 @@
+[build]
+  base = "keval_web"
+  command = "yarn generate"
+  publish = ".output/public"
+
+[build.environment]
+  NODE_VERSION = "22"
+  YARN_FLAGS = ""

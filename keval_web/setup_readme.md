@@ -1,6 +1,6 @@
 # Complete Nuxt 4 + Django Integration Guide
 
-## 📋 Table of Contents
+## ðŸ“‹ Table of Contents
 1. [Prerequisites](#prerequisites)
 2. [File Structure](#file-structure)
 3. [Installation](#installation)
@@ -11,7 +11,7 @@
 
 ## Prerequisites
 
-- Node.js 18+ and npm/yarn/pnpm
+- Node.js 22 and Yarn 1.22.22
 - Django 4+ backend running
 - Python 3.8+
 
@@ -21,27 +21,27 @@ Create this exact folder structure in your Nuxt project:
 
 ```
 your-nuxt-app/
-├── types/
-│   └── api.ts                    # TypeScript type definitions
-├── stores/
-│   ├── auth.ts                   # Authentication store
-│   ├── content.ts                # Content management store
-│   └── gallery.ts                # Gallery/portfolio store
-├── middleware/
-│   ├── auth.ts                   # Protected route middleware
-│   ├── admin.ts                  # Admin-only middleware
-│   └── guest.ts                  # Guest-only middleware (redirects if logged in)
-├── plugins/
-│   └── api.ts                    # API configuration plugin
-├── composables/
-│   └── useApi.ts                 # Reusable API utilities
-├── pages/
-│   ├── index.vue                 # Landing page
-│   ├── login.vue                 # Login page
-│   ├── register.vue              # Registration page
-│   └── dashboard.vue             # Dashboard (protected)
-├── .env                          # Environment variables (create this)
-└── nuxt.config.ts                # Nuxt configuration
+â”œâ”€â”€ types/
+â”‚   â””â”€â”€ api.ts                    # TypeScript type definitions
+â”œâ”€â”€ stores/
+â”‚   â”œâ”€â”€ auth.ts                   # Authentication store
+â”‚   â”œâ”€â”€ content.ts                # Content management store
+â”‚   â””â”€â”€ gallery.ts                # Gallery/portfolio store
+â”œâ”€â”€ middleware/
+â”‚   â”œâ”€â”€ auth.ts                   # Protected route middleware
+â”‚   â”œâ”€â”€ admin.ts                  # Admin-only middleware
+â”‚   â””â”€â”€ guest.ts                  # Guest-only middleware (redirects if logged in)
+â”œâ”€â”€ plugins/
+â”‚   â””â”€â”€ api.ts                    # API configuration plugin
+â”œâ”€â”€ composables/
+â”‚   â””â”€â”€ useApi.ts                 # Reusable API utilities
+â”œâ”€â”€ pages/
+â”‚   â”œâ”€â”€ index.vue                 # Landing page
+â”‚   â”œâ”€â”€ login.vue                 # Login page
+â”‚   â”œâ”€â”€ register.vue              # Registration page
+â”‚   â””â”€â”€ dashboard.vue             # Dashboard (protected)
+â”œâ”€â”€ .env                          # Environment variables (create this)
+â””â”€â”€ nuxt.config.ts                # Nuxt configuration
 ```
 
 ## Installation
@@ -49,7 +49,7 @@ your-nuxt-app/
 ### Step 1: Install Dependencies
 
 ```bash
-npm install pinia @pinia/nuxt @pinia-plugin-persistedstate/nuxt
+yarn add pinia @pinia/nuxt @pinia-plugin-persistedstate/nuxt
 ```
 
 ### Step 2: Update nuxt.config.ts
@@ -74,7 +74,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://keval.co.ke/api'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE
     }
   },
 
@@ -496,8 +496,8 @@ if settings.DEBUG:
 
 **Solution:**
 1. Ensure `types/api.ts` is created with all type definitions
-2. Run `npm run dev` to regenerate Nuxt types
-3. Restart VS Code TypeScript server: `Ctrl+Shift+P` → "Restart TypeScript Server"
+2. Run `yarn dev` to regenerate Nuxt types
+3. Restart VS Code TypeScript server: `Ctrl+Shift+P` â†’ "Restart TypeScript Server"
 
 ### Middleware Not Working
 
@@ -539,8 +539,8 @@ CSRF_COOKIE_SECURE = True
 ### Build Nuxt App
 
 ```bash
-npm run build
-npm run preview  # Test production build locally
+yarn build
+yarn preview  # Test production build locally
 ```
 
 ## Additional Features

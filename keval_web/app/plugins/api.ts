@@ -1,13 +1,18 @@
 // ~/plugins/api.ts
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
+  const apiBase = String(config.public.apiBase || '').trim()
 
   // Create a custom $fetch instance with interceptors
   const apiFetch = $fetch.create({
-    baseURL: config.public.apiBase || undefined,
+    baseURL: apiBase || undefined,
     
     // Request Interceptor: Add auth token
     onRequest({ options }) {
+      if (!apiBase) {
+        throw new Error('NUXT_PUBLIC_API_BASE is not configured. Set it to the production Django API base URL.')
+      }
+
       if (import.meta.client) {
         const token = localStorage.getItem('auth_token')
         if (token) {

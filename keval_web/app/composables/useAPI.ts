@@ -7,6 +7,7 @@
 export const useApi = () => {
   const config = useRuntimeConfig()
   const authStore = useAuthStore()
+  const apiBase = String(config.public.apiBase || '').trim()
 
   /**
    * Make an authenticated API request
@@ -29,10 +30,14 @@ export const useApi = () => {
       headers['Authorization'] = `Token ${authStore.token}`
     }
 
+    if (!apiBase && !options?.baseURL) {
+      throw new Error('NUXT_PUBLIC_API_BASE is not configured. Set it to the production Django API base URL.')
+    }
+
     try {
       const { method, ...restOptions } = options || {}
       const response = await $fetch<T>(url, {
-        baseURL: options?.baseURL || config.public.apiBase,
+        baseURL: options?.baseURL || apiBase,
         ...restOptions,
         headers,
         ...(method && { method: method as 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' })
@@ -171,7 +176,12 @@ export const useImageUrl = () => {
     }
     
     // Remove /api from base URL and add /media
-    const baseUrl = config.public.apiBase.replace('/api', '')
+    const apiBase = String(config.public.apiBase || '').trim()
+    if (!apiBase) {
+      throw new Error('NUXT_PUBLIC_API_BASE is not configured. Set it to the production Django API base URL.')
+    }
+
+    const baseUrl = apiBase.replace('/api', '')
     
     // Remove leading slash if present
     const path = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath

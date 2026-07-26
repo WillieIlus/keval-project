@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+const publicApiBase = process.env.NUXT_PUBLIC_API_BASE?.trim()
+
+if (process.env.NETLIFY === 'true' && !publicApiBase) {
+  throw new Error('NUXT_PUBLIC_API_BASE must be set in Netlify for production API requests.')
+}
+
 export default defineNuxtConfig({
   ssr: false,
   app: {
@@ -32,7 +38,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image',
     '@nuxt/scripts',
-    '@nuxt/test-utils',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@formkit/auto-animate/nuxt',
@@ -41,7 +46,7 @@ export default defineNuxtConfig({
   ],
 
   devtools: {
-    enabled: true
+    enabled: process.env.NODE_ENV !== 'production'
   },
 
   pinia: {
@@ -69,7 +74,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || ''
+      apiBase: publicApiBase
     }
   },
 

@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const currentSlide = ref(0)
-const timer = ref<NodeJS.Timeout | null>(null)
+const timer = ref<ReturnType<typeof setInterval> | null>(null)
 
 // Auto-advance slides every 5 seconds
 const startTimer = () => {
