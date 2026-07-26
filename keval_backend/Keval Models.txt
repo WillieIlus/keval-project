@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 CORS_ALLOW_ALL_ORIGINS = True  
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
+    'https://keval.co.ke',
 ]
 
 MIDDLEWARE = [

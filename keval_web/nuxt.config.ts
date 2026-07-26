@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+  ssr: false,
   app: {
     head: {
       title: 'Keval',
@@ -68,8 +69,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // This looks for the variable first; if missing, it defaults to localhost
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || ''
     }
   },
 

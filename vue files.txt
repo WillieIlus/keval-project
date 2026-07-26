@@ -1,4 +1,4 @@
-GET http://localhost:3000/login 500 (Server Error)Understand this error
+GET https://keval.co.ke/login 500 (Server Error)Understand this error
 client:733 [vite] connecting...
 client:827 [vite] connected.
 login:191 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
@@ -37,7 +37,7 @@ await in initApp
 (anonymous) @ entry.js?v=d002a1d5:74Understand this error
 runtime-core.esm-bundler.js?v=d002a1d5:7156 <Suspense> is an experimental feature and its API will likely change.
 devtools.client.mjs?v=d002a1d5:52 ✨ Nuxt DevTools  Press Shift + Alt + D to open DevTools 
-login:1 The resource http://localhost:3000/_nuxt/builds/meta/dev.json was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+login:1 The resource https://keval.co.ke/_nuxt/builds/meta/dev.json was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
 
 
 

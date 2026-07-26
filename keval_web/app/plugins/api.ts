@@ -4,22 +4,16 @@ export default defineNuxtPlugin(() => {
 
   // Create a custom $fetch instance with interceptors
   const apiFetch = $fetch.create({
-    baseURL: config.public.apiBase || 'http://localhost:8000',
+    baseURL: config.public.apiBase || undefined,
     
     // Request Interceptor: Add auth token
     onRequest({ options }) {
       if (import.meta.client) {
         const token = localStorage.getItem('auth_token')
         if (token) {
-          const existing = options.headers
-          if (existing instanceof Headers) {
-            existing.set('Authorization', `Token ${token}`)
-          } else {
-            const headers = (existing && typeof existing === 'object' && !Array.isArray(existing) && !(existing instanceof Headers))
-              ? { ...(existing as Record<string, string>), Authorization: `Token ${token}` }
-              : { Authorization: `Token ${token}` }
-            options.headers = headers
-          }
+          const headers = new Headers(options.headers as HeadersInit)
+          headers.set('Authorization', `Token ${token}`)
+          options.headers = headers
         }
       }
     },

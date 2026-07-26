@@ -37,14 +37,10 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # DEBUG = True
 
-# Convert "localhost,127.0.0.1" string into a Python List
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
 
-# Local dev defaults to avoid DisallowedHost 400s
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-elif DEBUG:
-    ALLOWED_HOSTS += ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['keval.co.ke']
 
 
 # Application definition
@@ -104,8 +100,6 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://keval-web.netlify.app",
     "https://keval.co.ke",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
 ]
 
 CSRF_TRUSTED_ORIGINS = [

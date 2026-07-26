@@ -192,7 +192,7 @@
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kevalgreen-500 focus:border-kevalgreen-500"
               >
                 <option :value="null">No parent (top level)</option>
-                <option v-for="cat in categoryParentOptions" :key="cat.id" :value="cat.id">
+                <option v-for="cat in categoryParentOptions" :key="cat.id ?? cat.name" :value="cat.id">
                   {{ cat.name }}
                 </option>
               </select>

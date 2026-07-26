@@ -70,7 +70,7 @@ export function getProjectPlaceholderImage(categoryName?: string): string {
   const key = Object.keys(PROJECT_PLACEHOLDER_IMAGES).find(k =>
     categoryName.toLowerCase().includes(k)
   )
-  return key ? PROJECT_PLACEHOLDER_IMAGES[key] : DEFAULT_PLACEHOLDER
+  return key ? PROJECT_PLACEHOLDER_IMAGES[key] ?? DEFAULT_PLACEHOLDER : DEFAULT_PLACEHOLDER
 }
 
 export function getProjectDisplayTitle(title: string, categoryName?: string): string {
@@ -82,7 +82,7 @@ export function getProjectDisplayTitle(title: string, categoryName?: string): st
     for (const [key, fallbacks] of Object.entries(CATEGORY_FALLBACK_TITLES)) {
       if (catKey.includes(key)) {
         const idx = Math.abs(t.split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % fallbacks.length
-        return fallbacks[idx]
+        return fallbacks[idx] ?? 'Premium Print Project'
       }
     }
     return 'Premium Print Project'

@@ -74,14 +74,14 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api'
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://keval.co.ke/api'
     }
   },
 
   nitro: {
     devProxy: {
       '/api': {
-        target: 'http://localhost:8000/api',
+        target: 'https://keval.co.ke/api',
         changeOrigin: true,
         prependPath: true
       }
@@ -95,7 +95,7 @@ export default defineNuxtConfig({
 Create `.env` in your project root:
 
 ```env
-NUXT_PUBLIC_API_BASE=http://localhost:8000/api
+NUXT_PUBLIC_API_BASE=https://keval.co.ke/api
 ```
 
 For production:
@@ -129,8 +129,8 @@ MIDDLEWARE = [
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "https://keval.co.ke",
+    "https://keval.co.ke",
 ]
 
 # For production:
@@ -459,7 +459,7 @@ MIDDLEWARE = [
 2. Verify API base URL in `.env` is correct
 3. Open Network tab in browser DevTools to see API requests
 4. Check Django has data: access `/admin` and verify records exist
-5. Verify API endpoints return data: visit `http://localhost:8000/api/banners/` directly
+5. Verify API endpoints return data: visit `https://keval.co.ke/api/banners/` directly
 
 ### Images Not Showing
 
