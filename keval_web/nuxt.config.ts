@@ -3,7 +3,7 @@
 const publicApiBase = process.env.NUXT_PUBLIC_API_BASE?.trim()
 
 if (process.env.NETLIFY === 'true' && !publicApiBase) {
-  throw new Error('NUXT_PUBLIC_API_BASE must be set in Netlify for production API requests.')
+  console.warn('NUXT_PUBLIC_API_BASE is not set. API-backed features will fail until the Netlify environment variable is configured.')
 }
 
 export default defineNuxtConfig({

@@ -4341,6 +4341,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vee-validate/valibot@npm:4.15.1":
+  version: 4.15.1
+  resolution: "@vee-validate/valibot@npm:4.15.1"
+  dependencies:
+    type-fest: "npm:^4.8.3"
+    vee-validate: "npm:4.15.1"
+  peerDependencies:
+    valibot: ^1.0.0-beta.7
+  checksum: 10c0/cecc4b32289d409fcc212db557a59a7105c16ab32021c75cfa45b48edad7872a14e64f25d3c79a599ab1c47eb5d4bb7e1847e86c4e7f38b5e90d223aa9420893
+  languageName: node
+  linkType: hard
+
 "@vercel/nft@npm:^1.5.0":
   version: 1.10.2
   resolution: "@vercel/nft@npm:1.10.2"
@@ -8044,11 +8056,15 @@ __metadata:
     "@pinia-plugin-persistedstate/nuxt": "npm:1.2.1"
     "@pinia/nuxt": "npm:0.11.3"
     "@types/node": "npm:25.0.3"
+    "@unhead/vue": "npm:^2.0.19"
     "@vee-validate/nuxt": "npm:4.15.1"
+    "@vee-validate/valibot": "npm:4.15.1"
     eslint: "npm:9.39.2"
     nuxt: "npm:4.2.2"
     pinia: "npm:3.0.4"
     typescript: "npm:5.9.3"
+    valibot: "npm:1.4.2"
+    vue: "npm:^3.5.33"
     vue-tsc: "npm:3.2.1"
   dependenciesMeta:
     "@oxc-parser/binding-linux-x64-gnu":
@@ -12064,7 +12080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"valibot@npm:^1.2.0":
+"valibot@npm:1.4.2, valibot@npm:^1.2.0":
   version: 1.4.2
   resolution: "valibot@npm:1.4.2"
   peerDependencies:
