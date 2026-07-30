@@ -22,11 +22,20 @@
               <UIcon name="i-heroicons-arrow-right" class="w-5 h-5" />
             </NuxtLink>
             <a
-              href="tel:+254720335863"
+              href="/keval-company-profile.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-kevalgreen-700 hover:bg-gray-100 transition-colors"
+            >
+              <UIcon name="i-heroicons-document-arrow-down" class="w-5 h-5" />
+              Download Profile
+            </a>
+            <a
+              href="tel:+254711635104"
               class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white hover:bg-white/10 transition-colors"
             >
               <UIcon name="i-heroicons-phone" class="w-5 h-5" />
-              0720 335 863
+              0711 635 104
             </a>
           </div>
         </div>
@@ -70,7 +79,10 @@
                 Our team of designers, branding specialists and printing experts brings together practical experience and modern production tools to deliver tailored solutions for businesses and individuals.
               </p>
               <p>
-                We focus on creativity, quality and customer satisfaction so every project helps our clients improve visibility and leave a lasting impression.
+                We work from Print Hub Building in Nairobi, supporting graphic design, digital and offset printing, large-format production, packaging, labels, promotional items and full brand implementation.
+              </p>
+              <p>
+                We focus on creativity, quality and customer satisfaction so every project helps our clients improve visibility, communicate clearly and leave a lasting impression.
               </p>
             </div>
           </div>
@@ -232,9 +244,17 @@
             <UIcon name="i-heroicons-phone" class="w-5 h-5" />
             0720 335 863
           </a>
+          <a href="tel:+254711635104" class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-kevalgreen-700 hover:bg-gray-100 transition-colors">
+            <UIcon name="i-heroicons-phone" class="w-5 h-5" />
+            0711 635 104
+          </a>
           <a href="mailto:kevalinvestmentsltd@gmail.com" class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white hover:bg-white/10 transition-colors">
             <UIcon name="i-heroicons-envelope" class="w-5 h-5" />
             Email Us
+          </a>
+          <a href="/keval-company-profile.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white hover:bg-white/10 transition-colors">
+            <UIcon name="i-heroicons-document-arrow-down" class="w-5 h-5" />
+            Company Profile
           </a>
         </div>
       </div>
@@ -277,7 +297,7 @@ const services = [
       'Large-format banners, posters and signages',
       'Packaging and labels',
       'Letterheads, envelopes and notepads',
-      'T-shirts, mugs, brochures, catalogues and magazines'
+      'T-shirts, mugs, promotional products, brochures, catalogues and magazines'
     ]
   },
   {

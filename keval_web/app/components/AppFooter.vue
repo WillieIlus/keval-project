@@ -57,6 +57,11 @@
               </NuxtLink>
             </li>
             <li>
+              <a href="/keval-company-profile.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                Company Profile
+              </a>
+            </li>
+            <li>
               <NuxtLink to="/login" class="text-gray-400 hover:text-white transition-colors">
                 Client Login
               </NuxtLink>
@@ -119,8 +124,8 @@
             <div class="flex items-start gap-3">
               <UIcon name="i-heroicons-clock" class="w-5 h-5 text-kevalgreen-400 shrink-0 mt-0.5" />
               <div class="text-gray-400">
-                <p>Mon - Fri: 8:00 AM - 6:00 PM</p>
-                <p>Sat: 9:00 AM - 2:00 PM</p>
+                <p>Mon - Fri: 8:30 AM - 6:30 PM</p>
+                <p>Sat: 9:00 AM - 4:00 PM</p>
               </div>
             </div>
           </div>
