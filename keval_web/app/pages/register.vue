@@ -7,7 +7,7 @@
       <div class="relative z-10 flex flex-col justify-center px-12 text-white">
         <h1 class="text-4xl font-bold mb-4">Join Keval</h1>
         <p class="text-xl text-orange-100 mb-8">
-          Create an account to unlock exclusive features and streamlined ordering.
+          Create an account for streamlined ordering and project follow-up.
         </p>
 
         <div class="grid grid-cols-2 gap-6">
@@ -35,16 +35,16 @@
 
         <div class="flex gap-8 mt-12">
           <div>
-            <p class="text-3xl font-bold">500+</p>
-            <p class="text-orange-200">Happy Clients</p>
+            <p class="text-3xl font-bold">2023</p>
+            <p class="text-orange-200">Established</p>
           </div>
           <div>
-            <p class="text-3xl font-bold">2000+</p>
-            <p class="text-orange-200">Projects Done</p>
+            <p class="text-3xl font-bold">3</p>
+            <p class="text-orange-200">Service Areas</p>
           </div>
           <div>
-            <p class="text-3xl font-bold">10+</p>
-            <p class="text-orange-200">Years Experience</p>
+            <p class="text-3xl font-bold">6</p>
+            <p class="text-orange-200">Process Steps</p>
           </div>
         </div>
       </div>

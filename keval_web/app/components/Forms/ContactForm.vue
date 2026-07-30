@@ -145,11 +145,11 @@ const core = useCoreStore()
 
 // Service options matching your business
 const serviceOptions = [
-  { label: 'Garment Printing (T-shirts, Uniforms)', value: 'garment_printing' },
-  { label: 'Corporate Branding', value: 'corporate_branding' },
+  { label: 'Promotional Products (T-shirts, Uniforms)', value: 'garment_printing' },
+  { label: 'Branding Services', value: 'corporate_branding' },
   { label: 'Graphic Design', value: 'graphic_design' },
-  { label: 'Embroidery', value: 'embroidery' },
-  { label: 'Large Format Printing', value: 'large_format' },
+  { label: 'Packaging & Labels', value: 'embroidery' },
+  { label: 'Large-Format Printing', value: 'large_format' },
   { label: 'Vehicle Branding', value: 'vehicle_branding' },
   { label: 'Signage & Displays', value: 'signage' },
   { label: 'Promotional Items', value: 'promotional' },

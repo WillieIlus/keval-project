@@ -29,7 +29,7 @@
                 Print Hub Building, Ground Floor
               </p>
               <p class="text-gray-600 dark:text-gray-300">
-                Room B06, Kweria Road
+                Room B06, off Kirinyaga Road
               </p>
               <p class="text-gray-600 dark:text-gray-300">
                 Nairobi, Kenya
@@ -67,7 +67,7 @@
               </div>
               <h3 class="font-bold text-gray-900 dark:text-white mb-2">Email Us</h3>
               <p class="text-gray-600 dark:text-gray-300">
-                <a href="mailto:info@keval.co.ke" class="hover:text-kevalgreen-600 dark:hover:text-kevalgreen-400">info@keval.co.ke</a>
+                <a href="mailto:kevalinvestmentsltd@gmail.com" class="hover:text-kevalgreen-600 dark:hover:text-kevalgreen-400">kevalinvestmentsltd@gmail.com</a>
               </p>
               <p class="text-sm text-gray-500 mt-2">We respond within 24 hours</p>
             </div>
@@ -168,7 +168,7 @@ const toast = useToast()
 
 useSeoMeta({
   title: 'Contact Us | Keval',
-  description: 'Get in touch with Keval for all your printing and branding needs. Call 0711 635 104 or email info@keval.co.ke'
+  description: 'Get in touch with Keval for all your printing and branding needs. Call 0711 635 104 or email kevalinvestmentsltd@gmail.com'
 })
 
 const openFaq = ref<number | null>(null)

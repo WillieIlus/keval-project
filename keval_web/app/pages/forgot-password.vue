@@ -73,7 +73,7 @@
               Call Us
             </a>
             <a 
-              href="mailto:info@keval.co.ke"
+              href="mailto:kevalinvestmentsltd@gmail.com"
               class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-kevalorange-50 hover:bg-kevalorange-100 text-kevalorange-700 rounded-xl font-medium transition-colors"
             >
               <UIcon name="i-heroicons-envelope" class="w-5 h-5" />

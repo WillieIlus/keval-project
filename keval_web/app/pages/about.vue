@@ -1,540 +1,240 @@
 <!-- ~/pages/about.vue -->
 <template>
   <div class="bg-white dark:bg-gray-950 transition-colors">
-    <!-- Hero Section -->
-    <section
-      class="relative bg-gradient-to-br from-kevalorange-600 to-kevalorange-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-24 overflow-hidden transition-colors"
-    >
-      <!-- Background Pattern -->
-      <div class="absolute inset-0 opacity-10">
-        <div
-          class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"
-        ></div>
-        <div
-          class="absolute bottom-10 right-20 w-96 h-96 bg-kevalorange-400 rounded-full blur-3xl"
-        ></div>
+    <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-kevalorange-200 mb-4">
+            Company Profile
+          </p>
+          <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+            Design, print and branding services for every brand touchpoint.
+          </h1>
+          <p class="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl">
+            Keval Investments Limited is a Nairobi-based graphic design, printing and branding company dedicated to transforming ideas into visually stunning and impactful experiences.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <NuxtLink
+              to="/contact"
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-kevalorange-500 px-6 py-3 font-semibold text-white hover:bg-kevalorange-600 transition-colors"
+            >
+              Request a Quote
+              <UIcon name="i-heroicons-arrow-right" class="w-5 h-5" />
+            </NuxtLink>
+            <a
+              href="tel:+254720335863"
+              class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white hover:bg-white/10 transition-colors"
+            >
+              <UIcon name="i-heroicons-phone" class="w-5 h-5" />
+              0720 335 863
+            </a>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section class="py-16 bg-gray-50 dark:bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 md:grid-cols-3">
+          <div
+            v-for="item in companyFacts"
+            :key="item.label"
+            class="rounded-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-6"
+          >
+            <p class="text-sm font-semibold uppercase tracking-wider text-kevalgreen-600 dark:text-kevalgreen-400">
+              {{ item.label }}
+            </p>
+            <p class="mt-3 text-lg font-bold text-gray-900 dark:text-white">
+              {{ item.value }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-gray-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
           <div>
-            <span
-              class="inline-block px-4 py-2 bg-white/20 text-black/90 dark:text-white/90 rounded-full text-sm font-medium mb-6"
-            >
-              Our Story
-            </span>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl text-black/90 dark:text-white/90  font-black leading-tight mb-6">
-              Crafting Brands<br />
-              <span class="text-kevalorange-400">Since 2014</span>
-            </h1>
-            <p class="text-xl text-black/90 dark:text-white/90  text-kevalgreen-100 leading-relaxed">
-              From a small printing shop in Nairobi to becoming Kenya's trusted partner
-              for corporate branding and premium print solutions. Our journey is built on
-              quality, innovation, and unwavering commitment to our clients.
+            <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
+              About Us
             </p>
-          </div>
-          <div class="relative hidden lg:block">
-            <div
-              class="absolute -top-8 -right-8 w-64 h-64 bg-kevalorange-400/30 rounded-3xl rotate-12"
-            ></div>
-            <div class="relative bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-3xl p-8">
-              <div class="grid grid-cols-2 gap-6">
-                <div class="text-center">
-                  <p class="text-5xl font-black text-kevalorange-400">10+</p>
-                  <p class="text-kevalgreen-200 mt-2">Years Experience</p>
-                </div>
-                <div class="text-center">
-                  <p class="text-5xl font-black text-kevalorange-400">500+</p>
-                  <p class="text-kevalgreen-200 mt-2">Happy Clients</p>
-                </div>
-                <div class="text-center">
-                  <p class="text-5xl font-black text-kevalorange-400">2K+</p>
-                  <p class="text-kevalgreen-200 mt-2">Projects Done</p>
-                </div>
-                <div class="text-center">
-                  <p class="text-5xl font-black text-kevalorange-400">24h</p>
-                  <p class="text-kevalgreen-200 mt-2">Fast Turnaround</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Mission, Vision, Values -->
-    <section class="py-20 bg-white dark:bg-gray-950 transition-colors">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <span
-            class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
-            >What Drives Us</span
-          >
-          <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2">Our Foundation</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Mission -->
-          <div
-            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-kevalgreen-500 dark:hover:bg-kevalgreen-600 transition-all duration-300"
-          >
-            <div
-              class="w-16 h-16 bg-kevalgreen-100 dark:bg-kevalgreen-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
-            >
-              <UIcon
-                name="i-heroicons-rocket-launch"
-                class="w-8 h-8 text-kevalgreen-600 dark:text-kevalgreen-400 group-hover:text-white transition-colors"
-              />
-            </div>
-            <h3
-              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
-            >
-              Our Mission
-            </h3>
-            <p
-              class="text-gray-600 dark:text-gray-300 group-hover:text-kevalgreen-100 leading-relaxed transition-colors"
-            >
-              To empower businesses with exceptional branding and printing solutions that
-              elevate their identity, enhance their visibility, and drive their success in
-              the marketplace.
-            </p>
-          </div>
-
-          <!-- Vision -->
-          <div
-            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-kevalorange-500 dark:hover:bg-kevalorange-600 transition-all duration-300"
-          >
-            <div
-              class="w-16 h-16 bg-kevalorange-100 dark:bg-kevalorange-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
-            >
-              <UIcon
-                name="i-heroicons-eye"
-                class="w-8 h-8 text-kevalorange-600 dark:text-kevalorange-400 group-hover:text-white transition-colors"
-              />
-            </div>
-            <h3
-              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
-            >
-              Our Vision
-            </h3>
-            <p
-              class="text-gray-600 dark:text-gray-300 group-hover:text-orange-100 leading-relaxed transition-colors"
-            >
-              To be East Africa's most trusted and innovative branding partner, known for
-              transforming ideas into impactful visual experiences that leave lasting
-              impressions.
-            </p>
-          </div>
-
-          <!-- Values -->
-          <div
-            class="group bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300"
-          >
-            <div
-              class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-6 transition-colors"
-            >
-              <UIcon
-                name="i-heroicons-heart"
-                class="w-8 h-8 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors"
-              />
-            </div>
-            <h3
-              class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white mb-4 transition-colors"
-            >
-              Our Values
-            </h3>
-            <p
-              class="text-gray-600 dark:text-gray-300 group-hover:text-blue-100 leading-relaxed transition-colors"
-            >
-              Quality without compromise. Innovation in everything. Customer satisfaction
-              always. Integrity in every interaction. These principles guide every project
-              we undertake.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Our Story Timeline -->
-    <section class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <span
-            class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
-            >Our Journey</span
-          >
-          <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2">The Keval Story</h2>
-        </div>
-
-        <div class="relative">
-          <!-- Timeline Line -->
-          <div
-            class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-kevalgreen-200 dark:bg-kevalgreen-800"
-          ></div>
-
-          <!-- Timeline Items -->
-          <div class="space-y-12">
-            <!-- 2014 -->
-            <div class="relative flex flex-col md:flex-row items-center">
-              <div class="flex-1 md:text-right md:pr-12">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
-                  <span class="text-kevalorange-500 font-bold text-lg">2014</span>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">The Beginning</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mt-2">
-                    Started as a small print shop with a single machine and a big dream to
-                    serve local businesses in Nairobi.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="hidden md:flex w-12 h-12 bg-kevalgreen-500 rounded-full items-center justify-center z-10 my-4 md:my-0"
-              >
-                <UIcon name="i-heroicons-flag" class="w-6 h-6 text-white" />
-              </div>
-              <div class="flex-1 md:pl-12"></div>
-            </div>
-
-            <!-- 2016 -->
-            <div class="relative flex flex-col md:flex-row items-center">
-              <div class="flex-1 md:pr-12"></div>
-              <div
-                class="hidden md:flex w-12 h-12 bg-kevalorange-500 rounded-full items-center justify-center z-10 my-4 md:my-0"
-              >
-                <UIcon name="i-heroicons-arrow-trending-up" class="w-6 h-6 text-white" />
-              </div>
-              <div class="flex-1 md:pl-12">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
-                  <span class="text-kevalorange-500 font-bold text-lg">2016</span>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">Expansion</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mt-2">
-                    Moved to a larger facility and invested in state-of-the-art printing
-                    equipment. Added garment printing services.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 2018 -->
-            <div class="relative flex flex-col md:flex-row items-center">
-              <div class="flex-1 md:text-right md:pr-12">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
-                  <span class="text-kevalorange-500 font-bold text-lg">2018</span>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">Corporate Clients</h3>
-                  <p class="text-gray-600 dark:text-gray-300 mt-2">
-                    Partnered with major corporations for their branding needs. Launched
-                    our in-house design studio.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="hidden md:flex w-12 h-12 bg-kevalgreen-500 rounded-full items-center justify-center z-10 my-4 md:my-0"
-              >
-                <UIcon name="i-heroicons-building-office" class="w-6 h-6 text-white" />
-              </div>
-              <div class="flex-1 md:pl-12"></div>
-            </div>
-
-            <!-- 2021 -->
-            <div class="relative flex flex-col md:flex-row items-center">
-              <div class="flex-1 md:pr-12"></div>
-              <div
-                class="hidden md:flex w-12 h-12 bg-kevalorange-500 rounded-full items-center justify-center z-10 my-4 md:my-0"
-              >
-                <UIcon name="i-heroicons-globe-alt" class="w-6 h-6 text-white" />
-              </div>
-              <div class="flex-1 md:pl-12">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm inline-block transition-colors">
-                  <span class="text-kevalorange-500 font-bold text-lg">2021</span>
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">
-                    Digital Transformation
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-300 mt-2">
-                    Launched online ordering platform. Expanded services to include
-                    vehicle branding and large format printing.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Today -->
-            <div class="relative flex flex-col md:flex-row items-center">
-              <div class="flex-1 md:text-right md:pr-12">
-                <div
-                  class="bg-kevalgreen-500 dark:bg-kevalgreen-600 rounded-2xl p-6 shadow-lg inline-block text-white transition-colors"
-                >
-                  <span class="text-kevalorange-400 font-bold text-lg">Today</span>
-                  <h3 class="text-xl font-bold mt-2">Industry Leaders</h3>
-                  <p class="text-kevalgreen-100 mt-2">
-                    Proudly serving 500+ clients across Kenya with a full suite of
-                    branding, printing, and design services.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="hidden md:flex w-12 h-12 bg-kevalgreen-600 rounded-full items-center justify-center z-10 my-4 md:my-0 ring-4 ring-kevalgreen-200"
-              >
-                <UIcon name="i-heroicons-star" class="w-6 h-6 text-white" />
-              </div>
-              <div class="flex-1 md:pl-12"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- What Sets Us Apart -->
-    <section class="py-20 bg-white dark:bg-gray-950 transition-colors">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span
-              class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm"
-              >Why Choose Us</span
-            >
-            <h2 class="text-4xl font-black text-gray-900 dark:text-white mt-2 mb-6">
-              What Sets Keval Apart
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-6">
+              Creative production built around quality and customer satisfaction.
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8">
-              We don't just print—we partner with you to create lasting impressions. Our
-              commitment to quality, innovation, and customer satisfaction has made us the
-              preferred choice for businesses across Kenya.
-            </p>
-
-            <div class="space-y-6">
-              <div class="flex items-start gap-4">
-                <div
-                  class="w-12 h-12 bg-kevalgreen-100 rounded-xl flex items-center justify-center flex-shrink-0"
-                >
-                  <UIcon
-                    name="i-heroicons-check-badge"
-                    class="w-6 h-6 text-kevalgreen-600"
-                  />
-                </div>
-                <div>
-                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">Premium Quality Materials</h3>
-                  <p class="text-gray-600 dark:text-gray-300">
-                    We use only the highest quality materials and inks to ensure your
-                    prints last longer and look better.
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div
-                  class="w-12 h-12 bg-kevalorange-100 rounded-xl flex items-center justify-center flex-shrink-0"
-                >
-                  <UIcon name="i-heroicons-clock" class="w-6 h-6 text-kevalorange-600" />
-                </div>
-                <div>
-                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">Fast Turnaround Times</h3>
-                  <p class="text-gray-600 dark:text-gray-300">
-                    Need it urgently? We offer 24-hour rush services without compromising
-                    on quality.
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div
-                  class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0"
-                >
-                  <UIcon name="i-heroicons-paint-brush" class="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 class="font-bold text-gray-900 dark:text-white mb-1">In-House Design Team</h3>
-                  <p class="text-gray-600 dark:text-gray-300">
-                    Our creative experts can bring your vision to life or help you develop
-                    your brand from scratch.
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div
-                  class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0"
-                >
-                  <UIcon
-                    name="i-heroicons-shield-check"
-                    class="w-6 h-6 text-purple-600"
-                  />
-                </div>
-                <div>
-                  <h3 class="font-bold text-gray-900 mb-1">Satisfaction Guaranteed</h3>
-                  <p class="text-gray-600">
-                    We stand behind our work. If you're not satisfied, we'll make it
-                    right—no questions asked.
-                  </p>
-                </div>
-              </div>
+            <div class="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p>
+                Keval Investments Limited was established in 2023 and is registered under the Companies Acts and the Laws of Kenya.
+              </p>
+              <p>
+                Our team of designers, branding specialists and printing experts brings together practical experience and modern production tools to deliver tailored solutions for businesses and individuals.
+              </p>
+              <p>
+                We focus on creativity, quality and customer satisfaction so every project helps our clients improve visibility and leave a lasting impression.
+              </p>
             </div>
           </div>
 
-          <div class="relative">
-            <!-- Decorative Elements -->
-            <div
-              class="absolute -top-4 -left-4 w-72 h-72 bg-kevalgreen-100 dark:bg-kevalgreen-900/30 rounded-3xl"
-            ></div>
-            <div
-              class="absolute -bottom-4 -right-4 w-72 h-72 bg-kevalorange-100 dark:bg-kevalorange-900/30 rounded-3xl"
-            ></div>
-
-            <!-- Image Grid -->
-            <div class="relative grid grid-cols-2 gap-4">
-              <div class="space-y-4">
-                <div
-                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-square flex items-center justify-center transition-colors"
-                >
-                  <UIcon name="i-heroicons-printer" class="w-16 h-16 text-gray-400 dark:text-gray-500" />
-                </div>
-                <div
-                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-video flex items-center justify-center transition-colors"
-                >
-                  <UIcon name="i-heroicons-scissors" class="w-12 h-12 text-gray-400 dark:text-gray-500" />
-                </div>
+          <div class="grid gap-5">
+            <div class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <UIcon name="i-heroicons-rocket-launch" class="w-7 h-7 text-kevalgreen-600" />
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Our Mission</h3>
               </div>
-              <div class="space-y-4 pt-8">
-                <div
-                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-video flex items-center justify-center transition-colors"
-                >
-                  <UIcon name="i-heroicons-paint-brush" class="w-12 h-12 text-gray-400 dark:text-gray-500" />
-                </div>
-                <div
-                  class="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-square flex items-center justify-center transition-colors"
-                >
-                  <UIcon name="i-heroicons-truck" class="w-16 h-16 text-gray-400 dark:text-gray-500" />
-                </div>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                To provide innovative and high-quality design, printing and branding services that enhance brand visibility, empower businesses and leave a lasting impression.
+              </p>
+            </div>
+            <div class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <UIcon name="i-heroicons-eye" class="w-7 h-7 text-kevalorange-600" />
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Our Vision</h3>
               </div>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                To become a trusted leader in the graphic design and branding industry by consistently delivering outstanding solutions that drive success for our clients.
+              </p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Our Services Overview -->
-    <section class="py-20 bg-gray-900 dark:bg-gray-950 text-white transition-colors">
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <span
-            class="text-kevalorange-400 font-semibold uppercase tracking-wider text-sm"
-            >What We Do</span
-          >
-          <h2 class="text-4xl font-black mt-2">Our Expertise</h2>
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
+            Core Values
+          </p>
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+            The principles behind every project.
+          </h2>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="text-center group">
-            <div
-              class="w-20 h-20 bg-white/10 group-hover:bg-kevalgreen-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-colors"
-            >
-              <UIcon name="i-heroicons-document-text" class="w-10 h-10" />
-            </div>
-            <h3 class="text-xl font-bold mb-3">Corporate Branding</h3>
-            <p class="text-gray-400">
-              Business cards, letterheads, envelopes, and complete corporate identity
-              packages.
-            </p>
-          </div>
-
-          <div class="text-center group">
-            <div
-              class="w-20 h-20 bg-white/10 group-hover:bg-kevalorange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-colors"
-            >
-              <UIcon name="i-heroicons-sparkles" class="w-10 h-10" />
-            </div>
-            <h3 class="text-xl font-bold mb-3">Garment Printing</h3>
-            <p class="text-gray-400">
-              T-shirts, uniforms, caps, and promotional wear with various printing
-              techniques.
-            </p>
-          </div>
-
-          <div class="text-center group">
-            <div
-              class="w-20 h-20 bg-white/10 group-hover:bg-kevalgreen-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-colors"
-            >
-              <UIcon name="i-heroicons-rectangle-group" class="w-10 h-10" />
-            </div>
-            <h3 class="text-xl font-bold mb-3">Signage & Displays</h3>
-            <p class="text-gray-400">
-              Banners, rollups, billboards, and indoor/outdoor signage solutions.
-            </p>
-          </div>
-
-          <div class="text-center group">
-            <div
-              class="w-20 h-20 bg-white/10 group-hover:bg-kevalorange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-colors"
-            >
-              <UIcon name="i-heroicons-truck" class="w-10 h-10" />
-            </div>
-            <h3 class="text-xl font-bold mb-3">Vehicle Branding</h3>
-            <p class="text-gray-400">
-              Full wraps, partial wraps, and fleet branding for maximum visibility.
-            </p>
-          </div>
-        </div>
-
-        <div class="text-center mt-12">
-          <NuxtLink
-            to="/portfolio"
-            class="inline-flex items-center gap-2 px-8 py-4 bg-kevalorange-500 hover:bg-kevalorange-600 rounded-xl font-bold transition-colors"
-          >
-            View Our Portfolio
-            <UIcon name="i-heroicons-arrow-right" class="w-5 h-5" />
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonial Highlight -->
-    <section class="py-20 bg-kevalgreen-50 dark:bg-gray-900 transition-colors">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <UIcon
-          name="i-heroicons-chat-bubble-bottom-center-text"
-          class="w-16 h-16 text-kevalgreen-300 mx-auto mb-8"
-        />
-        <blockquote
-          class="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-relaxed mb-8"
-        >
-          "Keval has been our printing partner for over 5 years. Their attention to
-          detail, quality of work, and reliable service has made them an invaluable part
-          of our marketing efforts. Highly recommended!"
-        </blockquote>
-        <div class="flex items-center justify-center gap-4">
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           <div
-            class="w-14 h-14 bg-kevalgreen-500 rounded-full flex items-center justify-center text-white font-bold text-xl"
+            v-for="value in values"
+            :key="value.title"
+            class="rounded-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5"
           >
-            SM
-          </div>
-          <div class="text-left">
-            <p class="font-bold text-gray-900 dark:text-white">Sarah Muthoni</p>
-            <p class="text-gray-600 dark:text-gray-300">Marketing Director, TechStart Kenya</p>
+            <UIcon :name="value.icon" class="w-8 h-8 text-kevalgreen-600 mb-4" />
+            <h3 class="font-bold text-gray-900 dark:text-white mb-2">{{ value.title }}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{{ value.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-br from-kevalorange-500 to-kevalorange-600 dark:from-kevalgreen-700 dark:to-gray-900 transition-colors">
-      <div class="max-w-4xl mx-auto px-4 text-center text-white">
-        <h2 class="text-4xl font-black mb-4">Let's Create Something Amazing</h2>
-        <p class="text-xl text-orange-100 mb-10">
-          Ready to elevate your brand? Get in touch with our team today for a free
-          consultation.
+    <section class="py-20 bg-white dark:bg-gray-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
+            Our Services
+          </p>
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+            Design, print and brand implementation under one roof.
+          </h2>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-3">
+          <div
+            v-for="service in services"
+            :key="service.title"
+            class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6"
+          >
+            <div class="w-12 h-12 rounded-lg bg-kevalgreen-100 dark:bg-kevalgreen-900/50 flex items-center justify-center mb-5">
+              <UIcon :name="service.icon" class="w-7 h-7 text-kevalgreen-600 dark:text-kevalgreen-400" />
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{{ service.title }}</h3>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+              <li v-for="item in service.items" :key="item" class="flex gap-2">
+                <UIcon name="i-heroicons-check" class="w-5 h-5 text-kevalorange-500 shrink-0 mt-0.5" />
+                <span>{{ item }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12">
+          <div>
+            <p class="text-kevalorange-400 font-semibold uppercase tracking-wider text-sm mb-3">
+              Why Choose Us
+            </p>
+            <h2 class="text-3xl md:text-4xl font-black mb-6">
+              Reliable creative support from concept to delivery.
+            </h2>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div v-for="reason in reasons" :key="reason.title" class="rounded-lg bg-white/10 p-5 border border-white/10">
+                <h3 class="font-bold mb-2">{{ reason.title }}</h3>
+                <p class="text-sm text-white/75 leading-relaxed">{{ reason.description }}</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="text-kevalorange-400 font-semibold uppercase tracking-wider text-sm mb-3">
+              Our Process
+            </p>
+            <h2 class="text-3xl md:text-4xl font-black mb-6">
+              A clear path from brief to finished materials.
+            </h2>
+            <ol class="space-y-4">
+              <li v-for="(step, index) in process" :key="step.title" class="flex gap-4">
+                <span class="w-9 h-9 rounded-lg bg-kevalorange-500 text-white font-bold flex items-center justify-center shrink-0">
+                  {{ index + 1 }}
+                </span>
+                <div>
+                  <h3 class="font-bold">{{ step.title }}</h3>
+                  <p class="text-sm text-white/75 leading-relaxed">{{ step.description }}</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-white dark:bg-gray-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
+            Our Clients
+          </p>
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+            Trusted for brand and print production.
+          </h2>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            v-for="client in clients"
+            :key="client"
+            class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-5 text-center font-semibold text-gray-800 dark:text-gray-100"
+          >
+            {{ client }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-kevalgreen-600 text-white">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <p class="text-kevalgreen-100 uppercase tracking-[0.25em] text-sm font-semibold mb-4">
+          Get In Touch
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink
-            to="/contact"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-kevalorange-600 rounded-xl font-bold hover:bg-gray-100 transition-colors"
-          >
-            <UIcon name="i-heroicons-chat-bubble-left-right" class="w-5 h-5" />
-            Start a Project
-          </NuxtLink>
-          <a
-            href="tel:+254711635104"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white/10 transition-colors"
-          >
+        <h2 class="text-3xl md:text-4xl font-black mb-4">
+          Inspire through brand values.
+        </h2>
+        <p class="text-kevalgreen-50 mb-8">
+          Visit us at Print Hub Building, Ground Floor, Room B06, off Kirinyaga Road, Nairobi, or contact us for your next design, printing or branding project.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="tel:+254720335863" class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-kevalgreen-700 hover:bg-gray-100 transition-colors">
             <UIcon name="i-heroicons-phone" class="w-5 h-5" />
-            Call: 0711 635 104
+            0720 335 863
+          </a>
+          <a href="mailto:kevalinvestmentsltd@gmail.com" class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/70 px-6 py-3 font-semibold text-white hover:bg-white/10 transition-colors">
+            <UIcon name="i-heroicons-envelope" class="w-5 h-5" />
+            Email Us
           </a>
         </div>
       </div>
@@ -543,12 +243,85 @@
 </template>
 
 <script setup lang="ts">
+const companyFacts = [
+  { label: 'Established', value: '2023' },
+  { label: 'Registered', value: 'Under the Companies Acts and Laws of Kenya' },
+  { label: 'Location', value: 'Print Hub Building, Ground Floor, Room B06, Nairobi' }
+]
+
+const values = [
+  { icon: 'i-heroicons-sparkles', title: 'Creativity', description: 'Pushing boundaries to deliver unique and engaging designs.' },
+  { icon: 'i-heroicons-check-badge', title: 'Excellence', description: 'Uncompromising quality in every project.' },
+  { icon: 'i-heroicons-users', title: 'Collaboration', description: 'Partnering with clients to bring their visions to life.' },
+  { icon: 'i-heroicons-light-bulb', title: 'Innovation', description: 'Leveraging the latest tools and trends.' },
+  { icon: 'i-heroicons-shield-check', title: 'Integrity', description: 'Upholding trust and transparency in all interactions.' }
+]
+
+const services = [
+  {
+    icon: 'i-heroicons-paint-brush',
+    title: 'Graphic Design',
+    items: [
+      'Logo design and development',
+      'Corporate brand identity',
+      'Flyers, posters, brochures and business cards',
+      'Gift bags and product labels',
+      'Digital graphics for social media, websites and ads'
+    ]
+  },
+  {
+    icon: 'i-heroicons-printer',
+    title: 'Printing Services',
+    items: [
+      'Offset and digital printing',
+      'Large-format banners, posters and signages',
+      'Packaging and labels',
+      'Letterheads, envelopes and notepads',
+      'T-shirts, mugs, brochures, catalogues and magazines'
+    ]
+  },
+  {
+    icon: 'i-heroicons-megaphone',
+    title: 'Branding Services',
+    items: [
+      'Brand strategy and development',
+      'Logo, typography and colour palette systems',
+      'Corporate branding and rebranding',
+      'Vehicle branding',
+      'Retail, office, event, signage and environmental branding'
+    ]
+  }
+]
+
+const reasons = [
+  { title: 'Expert Team', description: 'A talented team with extensive industry experience.' },
+  { title: 'Modern Technology', description: 'Current tools for design, printing and finishing.' },
+  { title: 'Customized Solutions', description: 'Tailored services matched to each business need.' },
+  { title: 'On-Time Delivery', description: 'Punctual turnaround without compromising quality.' },
+  { title: 'Affordable Pricing', description: 'High-quality services at competitive prices.' },
+  { title: 'Commitment to Excellence', description: 'Creative and impactful results on every project.' }
+]
+
+const process = [
+  { title: 'Consultation', description: 'Understanding client needs, goals and vision.' },
+  { title: 'Concept Development', description: 'Brainstorming creative concepts and strategies.' },
+  { title: 'Design', description: 'Developing designs aligned with the brand vision.' },
+  { title: 'Review and Approval', description: 'Collaborating with clients to refine and finalize designs.' },
+  { title: 'Production', description: 'Producing prints and branded materials with quality methods.' },
+  { title: 'Delivery', description: 'Ensuring timely delivery of final products.' }
+]
+
+const clients = [
+  'Afroscope Consulting',
+  'Enda Athletics Kenya',
+  'Brisk Marketing Limited',
+  'Crestwood Marketing & Communications Limited'
+]
+
 useSeoMeta({
-  title: "About Us | Keval - Premium Printing & Branding",
-  description:
-    "Learn about Keval's journey from a small print shop to Kenya's trusted branding partner. 10+ years of quality, innovation, and customer satisfaction.",
-  ogTitle: "About Keval - Our Story",
-  ogDescription:
-    "Discover our mission, values, and the story behind Keval's success in the printing and branding industry.",
-});
+  title: 'About Us | Keval Investments Limited',
+  description: 'Keval Investments Limited provides graphic design, printing and branding services from Print Hub Building, Nairobi.',
+  ogTitle: 'About Keval Investments Limited',
+  ogDescription: 'Company profile, mission, vision, services, values and contact information for Keval Investments Limited.'
+})
 </script>

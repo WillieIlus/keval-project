@@ -36,7 +36,7 @@
         class="mb-4 text-2xl md:text-3xl font-bold leading-tight
                text-gray-900 dark:text-white"
       >
-        Let’s Bring Your<br />
+        Let's Bring Your<br />
         <span class="text-kevalorange-500 dark:text-kevalorange-300">
           Vision to Life
         </span>
@@ -47,8 +47,7 @@
         class="mx-auto mb-8 max-w-xl text-sm md:text-base
                text-gray-700 dark:text-gray-300"
       >
-        Get a free consultation and quote for your next project.
-        Our team is ready to help you create something amazing.
+        Get a consultation and quote for design, printing or branding materials tailored to your business.
       </p>
 
       <!-- CTA Buttons -->
@@ -89,10 +88,10 @@
 
       <!-- Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <Stat value="500+" label="Happy Clients" />
-        <Stat value="2K+" label="Projects Done" />
-        <Stat value="10+" label="Years Experience" />
-        <Stat value="24h" label="Quick Turnaround" />
+        <Stat value="2023" label="Established" />
+        <Stat value="3" label="Service Areas" />
+        <Stat value="6" label="Process Steps" />
+        <Stat value="100%" label="Tailored Work" />
       </div>
     </div>
   </section>

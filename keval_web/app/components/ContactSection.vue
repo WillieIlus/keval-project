@@ -15,7 +15,7 @@
           <div>
             <h3 class="text-2xl font-bold text-white mb-6">Contact Information</h3>
             <p class="text-white/80 leading-relaxed">
-              Ready to elevate your brand? Reach out to our team for premium printing and branding solutions.
+              Ready to elevate your brand? Reach out for graphic design, printing and branding solutions tailored to your business.
             </p>
           </div>
 
@@ -29,7 +29,7 @@
                 <h4 class="text-sm font-bold text-white uppercase tracking-wide mb-2">Location</h4>
                 <p class="text-white/90 leading-relaxed">
                   Print Hub Building, Ground Floor<br />
-                  Room B06, Kweria Road<br />
+                  Room B06, off Kirinyaga Road<br />
                   Nairobi, Kenya
                 </p>
                 <a 
@@ -66,7 +66,7 @@
               <div>
                 <h4 class="text-sm font-bold text-white uppercase tracking-wide mb-2">Email</h4>
                 <p class="text-white/90">
-                  <a href="mailto:info@keval.co.ke" class="hover:text-white transition-colors">info@keval.co.ke</a>
+                  <a href="mailto:kevalinvestmentsltd@gmail.com" class="hover:text-white transition-colors">kevalinvestmentsltd@gmail.com</a>
                 </p>
               </div>
             </div>
@@ -232,16 +232,16 @@ const form = reactive({
   name: '',
   email: '',
   phone: '',
-  service_interest: 'Garment Printing',
+  service_interest: 'Promotional Products',
   message: ''
 })
 
 const serviceOptions = [
-  'Garment Printing',
-  'Corporate Branding',
+  'Promotional Products',
+  'Branding Services',
   'Graphic Design',
-  'Embroidery',
-  'Large Format Printing',
+  'Packaging & Labels',
+  'Large-Format Printing',
   'Other'
 ]
 
@@ -256,7 +256,7 @@ const handleSubmit = async () => {
         name: '',
         email: '',
         phone: '',
-        service_interest: 'Garment Printing',
+        service_interest: 'Promotional Products',
         message: ''
       })
     }

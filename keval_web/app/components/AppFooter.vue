@@ -10,7 +10,7 @@
             <img src="/logo-white.png" alt="Keval Logo" class="h-10 w-auto">
           </NuxtLink>
           <p class="text-gray-400 text-sm leading-relaxed">
-            Premium printing and branding solutions for businesses across Kenya. Quality you can trust since 2014.
+            Design, printing and branding solutions from Nairobi, built around creativity, quality and customer satisfaction.
           </p>
           <div class="flex gap-4">
             <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-kevalgreen-500 rounded-lg flex items-center justify-center transition-colors">
@@ -68,11 +68,11 @@
         <div>
           <h4 class="font-semibold text-white mb-6">Services</h4>
           <ul class="space-y-3 text-sm text-gray-400">
-            <li>Garment Printing</li>
-            <li>Corporate Branding</li>
+            <li>Promotional Products</li>
+            <li>Branding Services</li>
             <li>Graphic Design</li>
-            <li>Embroidery</li>
-            <li>Large Format Printing</li>
+            <li>Packaging & Labels</li>
+            <li>Large-Format Printing</li>
             <li>Vehicle Branding</li>
           </ul>
         </div>
@@ -85,7 +85,7 @@
               <UIcon name="i-heroicons-map-pin" class="w-5 h-5 text-kevalgreen-400 shrink-0 mt-0.5" />
               <div class="text-gray-400">
                 <p>Print Hub Building, Ground Floor</p>
-                <p>Room B06, Kweria Road</p>
+                <p>Room B06, off Kirinyaga Road</p>
                 <p>Nairobi, Kenya</p>
                 <a 
                   href="https://maps.app.goo.gl/w5WqA2cfVrFRKBve6"
@@ -111,8 +111,8 @@
             <div class="flex items-start gap-3">
               <UIcon name="i-heroicons-envelope" class="w-5 h-5 text-kevalgreen-400 shrink-0 mt-0.5" />
               <div class="text-gray-400">
-                <a href="mailto:info@keval.co.ke" class="hover:text-white transition-colors block">
-                  info@keval.co.ke
+                <a href="mailto:kevalinvestmentsltd@gmail.com" class="hover:text-white transition-colors block">
+                  kevalinvestmentsltd@gmail.com
                 </a>
               </div>
             </div>
