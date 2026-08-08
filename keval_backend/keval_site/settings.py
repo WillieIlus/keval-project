@@ -39,8 +39,9 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
 
+# Ensure PythonAnywhere host is allowed when not explicitly set in .env
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['keval.co.ke']
+    ALLOWED_HOSTS = ['keval.co.ke', 'kevalinvestmentltd.pythonanywhere.com']
 
 
 # Application definition
@@ -86,7 +87,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # 
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # 
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # enabled to serve static files on simple hosts
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -100,11 +101,13 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://keval-web.netlify.app",
     "https://keval.co.ke",
+    "https://kevalinvestmentltd.pythonanywhere.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://keval-web.netlify.app", 
-    "https://keval.co.ke"
+    "https://keval.co.ke",
+    "https://kevalinvestmentltd.pythonanywhere.com",
 ]
 
 # 4. Required for our useCookie and Session Auth
@@ -177,7 +180,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 STATICFILES_DIRS = [
