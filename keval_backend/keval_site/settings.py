@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-8dz6le+%3z3vs)0%rjy+!wz&ow+2#98!=)&&6^mf#np1s=z=sn')
 
 # 3. Add a fallback for safety (optional but helps debugging)
 if not SECRET_KEY:
@@ -39,8 +39,9 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
 
+# Ensure PythonAnywhere host is allowed when not explicitly set in .env
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['keval.co.ke']
+    ALLOWED_HOSTS = ['kevalkenya.netlify.app', 'keval.co.ke',  '.keval.co.ke','kevalinvestmentltd.pythonanywhere.com',]
 
 
 # Application definition
@@ -84,9 +85,9 @@ REST_FRAMEWORK = {
 
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # 
+    'corsheaders.middleware.CorsMiddleware', #
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # 
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # enabled to serve static files on simple hosts
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,16 +96,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False  
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
-    "https://keval-web.netlify.app",
+    "https://kevalkenya.netlify.app",
     "https://keval.co.ke",
+    "https://kevalinvestmentltd.pythonanywhere.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://keval-web.netlify.app", 
-    "https://keval.co.ke"
+    "https://kevalkenya.netlify.app",
+    "https://keval.co.ke",
+    "https://kevalinvestmentltd.pythonanywhere.com",
 ]
 
 # 4. Required for our useCookie and Session Auth
@@ -177,7 +180,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 STATICFILES_DIRS = [
@@ -196,5 +199,5 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'info@keval.co.ke'
 # Load password securely from .env
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

@@ -1,7 +1,7 @@
 <!-- ~/pages/about.vue -->
 <template>
-  <div class="bg-white dark:bg-gray-950 transition-colors">
-    <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 dark:from-kevalgreen-800 dark:to-gray-900 text-white py-20">
+  <div class="bg-white transition-colors">
+    <section class="bg-gradient-to-br from-kevalgreen-600 to-kevalgreen-800 text-white py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl">
           <p class="text-sm font-semibold uppercase tracking-[0.25em] text-kevalorange-200 mb-4">
@@ -42,18 +42,18 @@
       </div>
     </section>
 
-    <section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <section class="py-16 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid gap-6 md:grid-cols-3">
           <div
             v-for="item in companyFacts"
             :key="item.label"
-            class="rounded-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-6"
+            class="rounded-lg bg-white border border-gray-100 p-6"
           >
-            <p class="text-sm font-semibold uppercase tracking-wider text-kevalgreen-600 dark:text-kevalgreen-400">
+            <p class="text-sm font-semibold uppercase tracking-wider text-kevalgreen-600">
               {{ item.label }}
             </p>
-            <p class="mt-3 text-lg font-bold text-gray-900 dark:text-white">
+            <p class="mt-3 text-lg font-bold text-gray-900">
               {{ item.value }}
             </p>
           </div>
@@ -61,17 +61,17 @@
       </div>
     </section>
 
-    <section class="py-20 bg-white dark:bg-gray-950">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 items-start">
           <div>
             <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
               About Us
             </p>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-6">
+            <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6">
               Creative production built around quality and customer satisfaction.
             </h2>
-            <div class="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+            <div class="space-y-4 text-gray-600 leading-relaxed">
               <p>
                 Keval Investments Limited was established in 2023 and is registered under the Companies Acts and the Laws of Kenya.
               </p>
@@ -88,21 +88,21 @@
           </div>
 
           <div class="grid gap-5">
-            <div class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
+            <div class="rounded-lg border border-gray-100 bg-gray-50 p-6">
               <div class="flex items-center gap-3 mb-3">
                 <UIcon name="i-heroicons-rocket-launch" class="w-7 h-7 text-kevalgreen-600" />
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Our Mission</h3>
+                <h3 class="text-xl font-bold text-gray-900">Our Mission</h3>
               </div>
-              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p class="text-gray-600 leading-relaxed">
                 To provide innovative and high-quality design, printing and branding services that enhance brand visibility, empower businesses and leave a lasting impression.
               </p>
             </div>
-            <div class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
+            <div class="rounded-lg border border-gray-100 bg-gray-50 p-6">
               <div class="flex items-center gap-3 mb-3">
                 <UIcon name="i-heroicons-eye" class="w-7 h-7 text-kevalorange-600" />
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Our Vision</h3>
+                <h3 class="text-xl font-bold text-gray-900">Our Vision</h3>
               </div>
-              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p class="text-gray-600 leading-relaxed">
                 To become a trusted leader in the graphic design and branding industry by consistently delivering outstanding solutions that drive success for our clients.
               </p>
             </div>
@@ -111,13 +111,13 @@
       </div>
     </section>
 
-    <section class="py-20 bg-gray-50 dark:bg-gray-900">
+    <section class="py-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-12">
           <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
             Core Values
           </p>
-          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900">
             The principles behind every project.
           </h2>
         </div>
@@ -125,23 +125,23 @@
           <div
             v-for="value in values"
             :key="value.title"
-            class="rounded-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5"
+            class="rounded-lg bg-white border border-gray-100 p-5"
           >
             <UIcon :name="value.icon" class="w-8 h-8 text-kevalgreen-600 mb-4" />
-            <h3 class="font-bold text-gray-900 dark:text-white mb-2">{{ value.title }}</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{{ value.description }}</p>
+            <h3 class="font-bold text-gray-900 mb-2">{{ value.title }}</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">{{ value.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-20 bg-white dark:bg-gray-950">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-12">
           <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
             Our Services
           </p>
-          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900">
             Design, print and brand implementation under one roof.
           </h2>
         </div>
@@ -149,13 +149,13 @@
           <div
             v-for="service in services"
             :key="service.title"
-            class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6"
+            class="rounded-lg border border-gray-100 bg-gray-50 p-6"
           >
-            <div class="w-12 h-12 rounded-lg bg-kevalgreen-100 dark:bg-kevalgreen-900/50 flex items-center justify-center mb-5">
-              <UIcon :name="service.icon" class="w-7 h-7 text-kevalgreen-600 dark:text-kevalgreen-400" />
+            <div class="w-12 h-12 rounded-lg bg-kevalgreen-100 flex items-center justify-center mb-5">
+              <UIcon :name="service.icon" class="w-7 h-7 text-kevalgreen-600" />
             </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{{ service.title }}</h3>
-            <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
+            <ul class="space-y-3 text-gray-600">
               <li v-for="item in service.items" :key="item" class="flex gap-2">
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-kevalorange-500 shrink-0 mt-0.5" />
                 <span>{{ item }}</span>
@@ -206,13 +206,13 @@
       </div>
     </section>
 
-    <section class="py-20 bg-white dark:bg-gray-950">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-10">
           <p class="text-kevalorange-500 font-semibold uppercase tracking-wider text-sm mb-3">
             Our Clients
           </p>
-          <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900">
             Trusted for brand and print production.
           </h2>
         </div>
@@ -220,7 +220,7 @@
           <div
             v-for="client in clients"
             :key="client"
-            class="rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-5 text-center font-semibold text-gray-800 dark:text-gray-100"
+            class="rounded-lg border border-gray-100 bg-gray-50 p-5 text-center font-semibold text-gray-800"
           >
             {{ client }}
           </div>

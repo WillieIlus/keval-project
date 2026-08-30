@@ -16,6 +16,11 @@ import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
 
+// Remove any existing 'dark' class to force light theme on client
+if (process.client) {
+  document?.documentElement?.classList?.remove('dark')
+}
+
 // Only initialize on client
 onMounted(() => {
   auth.initializeAuth()
