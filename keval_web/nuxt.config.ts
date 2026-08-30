@@ -78,7 +78,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-15',
 
   colorMode: {
-    preference: 'system',
+    preference: 'light',
     fallback: 'light',
     classSuffix: ''
   },
@@ -104,7 +104,7 @@ export default defineNuxtConfig({
     serverBundle: 'local',
     clientBundle: {
       scan: true,
-      sizeLimitKb: 256
+      sizeLimitKb: 512
     },
     fetchTimeout: 5000
   }
