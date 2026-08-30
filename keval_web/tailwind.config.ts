@@ -2,6 +2,7 @@
 import type { Config } from 'tailwindcss'
 
 export default <Partial<Config>>{
+  darkMode: false, // disable Tailwind dark mode variants
   theme: {
     extend: {
       colors: {

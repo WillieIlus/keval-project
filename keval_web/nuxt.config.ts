@@ -1,13 +1,18 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+const publicApiBase = process.env.NUXT_PUBLIC_API_BASE?.trim() || 'http://localhost:8000'
 
-const publicApiBase = process.env.NUXT_PUBLIC_API_BASE?.trim()
-
-if (process.env.NETLIFY === 'true' && !publicApiBase) {
-  console.warn('NUXT_PUBLIC_API_BASE is not set. API-backed features will fail until the Netlify environment variable is configured.')
+if (process.env.NETLIFY === 'true' && !process.env.NUXT_PUBLIC_API_BASE) {
+  console.warn('NUXT_PUBLIC_API_BASE is not set. Production API calls will fail.')
 }
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      apiBase: publicApiBase
+    }
+  },
+
   ssr: false,
+
   app: {
     head: {
       title: 'Keval',
@@ -28,10 +33,8 @@ export default defineNuxtConfig({
   },
 
   future: {
-    compatibilityVersion: 4,
+    compatibilityVersion: 4
   },
-
-
 
   modules: [
     '@nuxt/eslint',
@@ -41,7 +44,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@formkit/auto-animate/nuxt',
-    '@vee-validate/nuxt',
+    '@vee-validate/nuxt'
     // '@nuxtjs/seo'
   ],
 
@@ -50,11 +53,11 @@ export default defineNuxtConfig({
   },
 
   pinia: {
-    storesDirs: ['./stores/**'],
+    storesDirs: ['./stores/**']
   },
-  
+
   image: {
-    provider: 'ipx',
+    provider: 'ipx'
   },
 
   css: ['~/assets/css/main.css'],
@@ -72,16 +75,10 @@ export default defineNuxtConfig({
     payloadExtraction: false // Disable payload extraction for static sites
   },
 
-  runtimeConfig: {
-    public: {
-      apiBase: publicApiBase
-    }
-  },
-
   compatibilityDate: '2025-01-15',
 
   colorMode: {
-    preference: 'system',
+    preference: 'light',
     fallback: 'light',
     classSuffix: ''
   },
@@ -99,7 +96,7 @@ export default defineNuxtConfig({
     prerender: {
       ignore: ['/login', '/register', '/dashboard', '/middleware/guests'],
       failOnError: false,
-      concurrency: 1,
+      concurrency: 1
     }
   },
 
@@ -107,9 +104,8 @@ export default defineNuxtConfig({
     serverBundle: 'local',
     clientBundle: {
       scan: true,
-      sizeLimitKb: 256,
+      sizeLimitKb: 512
     },
-    fetchTimeout: 5000,
-  },
-
+    fetchTimeout: 5000
+  }
 })
